@@ -7,7 +7,7 @@ This is the official JavaScript SDK for Argo.
 
 ## Learn More
 
-please visit [more](https://ark.analysys.cn/docs/sdk-js.html)
+please visit [more](https://docs.analysys.cn/ark/integration/sdk/js)
 
 
 ## License
