@@ -1,9 +1,9 @@
 
-# analysys JavaScript SDK
+# Analysys JavaScript SDK
 
 ========
 
-This is the official JavaScript SDK for analysys.
+This is the official JavaScript SDK for Analysys.
 
 ## Learn More
 
