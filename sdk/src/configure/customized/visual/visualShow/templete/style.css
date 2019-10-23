@@ -1,0 +1,554 @@
+.ARK_BOX {
+    position: absolute;
+    width: 420px;
+    height: 330px;
+    background-color: #ffffff;
+    box-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    z-index: 10000000;
+    background: #ffffff;
+    color: #000000;
+    -webkit-box-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.15);
+    padding: 20px 25px 20px 30px;
+}
+
+.ARK_BOX_HEADER {
+    font-family: "Microsoft YaHei";
+    font-size: 16px;
+    text-align: left;
+    color: #333333;
+    cursor: move;
+    margin-top: -20px;
+    padding-top: 20px;
+}
+
+.ARK_BOX_HEADER.mb-20 {
+    margin-bottom: 20px;
+}
+
+.ARK_BOX_PAGE {
+    color: #666666;
+    font-size: 12px;
+}
+
+
+.ARK_BOX_PAGE .v-radio-wrapper {
+    font-size: 14px;
+    line-height: 24px;
+    color: #333;
+    font-weight: 400;
+    font-stretch: normal;
+    cursor: pointer;
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.ARK_BOX_PAGE label {
+    font-size: 12px;
+    bottom: 0;
+    margin: 0;
+    max-width: 100%;
+}
+
+.ARK_BOX_PAGE .v-radio-wrapper span {
+    font-size: 12px;
+    color: #999;
+    font-weight: 400;
+    font-stretch: normal;
+}
+
+.ARK_BOX_PAGE .v-radio-wrapper span.wbText {
+    font-size: 14px;
+    color: #333;
+    font-weight: 400;
+}
+
+.ARK_BOX_PAGE .v-radio-ARK {
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: 0;
+    line-height: 1;
+    position: relative;
+    display: inline-block;
+
+}
+
+.ARK_BOX_PAGE .boxRadio {
+    width: 280px;
+    display: inline-grid;
+}
+
+.ARK_BOX_PAGE .mb-8 {
+    margin-bottom: 8px;
+}
+
+.ARK_BOX_PAGE .ml-24 {
+    margin-left: 24px;
+}
+
+.ARK_BOX_PAGE.mb-15 {
+    margin-bottom: 15px;
+}
+
+.ARK_BOX_PAGE.mb-16 {
+    margin-bottom: 16px;
+}
+
+.ARK_BOX_PAGE .v-radio-checked .v-radio-inner {
+    border-color: #0098e1;
+    background-color: #0098e1;
+}
+
+.ARK_BOX_PAGE .v-radio-inner:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.ARK_BOX_PAGE .v-radio-inner {
+    width: 14px;
+    height: 14px;
+    top: 0;
+    left: 0;
+    border: 1px solid #d7dde4;
+    border-radius: 2px;
+    background-color: #fff;
+    transition: border-color .2s ease-in-out, background-color .2s ease-in-out;
+    position: relative;
+    display: inline-block;
+}
+
+.ARK_BOX_PAGE .v-radio-checked .v-radio-inner:after {
+    transform: rotate(45deg) scale(.8);
+}
+
+.ARK_BOX_PAGE .v-radio-wrapper.v-radio-wrapper-disabled {
+    color: #ddd;
+}
+
+.ARK_BOX_PAGE .v-radio-wrapper.v-radio-wrapper-disabled .wbText {
+    color: #ddd;
+}
+
+.ARK_BOX_PAGE .v-radio-wrapper-disabled {
+    cursor: not-allowed;
+    color: #ddd;
+}
+
+.ARK_BOX_PAGE .v-radio-inner:after {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 8px;
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    border: 2px solid #fff;
+    border-top: 0;
+    border-left: 0;
+    -ms-transform: rotate(45deg) scale(0);
+    transform: rotate(45deg) scale(0);
+    transition: all .2s ease-in-out;
+}
+
+
+
+.ARK_BOX_PAGE input[type=checkbox],
+.ARK_BOX_PAGE input[type=radio] {
+    margin: 4px 0 0;
+    margin-top: 1px\9;
+    line-height: normal;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.ARK_BOX_PAGE .v-radio-input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.ARK_BOX_CENTER {
+    display: block;
+    line-height: 16px;
+    font-size: 16px;
+}
+
+.ARK_BOX_SMALL {
+    font-size: 12px;
+    line-height: 30px;
+    color: #999999;
+}
+
+.ARK_BOX_SMALL span {
+    color: #0097e0;
+}
+
+.ARK_BOX_EVENT_ID {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.ARK_BOX_EVENT_ID span.title,
+.ARK_BOX_PAGE span.title {
+    width: 70px;
+    height: 36px;
+    text-align: right;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 36px;
+    margin-right: 9px;
+    color: #666666;
+}
+
+.ARK_BOX_EVENT_ID input {
+    width: 280px;
+    height: 36px;
+    background-color: #ffffff;
+    border-radius: 0px;
+    border: 0;
+    border-bottom: 1px solid #d2d2d2;
+    color: #333333;
+    font-size: 14px;
+    line-height: 24px;
+    outline: 0 none !important;
+}
+
+.ARK_BOX_EVENT_ID input.error {
+    border-color: #e00000;
+}
+
+#ARK_BOX_EVENT_ID::-webkit-input-placeholder {
+    font-size: 14px;
+    color:#bbbec4
+}
+#ARK_BOX_EVENT_ID:-ms-input-placeholder,#ARK_BOX_EVENT_ID::-ms-input-placeholder {
+    font-size: 14px;
+    color:#bbbec4
+}
+#ARK_BOX_EVENT_ID::placeholder {
+    font-size: 14px;
+    color:#bbbec4
+}
+#ARK_BOX_EVENT_ID:focus,#ARK_BOX_EVENT_ID:hover {
+    border-color:#57a3f3
+}
+#ARK_BOX_EVENT_NAME::-webkit-input-placeholder {
+    font-size: 14px;
+    color:#bbbec4
+}
+#ARK_BOX_EVENT_NAME:-ms-input-placeholder,#ARK_BOX_EVENT_NAME::-ms-input-placeholder {
+    font-size: 14px;
+    color:#bbbec4
+}
+#ARK_BOX_EVENT_NAME::placeholder {
+    font-size: 14px;
+    color:#bbbec4
+}
+#ARK_BOX_EVENT_NAME:focus,#ARK_BOX_EVENT_NAME:hover {
+    border-color:#57a3f3
+}
+.ARK_BOX_EVENT_ID_ERROR {
+    display: none;
+    position: absolute;
+    top: -10px;
+    left: 79px;
+    font-weight: 700;
+    font-size: 12px;
+    color: red;
+}
+
+.ARK_BOX_ChOICE {
+    width: 199px;
+    height: 95px;
+    float: left;
+    position: relative;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.ARK_BOX_ChOICE .ARK_BOX_LIKENUM {
+    font-size: 12px;
+    color: #0098e1;
+    line-height: 30px;
+    width: 100%;
+}
+
+.ARK_BOX_ChOICE span {
+    float: left;
+    margin-left: 18px;
+}
+
+.ARK_BOX_ChOICE input {
+    opacity: 0;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.ARK_BOX_ChOICE input+label {
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    font-size: 18px;
+    line-height: 18px;
+    text-align: center;
+    color: #999999;
+}
+
+.ARK_BOX_ChOICE input+label:after {
+    content: '+';
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px dashed #d4d4d4;
+}
+
+.ARK_BOX_ChOICE input+label:before {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px dashed #d4d4d4;
+}
+
+.ARK_BOX_ChOICE input:checked+label:after {
+    content: '+';
+    color: #0098e1;
+    border: 1px dashed #0098e1;
+}
+
+.ARK_BOX_ChOICE input:checked+label:before {
+    content: '+';
+    color: #0098e1;
+    border: 1px dashed #0098e1;
+}
+
+.ARK_BOX_SAVE {
+    margin-top: 15px;
+    margin-right: 14px;
+    width: 134px;
+    height: 32px;
+    float: right;
+    font-size: 14px;
+    line-height: 30px;
+    border: 0;
+    background-color: #ffffff;
+}
+
+#ARK_BOX_SAVE {
+    -moz-user-select: none;
+    -ms-touch-action: manipulation;
+    -ms-user-select: none;
+    -o-transition: color .2s linear, background-color .2s linear, border .2s linear;
+    -webkit-transition: color .2s linear, background-color .2s linear, border .2s linear;
+    -webkit-user-select: none;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 0;
+    padding: 6px 15px;
+    text-align: center;
+    touch-action: manipulation;
+    transition: color .2s linear, background-color .2s linear, border .2s linear;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 60px;
+    height: 32px;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #ffffff;
+    border: 0;
+    background-color: #0098e1;
+    outline: 0 none !important;
+}
+
+#ARK_BOX_SAVE:active {
+    background-color: #0086c7;
+    border-color: #0086c7;
+    color: #f2f2f2
+}
+
+#ARK_BOX_SAVE:hover,
+#ARK_BOX_SAVE:focus {
+    background-color: #47c3ff;
+    border-color: #47c3ff;
+    color: #fff
+}
+
+#ARK_BOX_CANCEL {
+    /* margin-top: 15px; */
+    width: 60px;
+    height: 32px;
+    /* float: right; */
+    font-size: 14px;
+    line-height: 30px;
+    border: 0;
+    background-color: #ffffff;
+    color: #999999;
+    cursor: pointer;
+    outline: 0 none !important;
+}
+
+#ARK_BOX_CANCEL:focus,
+#ARK_BOX_SAVE:focus {
+    border: 0;
+}
+
+#ARK_BOX_CANCEL:active,
+#ARK_BOX_SAVE:active {
+    /*border: 0;*/
+}
+
+.ARK_EVENT_LIST {
+    border: 0;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #000000;
+    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    -moz-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    min-width: 80px;
+    min-height: 13px;
+    position: absolute;
+    top: 20px;
+    left: 500px;
+    padding: 0;
+    max-width: 250px;
+    z-index: 100000;
+}
+
+.ARK_EVENT_LIST a.ARK_EVENT {
+    max-width: 110px;
+    height: 24px;
+    line-height: 24px;
+    color: #0098e1;
+    margin: 5px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
+.ARK_SHOW {
+    display: block !important;
+    visibility: visible !important;
+}
+
+.debugLog {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 260px;
+    height: 270px;
+    padding: 20px;
+    z-index: 10000000;
+}
+
+.debugLog .l-list {
+    position: absolute;
+    overflow: hidden;
+}
+
+.debugLog .l-list div {
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 24px;
+}
+
+.debugLog .bg {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(47, 50, 58, 0.8);
+    box-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.debugLog .cha {
+    position: absolute;
+    right: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    top: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+}
+.ARK_HOVER {
+    outline: 1px solid #e00000 !important;
+    outline-offset: -1px !important;
+    /*position: absolute;*/
+    /*background-color: red !important*/
+}
+
+.ARK_SAVE_NO_DISPOSE{
+    outline: 2px solid #e00000;
+    background-color: rgba(240, 2, 2, 0.1);
+}
+.ARK_SAVE_NO_DISPOSE.ARK_NO_LIGHT{
+    outline: 0px solid #e00000;
+    background-color: rgba(240, 2, 2, 0);
+}
+.ARK_SAVE_NO_DISPOSE:hover,.ARK_SAVE_NO_DISPOSE.ARK_NO_LIGHT:hover {
+    outline:2px solid #e00000;
+    background: rgba(224,0,0,,0.5);
+}
+.ARK_SAVE_DISPOSE{
+    outline: 2px solid #0098e1;
+    background-color: rgba(2,163,240, .1);
+}
+.ARK_SAVE_DISPOSE.ARK_NO_LIGHT{
+    outline: 0px solid #0098e1;
+    background-color:  rgba(0, 152, 224, 0);
+}
+.ARK_SAVE_DISPOSE:hover,.ARK_SAVE_DISPOSE.ARK_NO_LIGHT:hover {
+    outline: 2px solid #0098e1;
+    background: rgba(2,163,240,0.5);
+}
+.ARK_SAVE_CHANGE_DISPOSE{
+    outline: 2px solid #ffb91c;
+    background-color: rgba(255,237,22, .1);
+}
+.ARK_SAVE_CHANGE_DISPOSE.ARK_NO_LIGHT{
+    outline: 0px solid #ffb91c;
+    background-color:  rgba(255,237,22, 0);
+}
+.ARK_SAVE_CHANGE_DISPOSE:hover,.ARK_SAVE_CHANGE_DISPOSE.ARK_NO_LIGHT:hover {
+    outline: 2px solid #ffb91c;
+    background: rgba(255,237,22,0.5);
+}

@@ -1,0 +1,42 @@
+.ARK_HOVER {
+    outline: 1px solid #e00000;
+    outline-offset: -1px;
+    /*background-color: red !important*/
+}
+
+.ARK_SAVE_NO_DISPOSE{
+    outline: 2px solid #e00000;
+    background-color: rgba(240, 2, 2, 0.1);
+}
+.ARK_SAVE_NO_DISPOSE.ARK_NO_LIGHT{
+    outline: 0px solid #e00000;
+    background-color: rgba(240, 2, 2, 0);
+}
+.ARK_SAVE_NO_DISPOSE:hover,.ARK_SAVE_NO_DISPOSE.ARK_NO_LIGHT:hover {
+    outline:2px solid #e00000;
+    background: rgba(224,0,0,0);
+}
+.ARK_SAVE_DISPOSE{
+    outline: 2px solid #0098e1;
+    background-color: rgba(2,163,240, .1);
+}
+.ARK_SAVE_DISPOSE.ARK_NO_LIGHT{
+    outline: 0px solid #0098e1;
+    background-color:  rgba(0, 152, 224, 0);
+}
+.ARK_SAVE_DISPOSE:hover,.ARK_SAVE_DISPOSE.ARK_NO_LIGHT:hover {
+    outline: 2px solid #0098e1;
+    background: rgba(2,163,240,0);
+}
+.ARK_SAVE_CHANGE_DISPOSE{
+    outline: 2px solid #ffb91c;
+    background-color: rgba(255,237,22, .1);
+}
+.ARK_SAVE_CHANGE_DISPOSE.ARK_NO_LIGHT{
+    outline: 0px solid #ffb91c;
+    background-color:  rgba(255,237,22, 0);
+}
+.ARK_SAVE_CHANGE_DISPOSE:hover,.ARK_SAVE_CHANGE_DISPOSE.ARK_NO_LIGHT:hover {
+    outline: 2px solid #ffb91c;
+    background: rgba(255,237,22,0);
+}

@@ -4,17 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <title>方舟B 接入DEMO</title>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="./style/plugIn/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./style/plugIn/bootstrap/css/bootstrap-theme.min.css">
-    <script src="./style/plugIn/bootstrap/js/jquery.min.js"></script>
-    <script src="./style/plugIn/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="./style/plugIn/JSON.js"></script>
-    <script type="text/javascript" src="./javascript/index.js"></script>
-    <script type="text/javascript" src="./javascript/console.js"></script>
-    <script type="text/javascript" src="./javascript/initSdk.js"></script>
-    <script type="text/javascript" src="./sdk/AnalysysAgent_JS_SDK.min.js"></script>
+    <link rel="stylesheet" href="./static/style/plugIn/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./static/style/plugIn/bootstrap/css/bootstrap-theme.min.css">
+    <style type="text/css">
+    </style>
+    <script src="./static/style/plugIn/bootstrap/js/jquery.min.js"></script>
+    <script src="./static/style/plugIn/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./static/style/plugIn/JSON.js"></script>
+    <script type="text/javascript" src="./static/javascript/index.js"></script>
+    <!-- 接入sdk -->
+    <script type="text/javascript" src="./static/javascript/initSdk.js"></script>
+    <script type="text/javascript" id="devSDK" src="./sdk/AnalysysAgent_JS_SDK.min.js"></script>
+    <!-- 接入完毕 -->
+    <style type="text/css">
+        .icon { width: 100px; height: 125px; }
+    </style>
 </head>
 
 <body>
@@ -22,26 +27,22 @@
         <h1 class="text-center">JS SDK接入DEMO</h1>
     </header>
     <div class="container">
-        <div class="btn-group-vertical center-block" role="group">
+        <div class="btn-group-vertical center-block   " role="group">
             <!-- DevInfo-->
             <div class="panel panel-info">
-                <div class="panel-footer" style="word-wrap: break-word;">
+                <div class="panel-footer    " style="word-wrap: break-word;">
                     <br> 2.当前DEMO的appkey为commondebug,如需修改为其他appkey，请在代码中修改
                     <br> 1.当前DEMO的上传日志地址为https://sdk.analysys.cn:4089/,如需修改请配置setUploadURL参数
                     <br> 3.当前DEMO的获取可视化配置接口地址为https://sdk.analysys.cn:4089/,setVisitorConfigURLc参数
-                        <br> 1.当前DEMO为调试模式为1的模式，即上传日志不入库计算模式
-                        <br> 3.任何操作所产生的上传日志将在浏览器开发工具及页面中日志展示部分同步展示，此功能仅作为DEMO使用
-                        <br> 4.操作通用属性将在通用属性部分同步展示，此功能仅作为DEMO使用
+                    <br> 1.当前DEMO为调试模式为1的模式，即上传日志不入库计算模式
+                    <br> 3.任何操作所产生的上传日志将在浏览器开发工具及页面中日志展示部分同步展示，此功能仅作为DEMO使用
+                    <br> 4.操作通用属性将在通用属性部分同步展示，此功能仅作为DEMO使用
                 </div>
-                <a href="javascript:void(0)" style="display: block;" class="panel-heading has-feedback">
-                    <h3 class="panel-title">日志展示</h3>
-                </a>
-                <div class="panel-footer" style="word-wrap: break-word;height: 130px;width: 100%" id="upLog">
-                </div>
+                
                 <h2>跳转页面</h2>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <a class="panel-title" href="./next.html" target="_blank">跳转第二页</a>
+                        <a class="panel-title" href="javascript:void(0)" target="_self" onclick="AnalysysAgent.track('jampPage');setTimeout(function(){location.href='./next.html'},1000)">跳转第二页</a>
                     </div>
                 </div>
                 <!-- 页面事件 -->
@@ -72,6 +73,13 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
                                 <a class="panel-title" href="javascript:void(0)" onclick="hashPage('#hashPage')">hash跳转</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-md-offset-1">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading text-center">
+                                <a class="panel-title" href="javascript:void(0)" onclick="getPresetProperties()">getPresetProperties</a>
                             </div>
                         </div>
                     </div>
@@ -259,7 +267,7 @@
                         <!--reset 清除所有ID 超级属性 profile设置 -->
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="alias('sanban','yiban')">关联</a>
+                                <a class="panel-title" href="javascript:void(0)" onclick="alias('sanban')">关联</a>
                             </div>
                         </div>
                     </div>
@@ -269,6 +277,24 @@
                     // 设置 aliasId 和 originalId
                     <br>
                     <br> AnalysysAgent.alias("sanban","yiban");
+                </div>
+                <!-- 用户关联 -->
+                <h2>AnalysysAgent.getDistinctId:获取匿名ID </h2>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <!--reset 清除所有ID 超级属性 profile设置 -->
+                        <div class="panel panel-primary">
+                            <div class="panel-heading text-center">
+                                <a class="panel-title" href="javascript:void(0)" onclick="getDistinctId()">获取匿名ID</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer" style="word-wrap: break-word;">示例：获取当前设备匿名ID</div>
+                <div class="panel-footer" style="word-wrap: break-word;">
+                    <br>
+                    <br>var distinctId = AnalysysAgent.getDistinctId();
+                    <br> console.log(distinctId)
                 </div>
                 <!--  用户属性设置 -->
                 <!--  设置用户属性 -->
@@ -284,7 +310,14 @@
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileSet({'Email':'yonghu@163.com','WeChatID':'微信号'})">设置多个属性</a>
+                                <a class="panel-title" href="javascript:void(0)" onclick="profileSet({'Email':'yonghu@163.com','WeChatID':'2222'})">设置多个属性</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-md-offset-1">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading text-center">
+                                <a class="panel-title" href="javascript:void(0)" onclick="profileSetRandomNumber()">设置100以内随机数</a>
                             </div>
                         </div>
                     </div>
@@ -472,6 +505,7 @@
             </div>
         </div>
     </div>
+    <iframe src="" style="display: none"></iframe>
 </body>
 
 </html>
