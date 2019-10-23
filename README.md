@@ -1,9 +1,9 @@
 
-# Argo JavaScript SDK
+# analysys JavaScript SDK
 
 ========
 
-This is the official JavaScript SDK for Argo.
+This is the official JavaScript SDK for analysys.
 
 ## Learn More
 
