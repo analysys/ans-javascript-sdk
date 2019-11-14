@@ -1,10 +1,32 @@
 import Storage from '../../../../lib/storage/index.js'
 import Util from '../../../../lib/common/index.js'
-import { isEmbedded, pipParam, isElmentReady } from './common/index.js'
-import { visualConfig } from './common/config.js'
-import { sendMsg, getMsg } from './common/iframeMsg.js'
-import { addVisualListener, removeVisualListener, showVisualEvent, delVisualEvent, hiddenVisualEvent, openVisualEvent } from './visual/index.js'
-import { addDebugListener, removeDebugListener, openDebugBox, hiddenDebugEvent } from './debug/index.js'
+import {
+    isEmbedded,
+    pipParam,
+    isElmentReady
+} from './common/index.js'
+import {
+    visualConfig
+} from './common/config.js'
+import {
+    sendMsg,
+    getMsg
+} from './common/iframeMsg.js'
+import {
+    addVisualListener,
+    removeVisualListener,
+    showVisualEvent,
+    delVisualEvent,
+    hiddenVisualEvent,
+    openVisualEvent
+} from './visual/index.js'
+import {
+    addDebugListener,
+    removeDebugListener,
+    openDebugBox,
+    hiddenDebugEvent,
+    delDebugBox
+} from './debug/index.js'
 
 var isVisaulInit = true
 var visualStatus = true
@@ -89,6 +111,9 @@ function processMsg(msg) {
             }
             break
         case 'change_delete':
+            if (visualStatus == false) {
+                delDebugBox()
+            }
             if (msg.path && msg.path.length > 0) {
                 delVisualEvent(msg.path[0])
                 sendMsg({

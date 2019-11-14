@@ -6,20 +6,19 @@ import Storage from '../storage/index.js'
 // import {deviceType} from './deviceType.js'
 import sessionId from './sessionId.js'
 import extractDomain from './domain.js'
-import { checkSpider } from './spider.js'
-import { UTM, clearUTM } from './UTM.js'
+import {
+    checkSpider
+} from './spider.js'
+import {
+    UTM,
+    clearUTM
+} from './UTM.js'
 
 import {
     getId,
-    setUUId,
     getUUId,
-    removeUUId,
-    setAliasId,
     getAliasId,
-    removeAliasId,
-    setIdentifyId,
     getIdentifyId,
-    removeIdentifyId
 } from './id.js'
 
 

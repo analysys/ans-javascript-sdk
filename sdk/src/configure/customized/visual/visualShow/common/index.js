@@ -5,21 +5,22 @@ function domParentList(ele) {
     var list = []
     var parent = ele
     while (parent != null) {
-        var tagName = parent.tagName
-        if (!tagName) {
+        var eleNodeType = parent.nodeType
+        if (eleNodeType !== 1) {
             parent = parent.parentNode
             continue
         }
-        tagName = tagName.toLowerCase()
+        var tagName = parent.tagName.toLowerCase()
         var parentID = parent.id ? ('#' + parent.id) : ''
-        if (parent.classList && parent.classList.length > 0) {
-            var classList = ''
-            for (var i = 0; i < parent.classList.length; i++) {
-                if (parent.classList[i] && parent.classList[i].indexOf('ARK') < 0) {
-                    classList += '.' + parent.classList[i]
+        var classNameList = parent.className ? [] : parent.className.split(" ")
+        if (classNameList.length > 0) {
+            var classPath = ''
+            for (var i = 0; i < classNameList.length; i++) {
+                if (classNameList[i] && classNameList[i].indexOf('ARK') < 0) {
+                    classPath += '.' + classNameList[i]
                 }
             }
-            list.push(tagName + parentID + classList)
+            list.push(tagName + parentID + classPath)
 
         } else {
             list.push(tagName + parentID)
@@ -89,8 +90,8 @@ function parserDom(path) {
     return eleList
 }
 
-var camelize = function(str) {
-    return str.replace(/-+(.)?/g, function(match, chr) {
+var camelize = function (str) {
+    return str.replace(/-+(.)?/g, function (match, chr) {
         if (chr) {
             return chr.toUpperCase();
         } else {
@@ -297,14 +298,12 @@ function setIndex(ele) {
         baseEle.elePath = '#' + baseEle.elePath.split("#")[1]
     }
     var eleList = document.querySelectorAll(baseEle.elePath)
-
     var allEleList = []
     for (var i = 0; i < eleList.length; i++) {
         if (domParentList(eleList[i]) === link) {
             allEleList.push(eleList[i])
         }
     }
-
     for (var i = 0; i < allEleList.length; i++) {
         if (allEleList[i] === ele) {
             return i

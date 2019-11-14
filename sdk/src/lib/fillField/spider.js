@@ -1,4 +1,3 @@
-var UA = navigator.userAgent.toLowerCase();
 /**
  * 1.百度：Baiduspider  Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)
  * 					  百度图片 Baiduspider-image+(+http://www.baidu.com/search/spider.htm)
@@ -36,9 +35,12 @@ var UA = navigator.userAgent.toLowerCase();
  * 25.监控宝：jiankongbao Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; JianKongBao Monitor 1.1)
  * 26.OneAPM爬虫:OneAPM FFAgent Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0: OneAPM FFAgent)Gecko/20100101 Firefox/39.0
  * 27.PhantomJS:PhantomJS 	Mozilla/5.0 (Unknown; Linux x86_64)AppleWebKit/538. 1 (KHTML,like Gecko)PhantomJS/2.1.1 Safari/538.1
+ * 28. BingPreview: Mozilla / 5.0 + (Windows + NT + 6.1; + WOW64) + AppleWebKit / 534++(KHTML, +like + Gecko) + BingPreview / 1.0 b
  */
+var UA = navigator.userAgent.toLowerCase();
+
 function checkSpider() {
-    if (UA.match(/(bot|crawler|spider|scrapy|dnspod|ia_archiver|jiankongbao|slurp|transcoder|networkbench|oneapm|PhantomJS)/i)) {
+    if (UA.match(/(bot|crawler|spider|scrapy|dnspod|ia_archiver|jiankongbao|slurp|transcoder|networkbench|oneapm|PhantomJS|BingPreview)/i)) {
         return true
     }
 
@@ -46,4 +48,6 @@ function checkSpider() {
 
 }
 
-export { checkSpider }
+export {
+    checkSpider
+}

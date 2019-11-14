@@ -1,4 +1,6 @@
-import { decodeGBK } from './decodeGBK.js'
+import {
+    decodeGBK
+} from './decodeGBK.js'
 var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
 
 function _utf8_encode(string) {
@@ -48,25 +50,25 @@ function _utf8_decode(utftext) {
 }
 
 function Util() {}
-Util.prototype.paramType = function(param) {
+Util.prototype.paramType = function (param) {
     return Object.prototype.toString.call(param).replace('[object ', '').replace(']', '')
 }
-Util.prototype.objHasKay = function(obj, key) {
+Util.prototype.objHasKay = function (obj, key) {
     return Object.prototype.hasOwnProperty.call(obj, key)
 }
-Util.prototype.ArrayToObj = function(arr) {
+Util.prototype.ArrayToObj = function (arr) {
     var obj = {}
     for (var i = 0; i < arr.length; i++) {
         obj[arr[i]] = ''
     }
     return obj
 }
-Util.prototype.keyValueToObje = function(key, value) {
+Util.prototype.keyValueToObje = function (key, value) {
     var obj = {}
-    obj[key] = value 
+    obj[key] = value
     return obj
 }
-Util.prototype.toDeepObj = function(param1, param2, level) {
+Util.prototype.toDeepObj = function (param1, param2, level) {
     var obj = {}
 
     if (this.paramType(param1) === 'String') {
@@ -86,7 +88,7 @@ Util.prototype.toDeepObj = function(param1, param2, level) {
     }
     return obj
 }
-Util.prototype.toObj = function(param1, param2, level) {
+Util.prototype.toObj = function (param1, param2, level) {
     var obj = {}
 
     if (this.paramType(param1) === 'String') {
@@ -106,7 +108,7 @@ Util.prototype.toObj = function(param1, param2, level) {
     }
     return obj
 }
-Util.prototype.objMerge = function(parentObj, part) {
+Util.prototype.objMerge = function (parentObj, part) {
     if (this.paramType(parentObj) !== 'Object' || this.paramType(part) !== 'Object') {
         return parentObj
     }
@@ -125,17 +127,17 @@ Util.prototype.objMerge = function(parentObj, part) {
     }
     return obj
 }
-Util.prototype.compose = function() {
+Util.prototype.compose = function () {
     var args = arguments;
     var start = args.length - 1;
-    return function() {
+    return function () {
         var i = start;
         var result = args[start].apply(this, arguments);
         while (i--) result = args[i].call(this, result);
         return result;
     };
 };
-Util.prototype.fnMerge = function(parentObj, part) {
+Util.prototype.fnMerge = function (parentObj, part) {
     if (this.paramType(parentObj) !== 'Object' || this.paramType(part) !== 'Object') {
         return parentObj
     }
@@ -154,7 +156,7 @@ Util.prototype.fnMerge = function(parentObj, part) {
     }
     return obj
 }
-Util.prototype.arrayUnique = function(arr) {
+Util.prototype.arrayUnique = function (arr) {
     var tmpArr = [],
         hash = {}; //hash为hash表
     for (var i = 0; i < arr.length; i++) {
@@ -165,15 +167,15 @@ Util.prototype.arrayUnique = function(arr) {
     }
     return tmpArr
 }
-Util.prototype.arrayMerge = function(arr1, arr2) {
+Util.prototype.arrayMerge = function (arr1, arr2) {
     arr1.push.apply(arr1, arr2)
     return arr1
 }
-Util.prototype.arrayMergeUnique = function(arr1, arr2) {
+Util.prototype.arrayMergeUnique = function (arr1, arr2) {
     arr1.push.apply(arr1, arr2)
     return this.arrayUnique(arr1)
 }
-Util.prototype.encode = function(input) {
+Util.prototype.encode = function (input) {
     var output = "",
         chr1, chr2, chr3, enc1, enc2, enc3, enc4, i = 0
     input = _utf8_encode(input)
@@ -196,7 +198,7 @@ Util.prototype.encode = function(input) {
     }
     return output
 }
-Util.prototype.decode = function(input) {
+Util.prototype.decode = function (input) {
     var output = "",
         chr1, chr2, chr3, enc1, enc2, enc3, enc4, i = 0
     input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "")
@@ -219,14 +221,14 @@ Util.prototype.decode = function(input) {
     output = _utf8_decode(output)
     return output
 }
-Util.prototype.isEmptyObject = function(obj) {
+Util.prototype.isEmptyObject = function (obj) {
     var name;
     for (name in obj) {
         return false;
     }
     return true;
 }
-Util.prototype.format = function(time, format) {
+Util.prototype.format = function (time, format) {
     var offset_GMT = time.getTimezoneOffset();
     time = new Date(time.getTime() + offset_GMT * 60 * 1000 + 8 * 60 * 60 * 1000) //转换为东八区时间
     var o = {
@@ -248,10 +250,12 @@ Util.prototype.format = function(time, format) {
 
     return format;
 }
-Util.prototype.MD5 = function(value, bit) {
+Util.prototype.MD5 = function (value, bit) {
     var sMessage = value;
 
-    function RotateLeft(lValue, iShiftBits) { return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits)); }
+    function RotateLeft(lValue, iShiftBits) {
+        return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
+    }
 
     function AddUnsigned(lX, lY) {
         var lX4, lY4, lX8, lY8, lResult;
@@ -267,13 +271,21 @@ Util.prototype.MD5 = function(value, bit) {
         } else return (lResult ^ lX8 ^ lY8);
     }
 
-    function F(x, y, z) { return (x & y) | ((~x) & z); }
+    function F(x, y, z) {
+        return (x & y) | ((~x) & z);
+    }
 
-    function G(x, y, z) { return (x & z) | (y & (~z)); }
+    function G(x, y, z) {
+        return (x & z) | (y & (~z));
+    }
 
-    function H(x, y, z) { return (x ^ y ^ z); }
+    function H(x, y, z) {
+        return (x ^ y ^ z);
+    }
 
-    function I(x, y, z) { return (y ^ (x | (~z))); }
+    function I(x, y, z) {
+        return (y ^ (x | (~z)));
+    }
 
     function FF(a, b, c, d, x, s, ac) {
         a = AddUnsigned(a, AddUnsigned(AddUnsigned(F(b, c, d), x), ac));
@@ -435,7 +447,7 @@ Util.prototype.MD5 = function(value, bit) {
         return WordToHex(b) + WordToHex(c);
     }
 }
-Util.prototype.clientTimeZone = function() {
+Util.prototype.clientTimeZone = function () {
 
     var munites = new Date().getTimezoneOffset();
 
@@ -478,7 +490,7 @@ Util.prototype.clientTimeZone = function() {
     return prefix + hour + ':' + munite;
 }
 
-Util.prototype.delEmpty = function(obj) {
+Util.prototype.delEmpty = function (obj) {
     var newObj = {}
     for (var key in obj) {
         var inType = true
@@ -524,7 +536,7 @@ Util.prototype.delEmpty = function(obj) {
 //         };
 //     };
 // }
-Util.prototype.addEvent = function(el, type, fn, useCapture) {
+Util.prototype.addEvent = function (el, type, fn, useCapture) {
     if (document.addEventListener) {
         if (el.length && el !== window) {
 
@@ -540,14 +552,14 @@ Util.prototype.addEvent = function(el, type, fn, useCapture) {
                 this.addEvent(el[i], type, fn);
             }
         } else {
-            el.attachEvent('on' + type, function() {
+            el.attachEvent('on' + type, function () {
                 return fn.call(el, window.event);
             });
         }
     }
 }
 
-Util.prototype.removeEvent = function(el, type, fn, useCapture) {
+Util.prototype.removeEvent = function (el, type, fn, useCapture) {
     if (document.removeEventListener) {
         if (el.length) {
 
@@ -563,15 +575,15 @@ Util.prototype.removeEvent = function(el, type, fn, useCapture) {
                 this.removeEvent(el[i], type, fn);
             }
         } else {
-            el.detachEvent('on' + type, function() {
+            el.detachEvent('on' + type, function () {
                 return fn.call(el, window.event);
             });
         }
     }
 }
-Util.prototype.addWindowEvent = function(type) {
+Util.prototype.addWindowEvent = function (type) {
     var orig = history[type];
-    return function() {
+    return function () {
         var rv = orig.apply(this, arguments);
         if (!document.createEvent) {
             // IE浏览器支持fireEvent方法
@@ -589,8 +601,8 @@ Util.prototype.addWindowEvent = function(type) {
         return rv;
     };
 }
-Util.prototype.extend = function(subClass, superClass) {
-    var F = function() {};
+Util.prototype.extend = function (subClass, superClass) {
+    var F = function () {};
     F.prototype = superClass.prototype;
     subClass.prototype = new F();
     subClass.prototype.constructor = subClass;
@@ -600,7 +612,7 @@ Util.prototype.extend = function(subClass, superClass) {
         superClass.prototype.constructor = superClass;
     }
 }
-Util.prototype.addEleLable = function(eleName, className, id, parent) {
+Util.prototype.addEleLable = function (eleName, className, id, parent) {
     var dom = document
     var createEle = dom.createElement(eleName)
     var domBody = parent || dom.body || dom.getElementsByTagName('body')[0]
@@ -613,7 +625,7 @@ Util.prototype.addEleLable = function(eleName, className, id, parent) {
     domBody.appendChild(createEle)
     return createEle
 }
-Util.prototype.addScript = function(fileName) {
+Util.prototype.addScript = function (fileName) {
     var dom = document
     var createScript = dom.createElement('script')
     var domHead = dom.getElementsByTagName('script')
@@ -639,7 +651,7 @@ Util.prototype.addScript = function(fileName) {
     createScript.src = sdkPath + fileName + '.min.js?v=' + this.format(new Date(), 'yyyyMMddhhmm') //方舟B SDK地址
     domHead[0].parentNode.insertBefore(createScript, domHead[0]);
 }
-Util.prototype.unique = function(arr) {
+Util.prototype.unique = function (arr) {
     var a = {};
     for (var i = 0; i < arr.length; i++) {
         if (typeof a[arr[i]] == "undefined")
@@ -658,11 +670,14 @@ function CheckChinese(val) {
     }
     return false
 }
-Util.prototype.GetUrlParam = function(paraName) {
+Util.prototype.GetUrlParam = function (paraName) {
     var url = document.location.toString();
     var arrObj = url.split("?");
     if (arrObj.length > 1) {
-        var arrPara = arrObj[1].split("&");
+        var arrPara = [] //arrObj[1].split("&");
+        for (var i = 1; i < arrObj.length; i++) {
+            arrPara.push.apply(arrPara, arrObj[i].split("&"))
+        }
         var arr;
         for (var i = 0; i < arrPara.length; i++) {
             arr = arrPara[i].split("=");
@@ -693,7 +708,7 @@ Util.prototype.GetUrlParam = function(paraName) {
         return "";
     }
 }
-Util.prototype.isInArray = function(arr, value) {
+Util.prototype.isInArray = function (arr, value) {
     for (var i = 0; i < arr.length; i++) {
         if (value === arr[i]) {
             return true;
@@ -701,17 +716,17 @@ Util.prototype.isInArray = function(arr, value) {
     }
     return false;
 }
-Util.prototype.stringSlice = function(str, length) {
+Util.prototype.stringSlice = function (str, length) {
     return str.slice(0, length);
 }
-Util.prototype.trim = function(str) {
+Util.prototype.trim = function (str) {
     if (this.paramType(str) === 'String') {
         return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "")
     } else {
         return ''
     }
 }
-Util.prototype.changeHash = function(callback) {
+Util.prototype.changeHash = function (callback) {
     if ('onpopstate' in window) {
         if (!('onpushState' in window)) {
             window.history.pushState = this.addWindowEvent('pushState');
@@ -748,13 +763,13 @@ Util.prototype.changeHash = function(callback) {
 //     }
 //     return flag;
 // }
-Util.prototype.deviceType = function (){  
+Util.prototype.deviceType = function () {
     var u = navigator.userAgent
-   
-    if((u.indexOf('Tablet') > -1 && u.indexOf('PC') < 0) || u.indexOf('Pad') > -1 || u.indexOf('Nexus 7') > -1){
+
+    if ((u.indexOf('Tablet') > -1 && u.indexOf('PC') < 0) || u.indexOf('Pad') > -1 || u.indexOf('Nexus 7') > -1) {
         return 'tablet'
     }
-    if(u.indexOf('Mobi') > -1 || u.indexOf('iPh') > -1 || u.indexOf('480') > -1){
+    if (u.indexOf('Mobi') > -1 || u.indexOf('iPh') > -1 || u.indexOf('480') > -1) {
         return 'phone'
     }
     return 'desktop'

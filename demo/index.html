@@ -4,22 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>方舟B 接入DEMO</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="./static/style/plugIn/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./static/style/plugIn/bootstrap/css/bootstrap-theme.min.css">
-    <style type="text/css">
-    </style>
-    <script src="./static/style/plugIn/bootstrap/js/jquery.min.js"></script>
-    <script src="./static/style/plugIn/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="./static/style/plugIn/JSON.js"></script>
-    <script type="text/javascript" src="./static/javascript/index.js"></script>
-    <!-- 接入sdk -->
-    <script type="text/javascript" src="./static/javascript/initSdk.js"></script>
-    <script type="text/javascript" id="devSDK" src="./sdk/AnalysysAgent_JS_SDK.min.js"></script>
-    <!-- 接入完毕 -->
-    <style type="text/css">
-        .icon { width: 100px; height: 125px; }
-    </style>
+    <link rel="stylesheet" href="./style/plugIn/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style/plugIn/bootstrap/css/bootstrap-theme.min.css">
+    <script src="./style/plugIn/bootstrap/js/jquery.min.js"></script>
+    <script src="./style/plugIn/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./style/plugIn/JSON.js"></script>
+    <script type="text/javascript" src="./style/index.js"></script>
+    <script type="text/javascript" src="./style/console.js"></script>
+    <!-- 初始化SDK -->
+    <script type="text/javascript" src="./javascript/initSdk.js"></script>
+    <!-- 初始化完毕 -->
+    <!-- 同步接入SDK -->
+    <script type="text/javascript" src="./sdk/AnalysysAgent_JS_SDK.min.js"></script>
+    <!--同步接入SDK -->
 </head>
 
 <body>
@@ -27,10 +26,10 @@
         <h1 class="text-center">JS SDK接入DEMO</h1>
     </header>
     <div class="container">
-        <div class="btn-group-vertical center-block   " role="group">
+        <div class="btn-group-vertical center-block" role="group">
             <!-- DevInfo-->
             <div class="panel panel-info">
-                <div class="panel-footer    " style="word-wrap: break-word;">
+                <div class="panel-footer" style="word-wrap: break-word;">
                     <br> 2.当前DEMO的appkey为commondebug,如需修改为其他appkey，请在代码中修改
                     <br> 1.当前DEMO的上传日志地址为https://sdk.analysys.cn:4089/,如需修改请配置setUploadURL参数
                     <br> 3.当前DEMO的获取可视化配置接口地址为https://sdk.analysys.cn:4089/,setVisitorConfigURLc参数
@@ -38,11 +37,15 @@
                     <br> 3.任何操作所产生的上传日志将在浏览器开发工具及页面中日志展示部分同步展示，此功能仅作为DEMO使用
                     <br> 4.操作通用属性将在通用属性部分同步展示，此功能仅作为DEMO使用
                 </div>
-                
+                <a href="javascript:void(0)" style="display: block;" class="panel-heading has-feedback">
+                    <h3 class="panel-title">日志展示</h3>
+                </a>
+                <div class="panel-footer" style="word-wrap: break-word;height: 130px;width: 100%" id="upLog">
+                </div>
                 <h2>跳转页面</h2>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <a class="panel-title" href="javascript:void(0)" target="_self" onclick="AnalysysAgent.track('jampPage');setTimeout(function(){location.href='./next.html'},1000)">跳转第二页</a>
+                        <a class="panel-title" href="./next.html" target="_blank">跳转第二页</a>
                     </div>
                 </div>
                 <!-- 页面事件 -->
@@ -58,28 +61,24 @@
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="pageView('商品页',{ 'commodityName': 'iPhone', 'commodityPrice': 8000 })">商品页</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="pageView('商品页',{ 'commodityName': 'iPhone', 'commodityPrice': 8000 })">商品页</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="historyPage('indexHistory.html')">修改history跳转</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="historyPage('indexHistory.html')">修改history跳转</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="hashPage('#hashPage')">hash跳转</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-md-offset-1">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="getPresetProperties()">getPresetProperties</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="hashPage('#hashPage')">hash跳转</a>
                             </div>
                         </div>
                     </div>
@@ -119,7 +118,8 @@
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="track('buttonClick',{'money':'2000'})">添加事件并设置</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="track('buttonClick',{'money':'2000'})">添加事件并设置</a>
                             </div>
                         </div>
                     </div>
@@ -144,18 +144,18 @@
                 <h2>AnalysysAgent.registerSuperProperty/AnalysysAgent.registerSuperProperties:注册通用属性 </h2>
                 <div class="row">
                     <div class="col-md-2 col-md-offset-1">
-                        <!--identify 设置identifyID -->
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="registerSuperProperty('member','VIP')">设置单个通用属性</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="registerSuperProperty('member','VIP')">设置单个通用属性</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2 col-md-offset-1">
-                        <!--identify 设置identifyID -->
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="registerSuperProperties({'age':20,'member':'VIP'})">设置多个通用属性</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="registerSuperProperties({'age':20,'member':'VIP'})">设置多个通用属性</a>
                             </div>
                         </div>
                     </div>
@@ -182,7 +182,8 @@
                         <!--identify 设置identifyID -->
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="unRegisterSuperProperty('age')">删除单个通用属性</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="unRegisterSuperProperty('age')">删除单个通用属性</a>
                             </div>
                         </div>
                     </div>
@@ -190,7 +191,8 @@
                         <!--identify 设置identifyID -->
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="clearSuperProperties()">清除所有通用属性</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="clearSuperProperties()">清除所有通用属性</a>
                             </div>
                         </div>
                     </div>
@@ -215,7 +217,8 @@
                         <!--identify 设置identifyID -->
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="getSuperProperty('age')">获取单个通用属性</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="getSuperProperty('age')">获取单个通用属性</a>
                             </div>
                         </div>
                     </div>
@@ -223,10 +226,12 @@
                         <!--identify 设置identifyID -->
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="getSuperProperties()">获取所有通用属性</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="getSuperProperties()">获取所有通用属性</a>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="panel-footer" style="word-wrap: break-word;">示例：查看已经设置的“member”的通用属性</div>
                 <div class="panel-footer" style="word-wrap: break-word;">
@@ -249,7 +254,8 @@
                         <!--identify 设置identifyID -->
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="identify('userName')">用户ID设置</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="identify('userName')">用户ID设置</a>
                             </div>
                         </div>
                     </div>
@@ -274,15 +280,14 @@
                 </div>
                 <div class="panel-footer" style="word-wrap: break-word;">示例：一班同学升学时，调换班级到三班</div>
                 <div class="panel-footer" style="word-wrap: break-word;">
-                    // 设置 aliasId 和 originalId
+                    // 设置 aliasId
                     <br>
-                    <br> AnalysysAgent.alias("sanban","yiban");
+                    <br> AnalysysAgent.alias("sanban");
                 </div>
-                <!-- 用户关联 -->
+                <!-- 获取匿名ID -->
                 <h2>AnalysysAgent.getDistinctId:获取匿名ID </h2>
                 <div class="row">
                     <div class="col-md-2 col-md-offset-1">
-                        <!--reset 清除所有ID 超级属性 profile设置 -->
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
                                 <a class="panel-title" href="javascript:void(0)" onclick="getDistinctId()">获取匿名ID</a>
@@ -303,21 +308,16 @@
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileSet('Email','yonghu@163.com')">设置单个属性</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileSet('Email','yonghu@163.com')">设置单个属性</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileSet({'Email':'yonghu@163.com','WeChatID':'2222'})">设置多个属性</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-md-offset-1">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileSetRandomNumber()">设置100以内随机数</a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileSet({'Email':'yonghu@163.com','WeChatID':'微信号'})">设置多个属性</a>
                             </div>
                         </div>
                     </div>
@@ -343,14 +343,17 @@
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileSetOnce('activationTime','1521594686781')">激活时间 </a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileSetOnce('activationTime','1521594686781')">激活时间 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileSetOnce({'activationTime':'1521594686781','loginTime':'1521594726781'})">激活与首次登陆时间 </a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileSetOnce({'activationTime':'1521594686781','loginTime':'1521594726781'})">激活与首次登陆时间
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -380,14 +383,16 @@
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileIncrement('age',20)">一个数值型属性 </a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileIncrement('age',20)">一个数值型属性 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileIncrement({'age':20,'integral':200})">多个数值型属性 </a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileIncrement({'age':20,'integral':200})">多个数值型属性 </a>
                             </div>
                         </div>
                     </div>
@@ -413,21 +418,24 @@
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileAppend('Movies','霸王别姬')">单个列表类型属性 </a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileAppend('Movies','霸王别姬')">单个列表类型属性 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileAppend( {'Movies':'霸王别姬','Music':['一无所有','花房姑娘']})">设置多列表类型集合属性 </a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileAppend( {'Movies':'霸王别姬','Music':['一无所有','花房姑娘']})">设置多列表类型集合属性 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileAppend('Movies',['海上钢琴师','指环王'])">设置多列表类型属性 </a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileAppend('Movies',['海上钢琴师','指环王'])">设置多列表类型属性 </a>
                             </div>
                         </div>
                     </div>
@@ -462,7 +470,8 @@
                     <div class="col-md-2 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading text-center">
-                                <a class="panel-title" href="javascript:void(0)" onclick="profileUnset('Movies')">删除单个用户属性 </a>
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="profileUnset('Movies')">删除单个用户属性 </a>
                             </div>
                         </div>
                     </div>
@@ -487,6 +496,21 @@
                     <br>
                     <br>AnalysysAgent.profileDelete();
                 </div>
+                <h2>AnalysysAgent.getPresetProperties:获取预置字段</h2>
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading text-center">
+                                <a class="panel-title" href="javascript:void(0)"
+                                    onclick="getPresetProperties()">获取预置字段</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer" style="word-wrap: break-word;">示例：获取预置字段</div>
+                <div class="panel-footer" style="word-wrap: break-word;">
+                    AnalysysAgent.getPresetProperties();
+                </div>
                 <!--  清除本地设置 -->
                 <h2>AnalysysAgent.reset:清除本地设置</h2>
                 <div class="row">
@@ -505,7 +529,6 @@
             </div>
         </div>
     </div>
-    <iframe src="" style="display: none"></iframe>
 </body>
 
 </html>

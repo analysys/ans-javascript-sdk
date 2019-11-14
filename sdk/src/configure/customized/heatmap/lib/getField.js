@@ -1,9 +1,12 @@
 import Util from '../../../../lib/common/index.js'
-import { getElementContent } from './elementContent.js'
+import {
+    getElementContent
+} from './elementContent.js'
 var elePostion = {
     ele: '',
     click_x: 0,
     click_y: 0,
+    clickEle: ''
 }
 
 function domParentList(ele) {
@@ -28,15 +31,15 @@ function domParentList(ele) {
         }
         tagName = tagName.toLowerCase()
         var parentID = parent.id ? ('#' + parent.id) : ''
-        if (parent.classList && parent.classList.length > 0) {
-            var classList = ''
-            for (var i = 0; i < parent.classList.length; i++) {
-                if (parent.classList[i] && parent.classList[i].indexOf('ARK') < 0) {
-                    classList += '.' + parent.classList[i]
+        var eleClassNameList = parent.className ? parent.className.split(" ") : []
+        if (eleClassNameList.length > 0) {
+            var eleClassName = ''
+            for (var i = 0; i < eleClassNameList.length; i++) {
+                if (eleClassNameList[i] && eleClassNameList[i].indexOf('ARK') < 0) {
+                    eleClassName += '.' + eleClassNameList[i]
                 }
             }
-            list.push(tagName + parentID + classList + '|' + index)
-
+            list.push(tagName + parentID + eleClassName + '|' + index)
         } else {
             list.push(tagName + parentID + '|' + index)
         }
@@ -83,6 +86,29 @@ function getElementType() {
     return elePostion.ele.tagName.toLowerCase()
 }
 
+function getElementClick() {
+    return Util.paramType(elePostion.ele.onclick) == 'Function' ? true : false
+}
+
+function getParentClickableElement() {
+    var clickEle = elePostion.ele
+    while (elePostion.ele != null) {
+        if (elePostion.ele.nodeType !== 1) {
+            elePostion.ele = elePostion.ele.parentNode
+            continue
+        }
+
+        if (getElementClick() || getElementClickable() == 1) {
+            clickEle = elePostion.ele
+            break
+        }
+        elePostion.ele = elePostion.ele.parentNode
+    }
+    elePostion.ele = clickEle
+}
+/**
+ * 判断当前元素是否为可触控元素
+ */
 function getElementClickable() {
     var tagName = getElementType()
     var clickableElementList = ['a', 'button', 'input', 'select', 'textarea', 'svg'] //option无法触发点击事件
@@ -123,7 +149,7 @@ function getElementClassName() {
     var eleClassName = elePostion.ele.getAttribute("class") || ''
     if (eleClassName) {
 
-        var eleClassList = eleClassName.split(" ")
+        var eleClassList = eleClassName ? eleClassName.split(" ") : []
         var eleClassArray = []
         for (var i = 0; i < eleClassList.length; i++) {
             if (eleClassList[i] != '') {
@@ -136,7 +162,11 @@ function getElementClassName() {
 }
 
 function getElementTargetUrl() {
-    return elePostion.ele.getAttribute('href') || ''
+    var href = elePostion.ele.getAttribute('href')
+    if (href && href.indexOf('javascript:') < 0) {
+        return href
+    }
+    return ''
 }
 export {
     elePostion,
@@ -150,6 +180,7 @@ export {
     getElementY,
     getElementType,
     getElementClickable,
+    getParentClickableElement,
     domParentList,
     getEleContent,
     getDeviceType,

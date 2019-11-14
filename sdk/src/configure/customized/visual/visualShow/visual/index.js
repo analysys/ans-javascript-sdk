@@ -1,14 +1,26 @@
-import { setEventTemp } from '../templete/index.js'
+import {
+    setEventTemp
+} from '../templete/index.js'
 import Storage from '../../../../../lib/storage/index.js'
 import Util from '../../../../../lib/common/index.js'
-import { isParent, elementPostion, setIndex, domParentList, parseEvent, boxPosition } from '../common/index.js'
-import { checkPrivate } from '../../../../../lib/fillField/index.js'
-import { getElementContent } from '../../../heatmap/lib/elementContent.js'
-import { sendMsg } from '../common/iframeMsg.js'
+import {
+    isParent,
+    setIndex,
+    domParentList,
+    parseEvent,
+    boxPosition
+} from '../common/index.js'
+import {
+    checkPrivate
+} from '../../../../../lib/fillField/index.js'
+import {
+    getElementContent
+} from '../../../heatmap/lib/elementContent.js'
+import {
+    sendMsg
+} from '../common/iframeMsg.js'
 
 import moveBox from '../common/boxMove.js'
-
-
 
 function openVisualBox(event) {
     delClickBox()
@@ -122,7 +134,10 @@ function initClickBoxActive(ele, config) {
     eventNameEle.onblur = eventIDEle.onblur = inputOnblur
     eventNameEle.onfocus = eventIDEle.onfocus = inputOnfocus
 
-    saveEle.onclick = function() {
+    saveEle.onclick = function () {
+        inputOnblur({
+            target: eventIDEle
+        })
         if ((eventIdErrorEle.style.display && eventIdErrorEle.style.display !== 'none') ||
             (eventNameErrorEle.style.display && eventNameErrorEle.style.display !== 'none')) {
             return
@@ -176,7 +191,7 @@ function showEleHover(event) {
         var userClick = ele.onclick
         ele._user_click = userClick
     }
-    ele.onclick = function(e) {
+    ele.onclick = function (e) {
         window.event ? window.event.cancelBubble = true : event.stopPropagation();
         event.preventDefault();
         openVisualBox(e)
@@ -288,7 +303,16 @@ function openVisualEvent(obj) {
     var index = obj.index
     var ele = parseEvent(elePath)[index]
     if (ele) {
-        openVisualBox({ target: ele })
+        openVisualBox({
+            target: ele
+        })
     }
 }
-export { addVisualListener, removeVisualListener, showVisualEvent, delVisualEvent, hiddenVisualEvent, openVisualEvent }
+export {
+    addVisualListener,
+    removeVisualListener,
+    showVisualEvent,
+    delVisualEvent,
+    hiddenVisualEvent,
+    openVisualEvent
+}

@@ -1,7 +1,13 @@
 import Util from '../../../../../lib/common/index.js'
-import { boxPosition } from '../common/index.js'
-import { setDebugTemp } from '../templete/debug.js'
-import { sendMsg } from '../common/iframeMsg.js'
+import {
+    boxPosition
+} from '../common/index.js'
+import {
+    setDebugTemp
+} from '../templete/debug.js'
+import {
+    sendMsg
+} from '../common/iframeMsg.js'
 import {
     getLibVersion
 } from '../../../../../lib/fillField/getField.js'
@@ -11,10 +17,15 @@ import {
     browser,
     browser_version
 } from '../../../parseUA/lib/UA.js'
-
+/**
+ * @param  {Object} obj 触发debug框的元素信息表
+ */
 function openDebugBox(obj) {
     delDebugBox()
     var ele = debugELe
+    /**
+     * 当前元素如无埋点信息 则不显示debug框
+     */
     if (!ele.getAttribute('data-ark-attr')) {
         return
     }
@@ -32,11 +43,13 @@ function openDebugBox(obj) {
 
 
     var cancelEle = document.getElementById('ARK_DEBUG_CHA')
-    Util.addEvent(cancelEle,'click',delDebugBox)
-    
+    Util.addEvent(cancelEle, 'click', delDebugBox)
+
     debugELe = null
 }
-
+/**
+ * 清除当前展示的debug框
+ */
 function delDebugBox() {
     var ele = document.getElementById("ARK_DEBUG_BOX")
     if (ele) {
@@ -44,8 +57,14 @@ function delDebugBox() {
         parent.removeChild(ele)
     }
 }
+/**
+ * debug模式下点击的元素
+ */
 var debugELe = null
-
+/**
+ * 
+ * @param {element} e debug模式时点击的dom对象
+ */
 function sendDebugMsg(e) {
     var ele = e.target
     var eventConfig = ele.getAttribute('data-ark-attr')
@@ -81,7 +100,7 @@ function setDebugHover(event) {
         var userClick = ele.onclick
         ele._user_click = userClick
     }
-    ele.onclick = function(e) {
+    ele.onclick = function (e) {
         window.event ? window.event.cancelBubble = true : event.stopPropagation();
         event.preventDefault();
         sendDebugMsg(e)
@@ -145,4 +164,10 @@ function hiddenDebugEvent(status) {
         }
     }
 }
-export { addDebugListener, removeDebugListener, openDebugBox, hiddenDebugEvent }
+export {
+    addDebugListener,
+    removeDebugListener,
+    openDebugBox,
+    hiddenDebugEvent,
+    delDebugBox
+}

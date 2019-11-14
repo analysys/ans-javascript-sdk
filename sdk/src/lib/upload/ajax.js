@@ -1,23 +1,40 @@
 import Storage from '../storage/index.js'
-import pako from 'pako'
-import base64js from './base64js.min.js'
+import Util from '../common/index.js'
+// import pako from 'pako'
+// import base64js from './base64js.min.js'
 
 function getJSON(data) {
-    if (data.indexOf("\n") > -1) {
-        data = data.replace(/[\r\n]/g, "");
 
-    }
-    if (typeof data === 'object') {
-        return data
-    }
-    try {
-        return JSON.parse(pako.inflate(base64js.toByteArray(data), { to: 'string' }))
-    } catch (e) {
+    if (Util.paramType(data) == 'String') {
+        if (data.indexOf("\n") > -1) {
+            data = data.replace(/[\r\n]/g, "");
+        }
         try {
             return JSON.parse(data)
-        } catch (e) {
-            return {}
+        } catch (e) {}
+        if (data == 'H4sIAAAAAAAAAKtWSs5PSVWyMjIwqAUAVAOW6gwAAAA=') {
+            return {
+                code: 200
+            }
+        } else if (data == 'H4sIAAAAAAAAAKtWSs5PSVWyMjUwqAUA7TtBdwwAAAA=') {
+            return {
+                code: 500
+            }
+        } else if (data == 'H4sIAAAAAAAAAKtWSs5PSVWyMjEy0FHKLU5XslJySSxJVHBJTS6qLChRcC0qyi/S01OqBQBdATGSKQAAAA==') {
+            return {
+                code: 420
+            }
+        } else {
+            return {
+                code: 200
+            }
 
+        }
+    } else if (Util.paramType(data) == 'Object') {
+        return data
+    } else {
+        return {
+            code: 200
         }
     }
 }
@@ -49,22 +66,22 @@ function xmlhttp(_this) {
     var xhr = new getHttpObj();
     // xhr.setRequestHeader("reqt",+new Date())
     // xhr.setRequestHeader("reqv",1)
-    xhr.onload = function(data) {
+    xhr.onload = function (data) {
         if (sendStatus) return
         sendStatus = true
         _this.success(getJSON(xhr.responseText), xhr)
     }
-    xhr.onerror = function(data) {
+    xhr.onerror = function (data) {
         if (sendStatus) return
         sendStatus = true
         _this.error(getJSON(xhr.responseText), xhr)
     }
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             try {
-                if (xhr.getAllResponseHeaders().indexOf('Date') > -1||xhr.getAllResponseHeaders().indexOf('date') > -1) {
+                if (xhr.getAllResponseHeaders().indexOf('Date') > -1 || xhr.getAllResponseHeaders().indexOf('date') > -1) {
                     var time = +new Date()
-                    var date = xhr.getResponseHeader('Date')||xhr.getResponseHeader('date')
+                    var date = xhr.getResponseHeader('Date') || xhr.getResponseHeader('date')
                     if (date) {
                         Storage.setLocal('ANSSERVERTIME', +new Date(date) - time)
                     }
@@ -120,10 +137,10 @@ function ajax() {
     this.url = ''
     this.data = ''
     this.type = 'GET'
-    this.success = function() {}
-    this.error = function() {}
+    this.success = function () {}
+    this.error = function () {}
 }
-ajax.prototype.get = function(option) {
+ajax.prototype.get = function (option) {
 
     var param = []
     for (var key in option.data) {
@@ -133,17 +150,17 @@ ajax.prototype.get = function(option) {
     this.url = url
     this.data = option.data
     this.type = 'GET'
-    this.success = option.success || function() {}
-    this.error = option.error || function() {}
+    this.success = option.success || function () {}
+    this.error = option.error || function () {}
     xmlhttp(this)
 };
-ajax.prototype.post = function(option) {
+ajax.prototype.post = function (option) {
 
     this.url = option.url
     this.data = option.data
     this.type = 'POST'
-    this.success = option.success || function() {}
-    this.error = option.error || function() {}
+    this.success = option.success || function () {}
+    this.error = option.error || function () {}
     xmlhttp(this)
 }
 export default ajax

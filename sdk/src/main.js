@@ -5,18 +5,26 @@ import * as ans from './API/index.js'
 import Util from './lib/common/index.js'
 import baseConfig from './lib/baseConfig/index.js'
 import * as getField from './lib/fillField/getField.js'
-import { lifecycle } from './configure/index.js'
-import { startUp, clearCache } from './API/template/startUp.js'
-import { ieCreat } from './lib/compatible/index.js'
+import {
+    lifecycle
+} from './configure/index.js'
+import {
+    startUp,
+    clearCache
+} from './API/template/startUp.js'
+import {
+    ieCreat
+} from './lib/compatible/index.js'
 
 if (Util.paramType(window.AnalysysAgent) == 'Array') {
     ieCreat()
-    if (window.navigator.userAgent.indexOf('AnalysysAgent/Hybrid') == 0) {
+    if (window.navigator.userAgent.indexOf('AnalysysAgent/Hybrid') > -1) {
         if (lifecycle.AnalysysAgent && lifecycle.AnalysysAgent.hybrid && lifecycle.AnalysysAgent.hybridAns) {
             lifecycle.AnalysysAgent.hybrid()
-            if (Util.paramType(AnalysysAgent) === 'Array') {
-                for (var i = 0; i < AnalysysAgent.length; i++) {
-                    var item = AnalysysAgent[i]
+
+            if (Util.paramType(window.AnalysysAgent) === 'Array') {
+                for (var i = 0; i < window.AnalysysAgent.length; i++) {
+                    var item = window.AnalysysAgent[i]
                     if (item[0] === 'name') {
                         window[item[1]] = lifecycle.AnalysysAgent.hybridAns
                     }
@@ -55,7 +63,6 @@ if (Util.paramType(window.AnalysysAgent) == 'Array') {
         try {
             //启动完毕后执行调用上报日志累接口
             if (Util.paramType(AnalysysAgent) === 'Array') {
-                var ansName = []
                 for (var i = 0; i < AnalysysAgent.length; i++) {
                     var item = AnalysysAgent[i]
                     if (Util.objHasKay(ans, item[0]) && item[0] !== 'identify' && item[0] !== 'alias' && item[0].indexOf('Super') < 0) {

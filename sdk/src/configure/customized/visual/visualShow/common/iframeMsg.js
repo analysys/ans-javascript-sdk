@@ -1,5 +1,4 @@
 import Util from '../../../../../lib/common/index.js'
-import { visualConfig, ifarmeMessageList } from './config.js'
 
 /**
  * [sendMsg description]发送热图SDK初始化完毕信息
@@ -7,7 +6,7 @@ import { visualConfig, ifarmeMessageList } from './config.js'
  */
 function sendMsg(msg) {
     console.log('发送可视化SDK初始化完毕消息===>', JSON.stringify(msg, null, 2))
-    
+
     if (Util.paramType(msg) == 'Object') {
         msg = JSON.stringify(msg)
     }
@@ -20,7 +19,7 @@ function sendMsg(msg) {
  * @return {[type]}            [description]
  */
 function getMsg(callback) {
-    Util.addEvent(window, 'message', function(msgObj) {
+    Util.addEvent(window, 'message', function (msgObj) {
         var msg = msgObj.data
         try {
             if (Util.paramType(msg) === 'String') {
@@ -31,4 +30,7 @@ function getMsg(callback) {
         callback(msg)
     })
 }
-export { sendMsg, getMsg }
+export {
+    sendMsg,
+    getMsg
+}

@@ -1,10 +1,24 @@
-import { temp } from '../../lib/mergeRules/index.js'
-import { fillField, clearCache, isStartUp, checkBase, checkPrivate } from '../../lib/fillField/index.js'
-import { errorLog } from '../../lib/printLog/index.js'
+import {
+    temp
+} from '../../lib/mergeRules/index.js'
+import {
+    fillField,
+    clearCache,
+    isStartUp,
+    checkBase,
+    checkPrivate
+} from '../../lib/fillField/index.js'
+import {
+    errorLog
+} from '../../lib/printLog/index.js'
 import baseConfig from '../../lib/baseConfig/index.js'
-import { upLog } from '../../lib/upload/index.js'
+import {
+    upLog
+} from '../../lib/upload/index.js'
 import Util from '../../lib/common/index.js'
-import { hashPageView } from './pageView.js'
+import {
+    hashPageView
+} from './pageView.js'
 import Storage from '../../lib/storage/index.js'
 
 function startUp() {
@@ -29,7 +43,9 @@ function startUp() {
         //如未通过验证则返回值为fasle
         var startUpLog = fillField(startUpTemp)
 
-        startUpLog = Util.objMerge({ 'xcontext': arkSuper }, startUpLog)
+        startUpLog = Util.objMerge({
+            'xcontext': arkSuper
+        }, startUpLog)
         log.push(Util.delEmpty(startUpLog))
     }
 
@@ -43,12 +59,14 @@ function startUp() {
         var profileSetOnceTemp = temp('$profile_set_once')
 
         var profileSetOnceObj = fillField(profileSetOnceTemp)
-        var time = Util.format(new Date(), 'yyyy-MM-dd hh:mm:ss.SSS')
+        var time = Storage.getLocal('ARKFRISTPROFILE') || Util.format(new Date(), 'yyyy-MM-dd hh:mm:ss.SSS')
         var obj = {
             '$first_visit_time': time,
             '$first_visit_language': (navigator.language || navigator.browserLanguage).toLowerCase()
         }
-        var profileSetOnceLog = Util.objMerge(profileSetOnceObj, { 'xcontext': obj })
+        var profileSetOnceLog = Util.objMerge(profileSetOnceObj, {
+            'xcontext': obj
+        })
         log.push(Util.delEmpty(profileSetOnceLog))
         Storage.setLocal('ARKFRISTPROFILE', time)
     }
@@ -59,7 +77,9 @@ function startUp() {
         baseConfig.status.FnName = '$pageview'
         var pageViewTemp = temp('$pageview')
         var pageViewObj = fillField(pageViewTemp)
-        pageViewObj = Util.objMerge({ 'xcontext': arkSuper }, Util.delEmpty(pageViewObj))
+        pageViewObj = Util.objMerge({
+            'xcontext': arkSuper
+        }, Util.delEmpty(pageViewObj))
         var pageProperty = baseConfig.base.pageProperty
         var status = true
         if (!Util.isEmptyObject(pageProperty)) {
@@ -67,7 +87,9 @@ function startUp() {
             checkPrivate(pageProperty)
             // baseConfig.status.FnName = '$pageview'
 
-            pageViewObj = Util.objMerge(pageViewObj, { 'xcontext': pageProperty })
+            pageViewObj = Util.objMerge(pageViewObj, {
+                'xcontext': pageProperty
+            })
         }
 
         //去除空数据后上传数据
@@ -75,16 +97,20 @@ function startUp() {
             log.push(pageViewObj)
 
         }
+        //开启hash跳转
+        if (baseConfig.base.hash === true) {
+
+            hashPageView()
+        }
     }
     if (log.length > 0) {
         upLog(log)
     }
     //校准时间
 
-    //开启hash跳转
-    if (baseConfig.base.hash === true) {
 
-        hashPageView()
-    }
 }
-export { startUp, clearCache }
+export {
+    startUp,
+    clearCache
+}

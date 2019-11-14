@@ -227,7 +227,7 @@ Storage.prototype.removeSession = function(key) {
 Storage.prototype.setCookie = function(name, value, type) {
     var urlDomain = getDomainFromUrl(location.href)
     var path = "; path=/"
-    var domain = urlDomain ? "" : ("; domain=." + urlDomain)
+    var domain = !urlDomain ? "" : ("; domain=." + urlDomain)
 
     var time = ""
     if (type !== 'session') {

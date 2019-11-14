@@ -1,7 +1,14 @@
 import './heatmap.css'
 import Util from '../../../../../lib/common/index.js'
-import { heatmapConfig, ifarmeMessageList, showMapConfig } from '../common/config.js'
-import { isParent, getConstantStyle } from '../common/index.js'
+import {
+    heatmapConfig,
+    ifarmeMessageList,
+    showMapConfig
+} from '../common/config.js'
+import {
+    isParent,
+    getConstantStyle
+} from '../common/index.js'
 var activeStatus = 'heatmap'
 // if (top == self && Util.GetUrlParam("arkheatmap").indexOf('true') > -1) {
 //     var arkcontent = Util.GetUrlParam("arkcontent")
@@ -243,9 +250,9 @@ function noDataStatus(code) {
         headBtnMap.noDataMSG.innerHTML = '查询异常<br/>请稍后重试 或 联系管理员检查热图服务'
     } else if (code === 100) {
         headBtnMap.noDataMSG.innerHTML = '获取数据失败<br/>当前打开的链接已失效<br/>请在方舟中重新打开查看该页面热图'
-    }else if (code === 500) {
+    } else if (code === 500) {
         headBtnMap.noDataMSG.innerHTML = '获取数据失败<br/>当前网站中AppKey与方舟项目中AppKey不一致，请修改SDK集成代码'
-    }else if (code === 1302) {
+    } else if (code === 1302) {
         headBtnMap.noDataMSG.innerHTML = '获取数据失败<br/>未开启深度线数据采集'
     }
     headBtnMap.noDataEle.style.display = 'block'
@@ -270,7 +277,9 @@ function loadingStatus(status) {
  */
 function removeClass(eleList, className) {
     for (var i = 0; i < eleList.length; i++) {
-        eleList[i].classList.remove(className)
+        if (eleList[i].className) {
+            eleList[i].className = eleList[i].className.replace(Util.trim(className), '')
+        }
     }
 }
 /**
@@ -279,7 +288,7 @@ function removeClass(eleList, className) {
  * @param {[type]} className [description]
  */
 function addClass(ele, className) {
-    ele.classList.add(className);
+    eleList[i].className += ' ' + Util.trim(className)
 }
 /**
  * [returnMapEle description] 返回所需按钮元素
@@ -386,7 +395,7 @@ function returnBodyEle() {
  * @return {[type]} [description]
  */
 function creatListBtnClick() {
-    Util.addEvent(headBtnMap.settingBtn, 'click', function(event) {
+    Util.addEvent(headBtnMap.settingBtn, 'click', function (event) {
         if (isParent(event.target, headBtnMap.settingList)) {
             return
         }
@@ -398,7 +407,7 @@ function creatListBtnClick() {
         headBtnMap.contentList.style.display = 'none'
         headBtnMap.elementList.style.display = 'none'
     })
-    Util.addEvent(headBtnMap.contentBtn, 'click', function(event) {
+    Util.addEvent(headBtnMap.contentBtn, 'click', function (event) {
         if (isParent(event.target, headBtnMap.contentList)) {
             return
         }
@@ -410,7 +419,7 @@ function creatListBtnClick() {
         headBtnMap.settingList.style.display = 'none'
         headBtnMap.elementList.style.display = 'none'
     })
-    Util.addEvent(headBtnMap.elementListBtn, 'click', function(event) {
+    Util.addEvent(headBtnMap.elementListBtn, 'click', function (event) {
         if (isParent(event.target, headBtnMap.elementList)) {
             return
         }
@@ -422,7 +431,7 @@ function creatListBtnClick() {
         headBtnMap.settingList.style.display = 'none'
         headBtnMap.contentList.style.display = 'none'
     })
-    Util.addEvent(document, 'click', function(event) {
+    Util.addEvent(document, 'click', function (event) {
         if (isParent(event.target, [headBtnMap.settingBtn, headBtnMap.settingList, headBtnMap.contentBtn, headBtnMap.contentList, headBtnMap.elementListBtn, headBtnMap.elementList])) {
             return
         }
@@ -490,8 +499,8 @@ function creatHeadElement() {
         headBtnMap.depthMapTab
     ]
 
-    var heatmapClick = function(event) {
-        if(showMapConfig.type != 'heatmap'){
+    var heatmapClick = function (event) {
+        if (showMapConfig.type != 'heatmap') {
             headBtnMap.heatSwitch.checked = true
         }
         showMapConfig.type = 'heatmap'
@@ -504,8 +513,8 @@ function creatHeadElement() {
         headBtnMap.bgRangeEle.style.display = 'block'
     }
     Util.addEvent(headBtnMap.heatmapTab, 'click', heatmapClick)
-    var elementMapClick = function() {
-         if(showMapConfig.type != 'element'){
+    var elementMapClick = function () {
+        if (showMapConfig.type != 'element') {
             headBtnMap.heatSwitch.checked = true
         }
         showMapConfig.type = 'element'
@@ -519,7 +528,7 @@ function creatHeadElement() {
     }
     Util.addEvent(headBtnMap.elementMapTab, 'click', elementMapClick)
 
-    var depthMapClick = function() {
+    var depthMapClick = function () {
         showMapConfig.type = 'depth'
         removeClass(activeEleList, 'active')
         addClass(headBtnMap.depthMapTab, 'active')
@@ -556,7 +565,9 @@ function creatHeadElement() {
 function initContent() {
     var contentText = showMapConfig.contentText
     if (Util.paramType(contentText) == 'String') {
-        contentText = JSON.parse(contentText)
+        try {
+            contentText = JSON.parse(contentText)
+        } catch (e) {}
     }
     var crowds = contentText.crowds
     var conditions = contentText.filter.conditions
@@ -594,4 +605,15 @@ function setElementMap(list) {
     }
 
 }
-export { heapmapTemp, loading, nodata, creatHeadElement, createIframeElement, headBtnMap, initContent, loadingStatus, noDataStatus, setElementMap }
+export {
+    heapmapTemp,
+    loading,
+    nodata,
+    creatHeadElement,
+    createIframeElement,
+    headBtnMap,
+    initContent,
+    loadingStatus,
+    noDataStatus,
+    setElementMap
+}

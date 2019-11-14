@@ -1,5 +1,8 @@
 import Util from '../../../../lib/common/index.js'
-import { elePostion } from './getField.js'
+import {
+    elePostion,
+    getParentClickableElement
+} from './getField.js'
 import Storage from '../../../../lib/storage/index.js'
 
 // import { device_type } from '../../parseUA/lib/UA.js'
@@ -8,8 +11,8 @@ var topValue = 0
 var heatmapConfig = {}
 
 function loadHeatmapSDK() {
-    if(!document.body||!document.getElementsByTagName('body')[0]){
-        setTimeout(loadHeatmapSDK,50)
+    if (!document.body || !document.getElementsByTagName('body')[0]) {
+        setTimeout(loadHeatmapSDK, 50)
         return
     }
     Util.addScript('AnalysysAgent_JS_SDK_HEATMAP')
@@ -17,20 +20,21 @@ function loadHeatmapSDK() {
         config: heatmapConfig
     }
 }
-function offset(obj,direction){
-        var fristText = direction.split("")[0]
-        //将top,left首字母大写,并拼接成offsetTop,offsetLeft
-        var offsetDir = 'offset'+ fristText.toUpperCase()+direction.substring(1);
-        
-        var realNum = obj[offsetDir];
-        var positionParent = obj.offsetParent;  //获取上一级定位元素对象
-        
-        while(positionParent != null){
-            realNum += positionParent[offsetDir];
-            positionParent = positionParent.offsetParent;
-        }
-        return realNum;
+
+function offset(obj, direction) {
+    var fristText = direction.split("")[0]
+    //将top,left首字母大写,并拼接成offsetTop,offsetLeft
+    var offsetDir = 'offset' + fristText.toUpperCase() + direction.substring(1);
+
+    var realNum = obj[offsetDir];
+    var positionParent = obj.offsetParent; //获取上一级定位元素对象
+
+    while (positionParent != null) {
+        realNum += positionParent[offsetDir];
+        positionParent = positionParent.offsetParent;
     }
+    return realNum;
+}
 
 function addClickEvent(event) {
     var e = event || window.event;
@@ -45,24 +49,25 @@ function addClickEvent(event) {
     var y = e.pageY || e.clientY + scrollY;
     elePostion.click_x = x
     elePostion.click_y = y
-    elePostion.ele = e.target || e.srcElement
-    // console.log(elePostion.ele,event, x,y, elePostion.ele.offsetLeft,elePostion.ele.offsetTop ,offset(elePostion.ele,'left'),offset(elePostion.ele,'top'))
-    // console.log('---x-->',x, elePostion.ele.offsetLeft,offset(elePostion.ele,'left'))
-    // console.log('---y-->',y, elePostion.ele.offsetTop,offset(elePostion.ele,'top'))
-    elePostion.elementX = x - offset(elePostion.ele,'left')
-    elePostion.elementY = y - offset(elePostion.ele,'top')
+
+    elePostion.clickEle = elePostion.ele = e.target || e.srcElement
+    getParentClickableElement()
+    elePostion.elementX = x - offset(elePostion.ele, 'left')
+    elePostion.elementY = y - offset(elePostion.ele, 'top')
     if (!x || !y || x <= 0 || y <= 0) {
         return
     }
     if (!AnalysysAgent || !AnalysysAgent.freeApi) {
-        setTimeout(function() { addClickEvent(event) }, 100)
+        setTimeout(function () {
+            addClickEvent(event)
+        }, 100)
     } else {
         AnalysysAgent.freeApi('$web_click')
     }
 }
 
 function initHeatmap() {
-    if (Util.deviceType()=='desktop') {
+    if (Util.deviceType() == 'desktop') {
         Util.addEvent(document, 'click', addClickEvent)
     } else {
         Util.addEvent(document, 'touchstart', addClickEvent)
@@ -71,7 +76,7 @@ function initHeatmap() {
 
 function heatmapInit(config) {
     heatmapConfig = config
-    if (config.autoHeatmap === true) {
+    if (config.auto == false && config.autoHeatmap === true || config.auto == true && config.autoHeatmap !== false) {
         if (window.location.href.indexOf("arkheatmap=true") > -1) {
             loadHeatmapSDK()
         } else {
@@ -81,4 +86,6 @@ function heatmapInit(config) {
     return config
 }
 
-export { heatmapInit }
+export {
+    heatmapInit
+}
