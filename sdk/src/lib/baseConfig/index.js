@@ -8,7 +8,7 @@ export default {
         "autoProfile": true,
         "hash": true,
         "pageProperty": {},
-        "$lib_version": "4.3.5"
+        "$lib_version": "4.3.4"
     },
     "status": {
         "code": 200,
