@@ -1,41 +1,18 @@
 import Util from '../../../../lib/common/index.js'
 // import elePostion from './postion.js'
 import { getElementContent } from '../../heatmap/lib/elementContent.js'
-import { parseEvent, parserDom, domParentList, isParent, setIndex ,pathContrast} from '../visualShow/common/index.js'
+import { parseEvent, domParentList, isParent, setIndex, pathContrast } from '../visualShow/common/index.js'
 import ajax from '../../../../lib/upload/ajax.js'
 import Storage from '../../../../lib/storage/index.js'
 var visitorConfig = {}
 
 function loadVisitorSDK() {
-    Util.addScript('AnalysysAgent_JS_SDK_VISUAL')
+    Util.addScript('AnalysysAgent_JS_SDK_VISUAL', visitorConfig.SDKFileDirectory)
     window.ARK_VISUAL = {
         config: visitorConfig
     }
     Storage.setSession('visitor', true)
 }
-
-// function setIndex(ele, likeDomList) {
-
-//     var link = likeDomList
-//     var eleObj = parserDom(link)
-//     if (eleObj.length === 0) {
-//         return
-//     }
-//     var baseEle = eleObj[0]
-//     var eleList = document.querySelectorAll(baseEle.link)
-//     var allEleList = []
-//     for (var i = 0; i < eleList.length; i++) {
-//         if (domParentList(eleList[i]) === link) {
-//             allEleList.push(eleList[i])
-//         }
-//     }
-//     for (var i = 0; i < allEleList.length; i++) {
-//         if (allEleList[i] === ele) {
-//             return i
-//         }
-//     }
-//     return 0
-// }
 
 function addElesListener(event) {
     var e = event || window.event;
@@ -75,7 +52,7 @@ var visitorEventList = []
 
 function getVisitorEvent() {
     var visitorUrl = visitorConfig.visitorConfigURL
-    var success = function(data) {
+    var success = function (data) {
         if (data.code !== 0) {
             return
         }
@@ -96,16 +73,14 @@ function getVisitorEvent() {
             url: url
         },
         success: success,
-        error: function() {}
+        error: function () { }
     }
     new ajax().get(option)
 }
-var istVisitor = false
 var url = window.location.href
 
 function visitorPageViewInit(config) {
     if (config.visitorConfigURL) {
-        istVisitor = true
         if (config.visitorConfigURL.charAt(config.visitorConfigURL.length - 1) !== "/") {
             config.visitorConfigURL += '/'
         }
@@ -118,7 +93,7 @@ function visitorPageViewInit(config) {
         } else {
             Util.addEvent(document, 'touchstart', addElesListener)
         }
-        Util.changeHash(function() {
+        Util.changeHash(function () {
             if (url != window.location.href) {
                 url = window.location.href
                 getVisitorEvent()

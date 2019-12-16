@@ -1,6 +1,35 @@
-import { domParentList } from '../../lib/getField.js'
+import {
+    domParentList
+} from '../../lib/getField.js'
 import Util from '../../../../../lib/common/index.js'
 var rootNodeRE = /^(?:body|html)$/i;
+
+function pathContrast(path1, path2) {
+    path1 = path1.split("<body")[0]
+    path2 = path2.split("<body")[0]
+    var path1Array = path1.split("<")
+    var path2Array = path2.split("<")
+    if (path1Array[0] == path2Array[0]) {
+        for (var i = 1; i < path1Array.length; i++) {
+            if (path1Array[i].indexOf('|') > -1 && path2Array[i].indexOf('|') > -1) {
+                var path1Index = path1Array[i].split('|')[1]
+                var path2Index = path2Array[i].split('|')[1]
+                if (path1Index !== path2Index) {
+                    return false
+                }
+
+
+            }
+
+            if (path1Array[i].split('.')[0] != path2Array[i].split('.')[0]) {
+                return false
+            }
+        }
+        return true
+    }
+    return false
+
+}
 
 function parseEvent(path) {
     var eleObj = parserDom(path)
@@ -13,16 +42,19 @@ function parseEvent(path) {
             baseEle = '#' + baseEle.split("#")[1]
         }
         var eleList = document.querySelectorAll(baseEle)
-        var allEleList = []
         for (var i = 0; i < eleList.length; i++) {
-            if (rootNodeRE.test(eleList[i].nodeName)) {
+            var ele = eleList[i]
+            if (rootNodeRE.test(ele.nodeName)) {
                 return document.body
             }
-            if (domParentList(eleList[i]) === path) {
+            var elePath = domParentList(ele)
+            var eleIndex = parserDom(elePath).index
+            if (elePath === path || (pathContrast(elePath, path) == true && eleObj.index === eleIndex)) {
                 return eleList[i]
             }
         }
-    } catch (e) {}
+    } catch (e) {
+    }
     return null
 }
 /**
@@ -50,8 +82,8 @@ function parserDom(path) {
     return eleList
 }
 
-var camelize = function(str) {
-    return str.replace(/-+(.)?/g, function(match, chr) {
+var camelize = function (str) {
+    return str.replace(/-+(.)?/g, function (match, chr) {
         if (chr) {
             return chr.toUpperCase();
         } else {
@@ -94,7 +126,7 @@ function eleOffset(ele) {
     var realTop = 0
     var realLeft = 0
     var elemHidden = false
-
+    var isFixed = false
     while (ele != null) {
         realTop += ele['offsetTop'];
         realLeft += ele['offsetLeft'];
@@ -102,7 +134,15 @@ function eleOffset(ele) {
             elemHidden = eleCss(ele, 'display') == 'none' || eleCss(ele, 'width') == '0px' || eleCss(ele, 'height') == '0px' ? true : false
         }
 
+        if (eleCss(ele, "position") === 'fixed') {
+            isFixed = true
+        }
         ele = ele.offsetParent;
+
+    }
+    if (isFixed === true) {
+        realTop += document.documentElement.scrollTop || document.body.scrollTop
+        realLeft += document.documentElement.scrollLeft || document.body.scrollLeft
     }
     return {
         top: realTop,
@@ -137,13 +177,11 @@ function eleOffsetParent(elem) {
  * @return {[type]}     [description]x-横坐标 number y-纵坐标 number hidden-是否隐藏隐藏 Bloon
  */
 function elementPostion(elem) {
-    var t;
     var position = {
         top: 0,
         left: 0,
         hidden: true
     }
-    var elemHidden = false
 
     if (!elem) {
         return position
@@ -186,10 +224,10 @@ function isEmbedded(key) {
  * @return {Boolean} [description]
  */
 function isElmentReady() {
-    if (!document.documentElement || document.documentElement.scrollWidth == 0) {
-        return false
-    } else {
+    if (document && document.documentElement && document.getElementsByTagName && document.getElementById && document.body && document.documentElement.scrollWidth !== 0) {
         return true
+    } else {
+        return false
     }
 }
 
@@ -201,7 +239,7 @@ function isElmentReady() {
  */
 function isParent(ele, parentEle) {
     //任何元素都为BODY的子元素
-    while (ele && ele.tagName.toUpperCase() != 'BODY') {
+    while (ele && ele.tagName.toUpperCase() != 'BODY' && ele.tagName.toUpperCase() != 'HTML') {
         if (Util.paramType(parentEle) === 'Array') {
             for (var i = 0; i < parentEle.length; i++) {
                 if (ele == parentEle[i]) {
@@ -245,4 +283,15 @@ function pipParam(param, str) {
     }
     return param
 }
-export { elementPostion, eleCss, parseEvent, parserDom, domParentList, isEmbedded, isElmentReady, isParent, getConstantStyle, pipParam }
+export {
+    elementPostion,
+    eleCss,
+    parseEvent,
+    parserDom,
+    domParentList,
+    isEmbedded,
+    isElmentReady,
+    isParent,
+    getConstantStyle,
+    pipParam
+}

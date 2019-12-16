@@ -7,61 +7,93 @@
  */
 
 import Util from '../common/index.js'
-
-var endings = ['/', ':', '?', '#'];
-var starters = ['.', '/', '@'];
+import baseConfig from '../baseConfig/index.js'
 
 function getDomainFromUrl(url) {
-    if (typeof url !== 'string') {
-        return ''
+    var host = location.hostname;
+    var level = baseConfig.base.cookieLevel || 2
+    if (Util.paramType(level) !== 'Number' || level < 2) {
+        level = 2
     }
-
-    let domainInc = 0;
-    let offsetDomain = 0;
-    let offsetStartSlice = 0;
-    let offsetPath = 0;
-    let len = url.length;
-    let i = 0;
-
-    // Find end offset of domain
-    while (len-- && ++i) {
-        if (domainInc && endings.toString().indexOf(url[i]) > -1) {
-            break;
+    var ip = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+    if (ip.test(host) === true || host === 'localhost') return '';
+    var regex = /([^]*).*/;
+    var match = host.match(regex);
+    var urlDomain = []
+    if (typeof match !== "undefined" && null !== match) host = match[1];
+    if (typeof host !== "undefined" && null !== host) {
+        var strAry = host.split(".");
+        if (strAry.length > 1) {
+            if (strAry.length < level) {
+                level = strAry.length
+            }
+            for (var i = strAry.length - 1; i >= 0; i--) {
+                if (urlDomain.length == level) {
+                    break
+                }
+                urlDomain.push(strAry[i])
+            }
+            // host = strAry[strAry.length - 2] + "." + strAry[strAry.length - 1];
+        } else {
+            return ''
         }
-
-        if (url[i] !== '.') {
-            continue;
-        }
-
-        ++domainInc;
-
-        offsetDomain = i;
     }
-
-    offsetPath = i;
-
-    i = offsetDomain;
-
-    // Find offset before domain name.
-    while (i--) {
-        // Look for sub domain, protocol or basic auth
-        if (starters.toString().indexOf(url[i]) === -1) {
-            continue;
-        }
-
-        offsetStartSlice = i + 1;
-
-        break;
-    }
-
-    // offsetStartSlice should always be larger than protocol
-    if (offsetStartSlice < 2) {
-        return '';
-    }
-
-    // Tried several approaches slicing a string. Can't get it any faster than this.
-    return url.slice(offsetStartSlice, offsetPath);
+    return '.' + urlDomain.reverse().join('.');
 }
+// var endings = ['/', ':', '?', '#'];
+// var starters = ['.', '/', '@'];
+// function getDomainFromUrl(url) {
+//     if (typeof url !== 'string') {
+//         return ''
+//     }
+
+//     let domainInc = 0;
+//     let offsetDomain = 0;
+//     let offsetStartSlice = 0;
+//     let offsetPath = 0;
+//     let len = url.length;
+//     let i = 0;
+//     console.log(url, document.domain)
+//     // Find end offset of domain
+//     while (len-- && ++i) {
+//         if (domainInc && endings.toString().indexOf(url[i]) > -1) {
+//             break;
+//         }
+
+//         if (url[i] !== '.') {
+//             continue;
+//         }
+
+//         ++domainInc;
+
+//         offsetDomain = i;
+//     }
+
+//     offsetPath = i;
+
+//     i = offsetDomain;
+//     console.log(offsetDomain)
+//     // Find offset before domain name.
+//     while (i--) {
+//         // Look for sub domain, protocol or basic auth
+//         console.log(url[i])
+//         if (starters.toString().indexOf(url[i]) === -1) {
+//             continue;
+//         }
+
+//         offsetStartSlice = i + 1;
+
+//         break;
+//     }
+
+//     // offsetStartSlice should always be larger than protocol
+//     if (offsetStartSlice < 2) {
+//         return '';
+//     }
+
+//     // Tried several approaches slicing a string. Can't get it any faster than this.
+//     return url.slice(offsetStartSlice, offsetPath);
+// }
 var Local = ''
 var Session = ''
 try {
@@ -76,7 +108,7 @@ function Storage() {
     this.sessionObj = this.getSession()
 }
 
-Storage.prototype.setLocal = function(key, value) {
+Storage.prototype.setLocal = function (key, value) {
     this.localObj = this.getLocal()
     this.localObj[key] = value
     try {
@@ -92,7 +124,7 @@ Storage.prototype.setLocal = function(key, value) {
     } catch (e) {}
 }
 
-Storage.prototype.getLocal = function(key) {
+Storage.prototype.getLocal = function (key) {
 
     try {
         var localData = {}
@@ -134,7 +166,7 @@ Storage.prototype.getLocal = function(key) {
     }
 }
 
-Storage.prototype.removeLocal = function(key) {
+Storage.prototype.removeLocal = function (key) {
     this.localObj = this.getLocal()
     if (Util.objHasKay(this.localObj, key)) {
         delete this.localObj[key]
@@ -163,7 +195,7 @@ Storage.prototype.removeLocal = function(key) {
     }
 }
 
-Storage.prototype.setSession = function(key, value) {
+Storage.prototype.setSession = function (key, value) {
     this.sessionObj = this.getSession()
     this.sessionObj[key] = value
     try {
@@ -178,7 +210,7 @@ Storage.prototype.setSession = function(key, value) {
     } catch (e) {}
 }
 
-Storage.prototype.getSession = function(key) {
+Storage.prototype.getSession = function (key) {
 
     try {
         var sessionData = {}
@@ -198,7 +230,7 @@ Storage.prototype.getSession = function(key) {
     }
 }
 
-Storage.prototype.removeSession = function(key) {
+Storage.prototype.removeSession = function (key) {
     this.sessionObj = this.getSession()
     if (Util.objHasKay(this.sessionObj, key)) {
         delete this.sessionObj[key]
@@ -224,11 +256,10 @@ Storage.prototype.removeSession = function(key) {
         }
     }
 }
-Storage.prototype.setCookie = function(name, value, type) {
+Storage.prototype.setCookie = function (name, value, type) {
     var urlDomain = getDomainFromUrl(location.href)
     var path = "; path=/"
-    var domain = !urlDomain ? "" : ("; domain=." + urlDomain)
-
+    var domain = !urlDomain ? "" : ("; domain=" + urlDomain)
     var time = ""
     if (type !== 'session') {
         var date = new Date()
@@ -237,7 +268,7 @@ Storage.prototype.setCookie = function(name, value, type) {
     }
     document.cookie = name + "=" + value + time + path + domain
 }
-Storage.prototype.getCookie = function(name) {
+Storage.prototype.getCookie = function (name) {
     var text = document.cookie
     if (typeof text !== "string") {
         return '';
@@ -255,7 +286,7 @@ Storage.prototype.getCookie = function(name) {
         }
     }
 }
-Storage.prototype.removeCookie = function(name) {
+Storage.prototype.removeCookie = function (name) {
     var urlDomain = getDomainFromUrl(location.href)
     var path = "; path=/"
     var domain = urlDomain ? "" : ("; domain=." + urlDomain)

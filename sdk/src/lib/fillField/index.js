@@ -7,15 +7,7 @@ import { fieldRules } from '../../configure/index.js'
 import sessionId from './sessionId.js'
 import { successLog } from '../printLog/index.js'
 import {
-    getId,
-    setUUId,
-    getUUId,
-    removeUUId,
-    setAliasId,
-    getAliasId,
     removeAliasId,
-    setIdentifyId,
-    getIdentifyId,
     removeIdentifyId
 } from './id.js'
 

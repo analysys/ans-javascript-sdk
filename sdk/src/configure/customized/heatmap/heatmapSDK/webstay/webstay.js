@@ -116,8 +116,10 @@ function removeLine() {
 function clearWebStay() {
     removeLine()
     removeLineEvent()
-    noDataStatus(200)
-    loadingStatus(false)
+    if (showMapConfig.type == 'depth') {
+        noDataStatus(200)
+        loadingStatus(false)
+    }
 }
 var webStayLineStatus = true
 
@@ -165,7 +167,7 @@ function initWebStay() {
         url: heatmapConfig.uploadURL + 'ark/sdk/heatmap/scrollreach/analysis',
         data: param,
         success: setline,
-        error: function() {
+        error: function () {
             loadingStatus(false)
             if (showMapConfig.type == 'depth') {
                 noDataStatus(402)

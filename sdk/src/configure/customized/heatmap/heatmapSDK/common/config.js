@@ -1,3 +1,4 @@
+import Util from '../../../../../lib/common/index.js'
 import Storage from '../../../../../lib/storage/index.js'
 
 var heatmapConfig = window.ARK_HEATMAP && window.ARK_HEATMAP.config
@@ -28,14 +29,15 @@ function backParam() {
     } else {
         params.content["useCache"] = true
     }
-    if (!params.content["dbUrlDomain"]) {
-        var urlPath = params.content["urlDomain"] || params.content["urlPath"]
-        if (!urlPath) {
-            urlPath = location.protocol + '//' + location.host + location.pathname
-        }
-        urlPath = urlPath.split('#')[0]
-        params.content["urlDomain"] = params.content["urlPath"] = urlPath
-    }
+    // if (!params.content["dbUrlDomain"]) {
+    // var urlPath = params.content["urlDomain"] || params.content["urlPath"]
+    // if (!urlPath) {
+    //     urlPath = location.protocol + '//' + location.host + location.pathname + location.hash
+    //     urlPath = urlPath.split('?')[0]
+    // }
+    // // urlPath = urlPath.split('#')[0]
+    // params.content["urlDomain"] = params.content["urlPath"] = urlPath
+    // }
 
     showMapConfig.isRefresh = false
     params.content = JSON.stringify(params.content)
@@ -47,4 +49,9 @@ function backParam() {
     param = param.join('&')
     return param
 }
-export { heatmapConfig, ifarmeMessageList, showMapConfig, backParam }
+export {
+    heatmapConfig,
+    ifarmeMessageList,
+    showMapConfig,
+    backParam
+}

@@ -31,7 +31,8 @@ function domParentList(ele) {
         }
         tagName = tagName.toLowerCase()
         var parentID = parent.id ? ('#' + parent.id) : ''
-        var eleClassNameList = parent.className ? parent.className.split(" ") : []
+        var eleClassNameList = parent.className && Util.paramType(parent.className) == 'String' ? parent.className.split(" ") : []
+
         if (eleClassNameList.length > 0) {
             var eleClassName = ''
             for (var i = 0; i < eleClassNameList.length; i++) {

@@ -1,45 +1,71 @@
-import { temp } from '../../lib/mergeRules/index.js'
-import { fillField, checkPrivate, resetCode } from '../../lib/fillField/index.js'
+import {
+    temp
+} from '../../lib/mergeRules/index.js'
+import {
+    fillField,
+    checkPrivate,
+    resetCode
+} from '../../lib/fillField/index.js'
 import baseConfig from '../../lib/baseConfig/index.js'
-import { upLog } from '../../lib/upload/index.js'
+import {
+    upLog
+} from '../../lib/upload/index.js'
 import Util from '../../lib/common/index.js'
 import Storage from '../../lib/storage/index.js'
 
 function pageView(pageName, obj) {
+    /** 
+     * 判断黑白名单
+     * 符合黑名单，不上报
+     * 有白名单，且不符合白名单，不上报
+     */
+    if (Util.checkTypeList(baseConfig.base.pageViewBlackList) || (baseConfig.base.pageViewWhiteList && !Util.checkTypeList(baseConfig.base.pageViewWhiteList))) return
+
     baseConfig.status.FnName = '$pageview'
     resetCode()
-    var nameObj = { '$pagename': '' }
+    var nameObj = {}
     if (arguments.length > 0) {
-    nameObj = { '$pagename': pageName }
+        nameObj = {
+            '$title': pageName
+        }
 
-         checkPrivate(nameObj)
+        checkPrivate(nameObj)
     }
 
-    // if (!status) {
-    //     return
-    // }
-    if (obj) {
+    var userProp = {}
+
+    if (Util.paramType(obj) == "Object") {
         //检测distinctId
-        var status =checkPrivate(obj)
+        checkPrivate(obj)
+        userProp = {
+            'xcontext': obj || {}
+        }
     }
-
-    obj = { 'xcontext': obj || {} }
 
     var arkSuper = Storage.getLocal('ARKSUPER') || {}
 
-    obj = Util.objMerge({ 'xcontext': arkSuper }, obj)
+    /**
+     * 超级属性与用户自定义属性合并
+     */
+    var xcontext = Util.objMerge({
+        'xcontext': arkSuper
+    }, userProp)
 
-    obj = Util.objMerge({ 'xcontext': nameObj }, obj)
+    /**
+     * 与$pagename属性合并
+     */
+    xcontext = Util.objMerge(xcontext, {
+        'xcontext': nameObj
+    })
 
     var pageViewTemp = temp('$pageview')
     var pageViewObj = Util.delEmpty(fillField(pageViewTemp))
 
-    var pageViewLog = Util.objMerge(pageViewObj, obj)
-    //如字段中有不合法内容则打印错误日志
-    // if (!pageViewLog) {
-    //     errorLog()
-    //     return
-    // }
+    /**
+     * 自动采集与个性化属性合并
+     */
+    var pageViewLog = Util.objMerge(pageViewObj, xcontext)
+
     //去除空数据后上传数据
     upLog(pageViewLog)
 
@@ -49,39 +75,14 @@ function pageView(pageName, obj) {
 var pageUrl = window.location.href
 
 function hashPageView() {
-    Util.changeHash(function() {
+    Util.changeHash(function () {
         if (pageUrl !== window.location.href) {
             pageUrl = window.location.href
             pageView()
         }
     })
-    // if ('onpopstate' in window) {
-    //     if (!('onpushState' in window)) {
-    //         window.history.pushState = Util.addWindowEvent('pushState');
-    //     }
-    //     if (!('onreplaceState' in window)) {
-    //         window.history.replaceState = Util.addWindowEvent('replaceState');
-    //     }
-    //     Util.addEvent(window, 'popstate', function() {
-    //         pageView()
-    //     })
-    //     Util.addEvent(window, 'pushState', function() {
-    //         pageView()
-    //     })
-    //     Util.addEvent(window, 'replaceState', function() {
-    //         pageView()
-    //     })
-    //     if (!!window.ActiveXObject || "ActiveXObject" in window) {
-    //         if ('onhashchange' in window) {
-    //             Util.addEvent(window, 'hashchange', pageView())
-    //         }
-    //     }
-    // } else if ('onhashchange' in window) {
-    //     if (document.addEventListener) {
-    //         Util.addEvent(window, 'hashchange', function() {
-    //             pageView()
-    //         })
-    //     }
-    // }
 }
-export { pageView, hashPageView }
+export {
+    pageView,
+    hashPageView
+}

@@ -1,5 +1,8 @@
 import Util from '../../../../../lib/common/index.js'
-import { heatmapConfig, ifarmeMessageList } from './config.js'
+import {
+    heatmapConfig,
+    ifarmeMessageList
+} from './config.js'
 
 /**
  * [sendMsg description]发送热图SDK初始化完毕信息
@@ -20,14 +23,19 @@ function sendMsg() {
  * @return {[type]}            [description]
  */
 function getMsg(callback) {
-    Util.addEvent(window, 'message', function(msgObj) {
+    Util.addEvent(window, 'message', function (msgObj) {
         var msg = msgObj.data
+        console.log('获取服务端热图命令===>', JSON.stringify(msgObj.data))
+
         try {
             if (Util.paramType(msg) === 'String') {
                 msg = JSON.parse(msg)
             }
-        } catch (e) {}
+        } catch (e) { }
         callback(msg)
     })
 }
-export { sendMsg, getMsg }
+export {
+    sendMsg,
+    getMsg
+}

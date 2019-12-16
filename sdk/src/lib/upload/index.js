@@ -2,8 +2,13 @@ import Util from '../common/index.js'
 import ajax from './ajax.js'
 import Storage from '../storage/index.js'
 import baseConfig from '../baseConfig/index.js'
-import { errorLog, successLog } from '../printLog/index.js'
-import { lifecycle } from '../../configure/index.js'
+import {
+    errorLog,
+    successLog
+} from '../printLog/index.js'
+import {
+    lifecycle
+} from '../../configure/index.js'
 
 var postStatus = true
 var send_type = 'img'
@@ -22,7 +27,7 @@ function delRx(list) {
         }
     }
     if (Util.paramType(list) === 'String') {
-        list = list.replace(rx_dangerous, function(a) {
+        list = list.replace(rx_dangerous, function (a) {
             return "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4)
         });
     }
@@ -30,7 +35,7 @@ function delRx(list) {
 }
 
 function sendPost(data, storageStatus) {
-    if (Util.GetUrlParam('visual') && Util.GetUrlParam('visual').indexOf('true')>-1) {
+    if (Util.GetUrlParam('visual') && Util.GetUrlParam('visual').indexOf('true') > -1) {
         return
     }
     if (send_type !== 'img' && storageStatus !== 'NOT_STORAGE') {
@@ -44,13 +49,13 @@ function sendPost(data, storageStatus) {
     }
 
     //发送日志发送失败，进入缓存序列
-    var error = function(msg) {
+    var error = function (msg) {
         postStatus = true
         baseConfig.status.errorCode = '60008'
         errorLog()
     }
     //发送成功后，将缓存序列对应数据去除
-    var successCheckPost = function(data, storageStatus) {
+    var successCheckPost = function (data, storageStatus) {
         postStatus = true
 
         var postDataList = Storage.getLocal("POSTDATA") || []
@@ -87,8 +92,8 @@ function sendPost(data, storageStatus) {
 
     }
     //发送成功执行
-    var success = (function(data) {
-        return function(msg) {
+    var success = (function (data) {
+        return function (msg) {
             if (msg.code == 200 || msg.code == 400 || msg.code == 4200) {
                 baseConfig.status.successCode = '20001'
                 successLog()
@@ -108,6 +113,9 @@ function sendPost(data, storageStatus) {
     successLog('Send message to server: ' + baseConfig.base.uploadURL + 'up?appid=' + baseConfig.base.appid + '\ndata:' + msg)
     if (lifecycle.upload && lifecycle.upload.init) {
         postMsg = lifecycle.upload.init(postMsg)
+    } else if (window.AnalysysModule && Util.paramType(window.AnalysysModule) == 'Object' && Util.paramType(window.AnalysysModule.uploadData) == 'Function') {
+        window.AnalysysModule.encryptInit(baseConfig.base)
+        postMsg = window.AnalysysModule.uploadData(postMsg)
     }
     if (send_type == 'get') {
         snedGet(postMsg)
@@ -151,7 +159,9 @@ function snedGet(option, type) {
     if (type == 'send' && navigator.sendBeacon) {
         var sendStatus = navigator.sendBeacon(option.url, option.data)
         if (sendStatus) {
-            option.success({ code: 200 })
+            option.success({
+                code: 200
+            })
         }
         return
     }
@@ -176,21 +186,21 @@ function snedGet(option, type) {
         createImg.src = url
         createImg.width = 1
         createImg.height = 1
-        createImg.onload = function(e) {
+        createImg.onload = function (e) {
             // clearTimeout(callbackTimer)
             // callbackTimer = null;
             this.src = ''
             this.onload = null, this.onerror = null, this.onabort = null
             // option.success({ code: 200 })
         };
-        createImg.onerror = function(e) {
+        createImg.onerror = function (e) {
             // clearTimeout(callbackTimer)
             // callbackTimer = null;
             this.src = ''
             this.onload = null, this.onerror = null, this.onabort = null
             // option.success({ code: 200 })
         };
-        createImg.onabort = function(e) {
+        createImg.onabort = function (e) {
             // clearTimeout(callbackTimer)
             // callbackTimer = null;
             this.src = ''
@@ -200,7 +210,9 @@ function snedGet(option, type) {
         // callbackTimer = setTimeout(function() {
         // createImg.src = ''
         // createImg.onload = null, createImg.onerror = null, createImg.onabort = null
-        option.success({ code: 200 })
+        option.success({
+            code: 200
+        })
         // }, 600)
     }
 
@@ -215,7 +227,7 @@ function checkLogBaseJson(obj) {
         var status = true
         for (var i = 0; i < baseConfig.baseJson.length; i++) {
             var key = baseConfig.baseJson[i]
-            if(key === 'xwhat'){
+            if (key === 'xwhat') {
                 continue
             }
             if (!obj[key] || (Util.paramType(obj[key]) == 'Object' && Util.isEmptyObject(obj[key]))) {
@@ -281,4 +293,6 @@ function upLog(log, storageStatus) {
     }
 }
 
-export { upLog }
+export {
+    upLog
+}

@@ -3,9 +3,24 @@ import Storage from '../../../../../lib/storage/index.js'
 import ajax from '../../../../../lib/upload/ajax.js'
 import plugInHeatmap from '../lib/heatmap.js'
 import ColorRangeMaker from '../lib/colorRange.js'
-import { heatmapConfig, showMapConfig, backParam } from '../common/config.js'
-import { loadingStatus, noDataStatus, headBtnMap } from '../head/index.js'
-import { elementPostion, eleCss, parseEvent, parserDom, domParentList, getConstantStyle } from '../common/index.js'
+import {
+    heatmapConfig,
+    showMapConfig,
+    backParam
+} from '../common/config.js'
+import {
+    loadingStatus,
+    noDataStatus,
+    headBtnMap
+} from '../head/index.js'
+import {
+    elementPostion,
+    eleCss,
+    parseEvent,
+    parserDom,
+    domParentList,
+    getConstantStyle
+} from '../common/index.js'
 
 var heat = null
 var radius = 15
@@ -43,29 +58,29 @@ function _heat(config) {
     return this
 }
 
-_heat.prototype.setData = function(pointsList) {
+_heat.prototype.setData = function (pointsList) {
     this.pointsList = pointsList
     this.heatObj.setData(pointsList)
 }
 
-_heat.prototype.refresh = function() {
+_heat.prototype.refresh = function () {
     this.heatObj.repaint()
 }
-_heat.prototype.configure = function(config) {
+_heat.prototype.configure = function (config) {
     this.heatObj.configure(config);
 }
-_heat.prototype.clear = function() {
+_heat.prototype.clear = function () {
     this.pointsList = []
 }
 
 
 function getPoints() {
     loadingStatus(true)
-    var success = function(data) {
-        if(showMapConfig.type !== 'heatmap')return
+    var success = function (data) {
+        if (!data || showMapConfig.type !== 'heatmap') return
         var list = data.datas
         var code = data.code
-        if (code == 0 && (!list || list.length == 0)) {
+        if (!list || list.length == 0) {
             noDataStatus(0)
             return
         }
@@ -79,11 +94,9 @@ function getPoints() {
         }
         noDataStatus(200)
         var max = 0
+
         var len = list.length
         var points = []
-        var width = document.documentElement.scrollWidth
-        var height = document.documentElement.scrollHeight
-
         for (var i = 0; i < len; i++) {
             var x = list[i].$click_x //
             var y = list[i].$click_y // * height / list[i].$page_height
@@ -147,13 +160,14 @@ function getPoints() {
         url: url,
         data: param,
         success: success,
-        error: function() {
+        error: function () {
             loadingStatus(false)
             noDataStatus(402)
         }
     }
     new ajax().post(option)
 }
+
 function radiusPoint(p1, p2) {
     return (p1.x - radius - diff_radius <= p2.x && p2.x <= p1.x + radius - diff_radius) &&
         (p1.y - radius - diff_radius <= p2.y && p2.y <= p1.y + radius - diff_radius)
@@ -389,4 +403,10 @@ function changeColorRange(dataObj) {
 
     }
 }
-export { heatmap, clearHeatmap, createColorRange, changeColorRange, setHeatmapOpacity }
+export {
+    heatmap,
+    clearHeatmap,
+    createColorRange,
+    changeColorRange,
+    setHeatmapOpacity
+}

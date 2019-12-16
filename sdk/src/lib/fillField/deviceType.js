@@ -1,8 +1,5 @@
 var ua = window.navigator.userAgent.toLowerCase()
 
-function findStr(str) {
-    return UA.indexOf(str) !== -1
-}
 
 function isPhone() {
     var isMobile = /Mobile(\/|\s)/.test(ua);

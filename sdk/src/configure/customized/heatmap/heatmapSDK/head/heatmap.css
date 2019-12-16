@@ -170,12 +170,21 @@
 }
 
 .ARK_HEATMAP_HEAD .MENU {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 12px;
+    margin-block-end: 12px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
     display: inline-block;
     float: left;
     list-style: none;
     font-size: 24px;
     margin-left: 32px;
-
+        margin-top: 0;
+    margin-bottom: 10px;
+    
 }
 
 .ARK_HEATMAP_HEAD .MENU li {
@@ -252,7 +261,7 @@
     font-size: 16px;
     font-weight: normal;
     font-stretch: normal;
-    line-height: 16px;
+    line-height: 62px;
     letter-spacing: 0px;
     color: #9cacbf;
 }

@@ -15,11 +15,10 @@ import {
 import {
     ieCreat
 } from './lib/compatible/index.js'
-
 if (Util.paramType(window.AnalysysAgent) == 'Array') {
     ieCreat()
-    if (window.navigator.userAgent.indexOf('AnalysysAgent/Hybrid') > -1) {
-        if (lifecycle.AnalysysAgent && lifecycle.AnalysysAgent.hybrid && lifecycle.AnalysysAgent.hybridAns) {
+    if (window.navigator.userAgent.indexOf('AnalysysAgent/Hybrid') > -1 || (window.AnalysysHybrid && window.AnalysysHybrid.isHybird() == true)) {
+        if (lifecycle.AnalysysAgent && lifecycle.AnalysysAgent.hybrid && Util.paramType(lifecycle.AnalysysAgent.hybridAns) === 'Function') {
             lifecycle.AnalysysAgent.hybrid()
 
             if (Util.paramType(window.AnalysysAgent) === 'Array') {

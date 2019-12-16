@@ -3,11 +3,7 @@ import {
     elePostion,
     getParentClickableElement
 } from './getField.js'
-import Storage from '../../../../lib/storage/index.js'
 
-// import { device_type } from '../../parseUA/lib/UA.js'
-var interval = null
-var topValue = 0
 var heatmapConfig = {}
 
 function loadHeatmapSDK() {
@@ -15,7 +11,7 @@ function loadHeatmapSDK() {
         setTimeout(loadHeatmapSDK, 50)
         return
     }
-    Util.addScript('AnalysysAgent_JS_SDK_HEATMAP')
+    Util.addScript('AnalysysAgent_JS_SDK_HEATMAP', heatmapConfig.SDKFileDirectory)
     window.ARK_HEATMAP = {
         config: heatmapConfig
     }
@@ -36,21 +32,29 @@ function offset(obj, direction) {
     return realNum;
 }
 
+
+
 function addClickEvent(event) {
     var e = event || window.event;
     if (e.touches && e.touches.length > 0) {
         e = e.touches[0]
     }
+    var ele = e.target || e.srcElement
+
+    if (Util.checkTypeList(heatmapConfig.heatMapBlackList, ele) ||
+        (heatmapConfig.heatMapWhiteList &&
+            !Util.checkTypeList(heatmapConfig.heatMapWhiteList, ele))
+    ) return
     // e.stopPropagation();
     // e.preventDefault();
     var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
     var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
     var x = e.pageX || e.clientX + scrollX;
     var y = e.pageY || e.clientY + scrollY;
+
     elePostion.click_x = x
     elePostion.click_y = y
-
-    elePostion.clickEle = elePostion.ele = e.target || e.srcElement
+    elePostion.clickEle = elePostion.ele = ele
     getParentClickableElement()
     elePostion.elementX = x - offset(elePostion.ele, 'left')
     elePostion.elementY = y - offset(elePostion.ele, 'top')
@@ -76,12 +80,10 @@ function initHeatmap() {
 
 function heatmapInit(config) {
     heatmapConfig = config
-    if (config.auto == false && config.autoHeatmap === true || config.auto == true && config.autoHeatmap !== false) {
-        if (window.location.href.indexOf("arkheatmap=true") > -1) {
-            loadHeatmapSDK()
-        } else {
-            initHeatmap()
-        }
+    if (window.location.href.indexOf("arkheatmap=true") > -1) {
+        loadHeatmapSDK()
+    } else if (config.autoHeatmap === true) {
+        initHeatmap()
     }
     return config
 }

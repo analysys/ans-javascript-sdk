@@ -82,7 +82,7 @@ function buildElemetMap(ele, elementObj, index) {
                 </div>
     `
     ele_div.innerHTML = chlid_html
-    ele_div.onclick = function(event) {
+    ele_div.onclick = function (event) {
         window.event ? window.event.cancelBubble = true : event.stopPropagation();
         event.preventDefault();
         return false
@@ -91,8 +91,8 @@ function buildElemetMap(ele, elementObj, index) {
     parent.appendChild(ele_div)
 
 
-    var hoverCallback = (function() {
-        return function() {
+    var hoverCallback = (function () {
+        return function () {
 
             var top = this.offsetTop - 5 //ele_position.y - ele_parent_position.y
             var left = this.offsetLeft - 5 //ele_position.x - ele_parent_position.x
@@ -114,7 +114,7 @@ function buildElemetMap(ele, elementObj, index) {
 var max = 0
 
 function setElmentMap(data) {
-    if(showMapConfig.type !== 'element')return
+    if (showMapConfig.type !== 'element') return
     loadingStatus(false)
     elementMapDatas = data.datas
     if (data.code == 0 && (!elementMapDatas || (elementMapDatas.detail && elementMapDatas.detail.length == 0))) {
@@ -155,17 +155,20 @@ function setElmentMap(data) {
         var ele_porint = parseEvent(path)
         if (ele_porint) {
             if (eleList.indexOf(ele_porint) > -1) {
-                eleMsg[eleList.indexOf(ele_porint)].clickNum += elementList[i].clickNum
-                eleMsg[eleList.indexOf(ele_porint)].uv += elementList[i].uv
-                eleMsg[eleList.indexOf(ele_porint)].clickNumPercent += elementList[i].pvPercent
-                eleMsg[eleList.indexOf(ele_porint)].uvPercent += elementList[i].uvPercent
+                eleMsg[eleList.indexOf(ele_porint)].clickNum += Number(elementList[i].clickNum) || 0
+                eleMsg[eleList.indexOf(ele_porint)].uv += Number(elementList[i].uv) || 0
+                eleMsg[eleList.indexOf(ele_porint)].clickNumPercent += Number(elementList[i].pvPercent) || 0
+                eleMsg[eleList.indexOf(ele_porint)].uvPercent += Number(elementList[i].uvPercent) || 0
+                if (eleMsg[eleList.indexOf(ele_porint)].clickNum > max) {
+                    max = eleMsg[eleList.indexOf(ele_porint)].clickNum
+                }
             } else {
                 eleList.push(ele_porint)
                 eleMsg.push({
-                    clickNum: elementList[i].clickNum,
-                    uv: elementList[i].uv,
-                    clickNumPercent: elementList[i].clickNumPercent,
-                    uvPercent: elementList[i].uvPercent,
+                    clickNum: Number(elementList[i].clickNum) || 0,
+                    uv: Number(elementList[i].uv) || 0,
+                    clickNumPercent: Number(elementList[i].clickNumPercent) || 0,
+                    uvPercent: Number(elementList[i].uvPercent) || 0,
                     type: elementList[i].type
                 })
             }
@@ -177,7 +180,7 @@ function setElmentMap(data) {
     }
 
     if (eleList.length > 0) {
-        eleList.sort(function(a, b) {
+        eleList.sort(function (a, b) {
             return a.clickNum - b.clickNum
         })
     } else {
@@ -215,7 +218,7 @@ function showElementMap() {
         url: heatmapConfig.uploadURL + 'ark/sdk/heatmap/element/analysis',
         data: param,
         success: setElmentMap,
-        error: function() {
+        error: function () {
             noDataStatus(402)
         }
     }

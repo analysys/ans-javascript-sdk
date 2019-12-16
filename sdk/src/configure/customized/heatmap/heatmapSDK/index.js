@@ -1,12 +1,41 @@
 import Storage from '../../../../lib/storage/index.js'
 import Util from '../../../../lib/common/index.js'
-import { sendMsg, getMsg } from './common/iframeMsg.js'
-import { heatmapConfig, ifarmeMessageList, showMapConfig } from './common/config.js'
-import { isEmbedded, pipParam, isElmentReady } from './common/index.js'
-import { heatmap, clearHeatmap, createColorRange, changeColorRange, setHeatmapOpacity } from './heatMap/index.js'
-import { creatHeadElement, createIframeElement, headBtnMap, initContent, noDataStatus } from './head/index.js'
-import { initWebStay, toggleWebStay, clearWebStay, showWebStay } from './webstay/webstay.js'
-import { showElementMap, delElementMap } from './heatElement/heatElement.js'
+import {
+    sendMsg,
+    getMsg
+} from './common/iframeMsg.js'
+import {
+    heatmapConfig,
+    ifarmeMessageList,
+    showMapConfig
+} from './common/config.js'
+import {
+    isEmbedded,
+    pipParam,
+    isElmentReady
+} from './common/index.js'
+import {
+    heatmap,
+    clearHeatmap,
+    createColorRange,
+    changeColorRange,
+    setHeatmapOpacity
+} from './heatMap/index.js'
+import {
+    creatHeadElement,
+    createIframeElement,
+    headBtnMap,
+    initContent,
+    noDataStatus
+} from './head/index.js'
+import {
+    initWebStay,
+    clearWebStay,
+} from './webstay/webstay.js'
+import {
+    showElementMap,
+    delElementMap
+} from './heatElement/heatElement.js'
 var isInitHeatmap = false
 
 /**
@@ -42,7 +71,6 @@ function clearMap() {
 var isWebstayShow = false
 
 function showIframeMap(msg) {
-    console.log('获取服务端热图命令===>', msg)
 
     if (ifarmeMessageList.length > 0) {
         for (var i = ifarmeMessageList.length - 1; i >= 0; i--) {
@@ -68,7 +96,10 @@ function showIframeMap(msg) {
             isMapClose = false
             heatmap()
             if (showMapConfig.control && showMapConfig.control.value && Util.paramType(showMapConfig.control.value.min) == 'Number') {
-                changeColorRange({ min: showMapConfig.control.value.min, max: showMapConfig.control.value.maxValue })
+                changeColorRange({
+                    min: showMapConfig.control.value.min,
+                    max: showMapConfig.control.value.maxValue
+                })
                 setHeatmapOpacity(showMapConfig.control.value.opacity)
             }
         } else if (type == 'closeHeatMap') {
@@ -83,7 +114,10 @@ function showIframeMap(msg) {
         } else if (type == 'refresh' || type == 'getHeatmapData') {
             refreshBtnClick()
         } else if (type == 'heatmapcolorRange') {
-            changeColorRange({ min: control.value.min, max: control.value.maxValue })
+            changeColorRange({
+                min: control.value.min,
+                max: control.value.maxValue
+            })
         } else if (type == 'heatmapOpacity') {
             setHeatmapOpacity(control.value.opacity)
         }
@@ -176,7 +210,7 @@ function creatHeadTabBntClick() {
     Util.addEvent(headBtnMap.elementMapTab, 'click', refreshPoints)
     Util.addEvent(headBtnMap.depthMapTab, 'click', refreshPoints)
     Util.addEvent(headBtnMap.refreshBtn, 'click', refreshBtnClick)
-    Util.addEvent(headBtnMap.heatSwitch, 'click', function(event) {
+    Util.addEvent(headBtnMap.heatSwitch, 'click', function (event) {
 
         if (event.target.checked == false) {
             isMapClose = true
@@ -202,7 +236,7 @@ function creatHeadTabBntClick() {
         }
 
     })
-    Util.addEvent(headBtnMap.depthSwitchBtn, 'click', function(event) {
+    Util.addEvent(headBtnMap.depthSwitchBtn, 'click', function (event) {
         if (headBtnMap.depthSwitchBtn.checked == false) {
             clearWebStay()
         } else {
@@ -223,12 +257,11 @@ function initHeatmap() {
             isInitHeatmap = true
             sendMsg()
             getMsg(processMsg)
-        } else {
+        } else if (document.readyState == "complete" ){
 
             var arkcontent = Util.GetUrlParam("arkcontent")
             var arkcontentText = Util.GetUrlParam("arkcontentText")
             arkcontent = pipParam(pipParam(arkcontent, '/'), '#')
-
             if (!arkcontent) {
                 noDataStatus(400)
                 return
@@ -236,15 +269,17 @@ function initHeatmap() {
             try {
                 var params = unescape(arkcontent)
                 showMapConfig.content = JSON.parse(params)
-                setMapType(showMapConfig.content)
-                creatHeadElement()
-                creatHeadTabBntClick()
+
             } catch (e) {
                 creatHeadTabBntClick()
                 noDataStatus(400)
                 return
             }
-
+            if (!Util.isEmptyObject(showMapConfig.content)) {
+                setMapType(showMapConfig.content)
+            }
+            creatHeadElement()
+            creatHeadTabBntClick()
 
             if (showMapConfig.content.appKey != heatmapConfig.appid) {
                 noDataStatus(500)
@@ -259,10 +294,13 @@ function initHeatmap() {
                     var testParams = unescape(arkcontentText)
                     showMapConfig.contentText = JSON.parse(testParams)
                     initContent()
-                } catch (e) {}
+                } catch (e) { }
 
             }
 
+        } else {
+            setTimeout(initHeatmap, 20)
+            return
         }
 
         Util.addEvent(window, 'resize', resizeHeatmap)
@@ -272,7 +310,7 @@ function initHeatmap() {
 }
 
 function refreshPoints() {
-    if (headBtnMap.heatSwitch  && headBtnMap.heatSwitch.checked == true) {
+    if (headBtnMap.heatSwitch && headBtnMap.heatSwitch.checked == true) {
         isMapClose = false
     }
     if (isMapClose == true && (showMapConfig.type == 'heatmap' || showMapConfig.type == 'element')) {
@@ -299,7 +337,10 @@ function refreshPoints() {
             max = showMapConfig.control.value.maxValue
             opt = showMapConfig.control.value.opacity
         }
-        changeColorRange({ min: min, max: max })
+        changeColorRange({
+            min: min,
+            max: max
+        })
         setHeatmapOpacity(opt)
     } else if (showMapConfig.type == 'element') {
         showElementMap()

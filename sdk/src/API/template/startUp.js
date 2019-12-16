@@ -43,9 +43,12 @@ function startUp() {
         //如未通过验证则返回值为fasle
         var startUpLog = fillField(startUpTemp)
 
-        startUpLog = Util.objMerge({
+        /**
+         * 超级属性优先于自动采集属性
+         */
+        startUpLog = Util.objMerge(startUpLog, {
             'xcontext': arkSuper
-        }, startUpLog)
+        })
         log.push(Util.delEmpty(startUpLog))
     }
 
@@ -64,6 +67,9 @@ function startUp() {
             '$first_visit_time': time,
             '$first_visit_language': (navigator.language || navigator.browserLanguage).toLowerCase()
         }
+        /**
+         * 自定义属性优先于自动采集属性
+         */
         var profileSetOnceLog = Util.objMerge(profileSetOnceObj, {
             'xcontext': obj
         })
@@ -73,32 +79,43 @@ function startUp() {
 
     //自动采集页面
     if (baseConfig.base.auto === true) {
-        //获取事件日志模板
-        baseConfig.status.FnName = '$pageview'
-        var pageViewTemp = temp('$pageview')
-        var pageViewObj = fillField(pageViewTemp)
-        pageViewObj = Util.objMerge({
-            'xcontext': arkSuper
-        }, Util.delEmpty(pageViewObj))
-        var pageProperty = baseConfig.base.pageProperty
         var status = true
-        if (!Util.isEmptyObject(pageProperty)) {
-            //检测distinctId
-            checkPrivate(pageProperty)
-            // baseConfig.status.FnName = '$pageview'
-
-            pageViewObj = Util.objMerge(pageViewObj, {
-                'xcontext': pageProperty
+        /** 
+         * 判断黑白名单
+         * 符合黑名单，不上报
+         * 有白名单，且不符合白名单，不上报
+         */
+        if (Util.checkTypeList(baseConfig.base.pageViewBlackList) || (baseConfig.base.pageViewWhiteList && !Util.checkTypeList(baseConfig.base.pageViewWhiteList))) {
+            status = false
+        }
+        if (status == true) { //获取事件日志模板
+            baseConfig.status.FnName = '$pageview'
+            var pageViewTemp = temp('$pageview')
+            var pageViewObj = fillField(pageViewTemp)
+            /**
+             * 超级属性优先于自动采集属性
+             */
+            pageViewObj = Util.objMerge(Util.delEmpty(pageViewObj), {
+                'xcontext': arkSuper
             })
-        }
+            var pageProperty = baseConfig.base.pageProperty
+            if (Util.paramType(pageProperty) == 'Object' && !Util.isEmptyObject(pageProperty)) {
+                //检测distinctId
+                checkPrivate(pageProperty)
+                // baseConfig.status.FnName = '$pageview'
+                /**
+                 * 自定义属性属性优先于自动采集属性
+                 */
+                pageViewObj = Util.objMerge(pageViewObj, {
+                    'xcontext': pageProperty
+                })
+            }
 
-        //去除空数据后上传数据
-        if (status) {
             log.push(pageViewObj)
-
         }
+
         //开启hash跳转
-        if (baseConfig.base.hash === true) {
+        if (baseConfig.base.hash === true || baseConfig.base.singlePage === true) {
 
             hashPageView()
         }

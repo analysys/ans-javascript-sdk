@@ -288,7 +288,7 @@ function removeClass(eleList, className) {
  * @param {[type]} className [description]
  */
 function addClass(ele, className) {
-    eleList[i].className += ' ' + Util.trim(className)
+    ele.className += ' ' + Util.trim(className)
 }
 /**
  * [returnMapEle description] 返回所需按钮元素

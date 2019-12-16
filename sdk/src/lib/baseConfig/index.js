@@ -7,8 +7,11 @@ export default {
         "auto": true,
         "autoProfile": true,
         "hash": true,
+        "autoWebstay":true,
+        "singlePage": true,
         "pageProperty": {},
-        "$lib_version": "4.3.5"
+        "$lib_version": "4.4.0",
+        "cookieLevel": 2
     },
     "status": {
         "code": 200,

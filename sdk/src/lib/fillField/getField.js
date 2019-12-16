@@ -1,9 +1,6 @@
 import baseConfig from '../baseConfig/index.js'
 import Util from '../common/index.js'
 import Storage from '../storage/index.js'
-// import UAParser from './ua-parser.js'
-// import UA from './UA/ua-device.js';
-// import {deviceType} from './deviceType.js'
 import sessionId from './sessionId.js'
 import extractDomain from './domain.js'
 import {
@@ -49,7 +46,7 @@ function uploadURL(url) {
     base.uploadURL = url
 }
 
-function getUploadURL(url) {
+function getUploadURL() {
     if (base.uploadURL.charAt(base.uploadURL.length - 1) !== "/") {
         base.uploadURL += '/'
     }
@@ -139,6 +136,15 @@ function getLibVersion() {
     return base.$lib_version
 }
 
+function getScreenWidth() {
+    var width = Util.paramType(Number(window.screen.width)) == 'Number' ? Number(window.screen.width) : 0
+    return width
+}
+
+function getScreenHeight() {
+    var height = Util.paramType(Number(window.screen.height)) == 'Number' ? Number(window.screen.height) :0
+    return height
+}
 /**
  * UTM参数控制逻辑
  * UTM参数改变切换session
@@ -202,6 +208,8 @@ export {
     getReferrerDomain,
     getTitle,
     getUrl,
+    getScreenWidth,
+    getScreenHeight,
     startup_time,
     checkSpider,
     getLibVersion,

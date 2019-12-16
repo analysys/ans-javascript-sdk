@@ -70,7 +70,7 @@ function successLog(msg) {
             showMsg = msg
         }
         if (!showMsg) return
-        if (Util.paramType(console) === 'Object' && console.log) {
+        if ((Util.paramType(console) === 'Object' || Util.paramType(console) === 'Console') && console.log) {
             try {
                 return console.log.apply(console, showMsg);
             } catch (e) {
@@ -96,13 +96,13 @@ function errorLog() {
     if (errorCode === '60005' && !key) {
         errorCode = '600017'
     }
-    if ((errorCode === '600017' || errorCode === '600019' || errorCode === '60009' || errorCode === '600010' || errorCode === '60005') && value.length && value.length > 30) {
+    if ((errorCode === '600017' || errorCode === '600019' || errorCode === '60009' || errorCode === '600010' || errorCode === '60005') && Util.paramType(value) === 'String' && value.length && value.length > 30) {
         value = Util.stringSlice(value, 30) + '...'
     }
-    if(key&&key.length>30){
+    if (key && key.length > 30) {
         key = Util.stringSlice(key, 30) + '...'
     }
-    if(fn&&fn.length>30){
+    if (fn && fn.length > 30) {
         fn = Util.stringSlice(fn, 30) + '...'
     }
     var msgTemp = errorMessage[errorCode] || errorMessage.common

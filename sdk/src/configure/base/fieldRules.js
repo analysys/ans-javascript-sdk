@@ -29,6 +29,8 @@ import {
     getReferrerDomain,
     getTitle,
     getUrl,
+    getScreenWidth,
+    getScreenHeight,
     startup_time,
     checkSpider,
     utm_campaign_id,
@@ -140,20 +142,20 @@ export default {
             }
         },
         "$screen_width": {
-            "valueType": 1,
-            "value": window.screen.width,
+            "valueType": 0,
+            "value": getScreenWidth,
             "check": {
                 "value": ["isNumber"]
             }
         },
         "$screen_height": {
-            "valueType": 1,
-            "value": window.screen.height,
+            "valueType": 0,
+            "value": getScreenHeight,
             "check": {
                 "value": ["isNumber"]
             }
         },
-        
+
         "$time_zone": {
             "valueType": 1,
             "value": time_zone
@@ -227,11 +229,11 @@ export default {
             "valueType": 0,
             "value": utm_campaign
         },
-        "$is_time_calibrated":{
+        "$is_time_calibrated": {
             "valueType": 0,
             "value": timeCalibration
         },
-        
+
     },
 
     "xcontextCommonRule": {

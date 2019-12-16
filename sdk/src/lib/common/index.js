@@ -1,4 +1,3 @@
-// import { decodeGBK } from './decodeGBK.js'
 var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
 
 function _utf8_encode(string) {
@@ -47,7 +46,7 @@ function _utf8_decode(utftext) {
     return string
 }
 
-function Util() {}
+function Util() { }
 Util.prototype.paramType = function (param) {
     return Object.prototype.toString.call(param).replace('[object ', '').replace(']', '')
 }
@@ -244,7 +243,7 @@ Util.prototype.format = function (time, format) {
         if (new RegExp("(" + k + ")").test(format))
             format = format.replace(RegExp.$1,
                 RegExp.$1.length == 3 ? (("" + o[k]).length < 3 ? ("00" + o[k]).substr(("00" + o[k]).length - 3, ("00" + o[k]).length) : o[k]) :
-                ("00" + o[k]).substr(("" + o[k]).length));
+                    ("00" + o[k]).substr(("" + o[k]).length));
 
     return format;
 }
@@ -536,7 +535,7 @@ Util.prototype.delEmpty = function (obj) {
 // }
 Util.prototype.addEvent = function (el, type, fn, useCapture) {
     if (document.addEventListener) {
-        if (el.length && el !== window) {
+        if (this.paramType(el) === 'Array' && el.length && el !== window) {
 
             for (var i = 0; i < el.length; i++) {
                 this.addEvent(el[i], type, fn, useCapture);
@@ -600,7 +599,7 @@ Util.prototype.addWindowEvent = function (type) {
     };
 }
 Util.prototype.extend = function (subClass, superClass) {
-    var F = function () {};
+    var F = function () { };
     F.prototype = superClass.prototype;
     subClass.prototype = new F();
     subClass.prototype.constructor = subClass;
@@ -623,43 +622,45 @@ Util.prototype.addEleLable = function (eleName, className, id, parent) {
     domBody.appendChild(createEle)
     return createEle
 }
-Util.prototype.addScript = function (fileName) {
+Util.prototype.addScript = function (fileName, urlPath) {
     var dom = document
     var createScript = dom.createElement('script')
     var domHead = dom.getElementsByTagName('script')
     createScript.type = 'text/javascript'
     createScript.async = true
     createScript.id = fileName
-
     var sdkUrl = ''
-    if (dom.getElementById("ARK_SDK")) {
-        sdkUrl = dom.getElementById("ARK_SDK").src
-    } else {
-        for (var i = 0; i < domHead.length; i++) {
-            if (domHead[i].src && domHead[i].src.indexOf("AnalysysAgent_JS_SDK") > -1) {
-                sdkUrl = domHead[i].src
-                break
+
+    if (!urlPath) {
+        if (dom.getElementById("ARK_SDK")) {
+            sdkUrl = dom.getElementById("ARK_SDK").src
+        } else {
+            for (var i = 0; i < domHead.length; i++) {
+                if (domHead[i].src && domHead[i].src.indexOf("AnalysysAgent_JS_SDK") > -1) {
+                    sdkUrl = domHead[i].src
+                    break
+                }
             }
         }
+    } else {
+        sdkUrl = urlPath.charAt(urlPath.length - 1) == '/' ? urlPath : urlPath + '/'
     }
 
     var sdkPath = sdkUrl.substring(0, sdkUrl.lastIndexOf("\/") + 1);
-    var date = new Date()
-    var time = new String(date.getFullYear()) + new String(date.getMonth() + 1) + new String(date.getDate()) + new String(date.getDate());
     createScript.src = sdkPath + fileName + '.min.js?v=' + this.format(new Date(), 'yyyyMMddhhmm') //方舟B SDK地址
     domHead[0].parentNode.insertBefore(createScript, domHead[0]);
 }
-Util.prototype.unique = function (arr) {
-    var a = {};
-    for (var i = 0; i < arr.length; i++) {
-        if (typeof a[arr[i]] == "undefined")
-            a[arr[i]] = 1;
-    }
-    arr.length = 0;
-    for (var i in a)
-        arr[arr.length] = i;
-    return arr;
-}
+// Util.prototype.unique = function (arr) {
+//     var a = {};
+//     for (var i = 0; i < arr.length; i++) {
+//         if (typeof a[arr[i]] == "undefined")
+//             a[arr[i]] = 1;
+//     }
+//     arr.length = 0;
+//     for (var i in a)
+//         arr[arr.length] = i;
+//     return arr;
+// }
 
 function CheckChinese(val) {
     var reg = new RegExp("[\\u4E00-\\u9FFF]+", "g");
@@ -682,18 +683,26 @@ Util.prototype.GetUrlParam = function (paraName) {
 
             if (arr != null && arr[0] == paraName) {
                 var value = arr[1]
+                if (arr[1].indexOf("#") > -1) {
+                    value = value.split("#")[0]
+                }
                 if (value.indexOf("%") > -1) {
                     try {
-                        var utfValue = decodeURI(arr[1]);
+                        var utfValue = decodeURI(value);
                         if (CheckChinese(utfValue)) {
                             return utfValue
                         }
-                    } catch (e) {
-                        return arr[1];
+                    } catch (e) { }
+                    if (this.paramType(window.AnalysysModule) == 'Object' && this.paramType(window.AnalysysModule.decodeGBK) == 'Function') {
+                        try {
+                            var gbkValue = window.AnalysysModule.decodeGBK(value, 'gbk')
+                            return gbkValue
+                        } catch (e) {
+                        }
                     }
 
                 }
-                return arr[1];
+                return value;
             }
         }
         return "";
@@ -701,14 +710,14 @@ Util.prototype.GetUrlParam = function (paraName) {
         return "";
     }
 }
-Util.prototype.isInArray = function (arr, value) {
-    for (var i = 0; i < arr.length; i++) {
-        if (value === arr[i]) {
-            return true;
-        }
-    }
-    return false;
-}
+// Util.prototype.isInArray = function (arr, value) {
+//     for (var i = 0; i < arr.length; i++) {
+//         if (value === arr[i]) {
+//             return true;
+//         }
+//     }
+//     return false;
+// }
 Util.prototype.stringSlice = function (str, length) {
     return str.slice(0, length);
 }
@@ -752,5 +761,29 @@ Util.prototype.deviceType = function () {
         return 'phone'
     }
     return 'desktop'
+}
+Util.prototype.checkTypeList = function (list, ele) {
+    var listType = this.paramType(list)
+    if (listType === 'String') {
+
+        var url = location.href
+        var urlHost = location.protocol + '//' + location.host
+        var urlPath = location.protocol + '//' + location.host + location.pathname
+        var urlIndex = location.protocol + '//' + location.host + location.pathname + 'index.html'
+        var urlHash = location.protocol + '//' + location.host + location.pathname + location.hash
+        var urlArray = [url, urlHost, urlIndex, urlPath, urlHash]
+        if (urlArray.indexOf(list) > -1) {
+            return true
+        }
+    } else if (listType === 'Function') {
+        return list.call(list, ele)
+    } else if (listType == 'Array') {
+        for (var i = 0; i < list.length; i++) {
+            if (this.checkTypeList(list[i], ele) == true) {
+                return true
+            }
+        }
+    }
+    return false
 }
 export default new Util()

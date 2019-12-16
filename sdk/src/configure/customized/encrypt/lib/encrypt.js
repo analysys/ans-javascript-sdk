@@ -1,10 +1,8 @@
-// import CryptoJS from 'crypto-js'
-import encUtf8 from'crypto-js/enc-utf8'
+import encUtf8 from 'crypto-js/enc-utf8'
 import aes from 'crypto-js/aes'
 import ecb from 'crypto-js/mode-ecb'
-import pkcs7 from 'crypto-js/pad-pkcs7'
 import pako from 'pako'
-import base64js from '../../../../lib/upload/base64js.min.js'
+import base64js from './base64js.min.js'
 import Util from '../../../../lib/common/index.js'
 import Storage from '../../../../lib/storage/index.js'
 
@@ -54,12 +52,16 @@ function getEncryptData(data, lib, appid, lib_version) {
     var key = encryptKey(lib, appid, lib_version)
     key = encUtf8.parse(key);
     var encryptData = ''
-    if(encryptType === 1){
-        encryptData = aes.encrypt(data, key, { mode: ecb })
+    if (encryptType === 1) {
+        encryptData = aes.encrypt(data, key, {
+            mode: ecb
+        })
     }
-    if(encryptType === 2){
-        var iv =  encUtf8.parse('Analysys_315$CBC');
-        encryptData = aes.encrypt(data, key, { iv:iv})
+    if (encryptType === 2) {
+        var iv = encUtf8.parse('Analysys_315$CBC');
+        encryptData = aes.encrypt(data, key, {
+            iv: iv
+        })
     }
     encryptData = encryptData.ciphertext.toString().toUpperCase()
     var pakoZip = pako.gzip(encryptData)
@@ -91,5 +93,18 @@ function uploadData(option) {
     return option
 }
 
-
-export { encryptInit, uploadData }
+function zipInflate(data) {
+    return JSON.parse(pako.inflate(base64js.toByteArray(data), {
+        to: 'string'
+    }))
+}
+window.AnalysysModule = Util.objMerge(window.AnalysysModule || {}, {
+    encryptInit,
+    uploadData,
+    zipInflate
+})
+export {
+    encryptInit,
+    uploadData,
+    zipInflate
+}

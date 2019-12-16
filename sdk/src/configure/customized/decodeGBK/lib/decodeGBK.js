@@ -108,7 +108,7 @@ var data = function (zipData) {
   U2Ghash = {},
   G2Uhash = {};
 
-!function (data) {
+! function (data) {
   var k = 0;
   data = data.match(/..../g);
   for (var i = 0x81; i <= 0xfe; i++) {
@@ -123,6 +123,6 @@ var data = function (zipData) {
 }(data);
 
 // module.exports = urlencode;
-
+window.AnalysysModule = window.AnalysysModule || {}
+window.AnalysysModule.decodeGBK = urldecode
 module.exports.decodeGBK = urldecode;
-

@@ -5,21 +5,22 @@
  * encrypt:数据加密模块
  * visitor:可视化模块
  * webstay:深度线采集模块
+ * zh:招行模块
  * heatmap:热图采集及展示模块
  * device:设备信息模块
  * ua:上报ua模块
  * errorLog:校验失败上报$errorLog模块
  */
 import * as base from './base/index.js'
-import * as encrypt from './customized/encrypt/index.js'
 import * as visitor from './customized/visual/index.js'
 import * as webstay from './customized/webstay/index.js'
 import * as heatmap from './customized/heatmap/index.js'
 import * as ua from './customized/UA/index.js'
 import * as hybrid from './customized/hybrid/index.js'
+import * as userClick from './customized/userClick/index.js'
 import Util from '../lib/common/index.js'
 
-var plugList = [encrypt, visitor, webstay, heatmap, ua, hybrid]
+var plugList = [visitor, webstay, heatmap, ua, hybrid, userClick]
 /**
  * 合并定制化模板 根据输入模板列表不同集合出不同的定制化模板
  */

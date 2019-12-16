@@ -43,7 +43,7 @@ function startScroll() {
 }
 
 function autoWebstayInit(config) {
-    if (config.autoWebstay === true) {
+    if (config.autoHeatmap === true && config.autoWebstay === true) {
         initWebStay()
     }
     return config

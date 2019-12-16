@@ -1,7 +1,5 @@
 import Storage from '../storage/index.js'
 import Util from '../common/index.js'
-// import pako from 'pako'
-// import base64js from './base64js.min.js'
 
 function getJSON(data) {
 
@@ -9,8 +7,12 @@ function getJSON(data) {
         if (data.indexOf("\n") > -1) {
             data = data.replace(/[\r\n]/g, "");
         }
+
         try {
             return JSON.parse(data)
+        } catch (e) {}
+        try {
+            return window.AnalysysModule.zipInflate(data)
         } catch (e) {}
         if (data == 'H4sIAAAAAAAAAKtWSs5PSVWyMjIwqAUAVAOW6gwAAAA=') {
             return {

@@ -7,9 +7,9 @@ import Storage from '../../lib/storage/index.js'
 function unRegisterSuperProperty(superPropertyName) {
     baseConfig.status.FnName = '$unregisterSuperProperty'
     resetCode()
-    var status = checkPrivate(superPropertyName, '$unregisterSuperProperty', true)
+    checkPrivate(superPropertyName, '$unregisterSuperProperty', true)
     var arkSuper = Storage.getLocal('ARKSUPER') || {}
-    if (!arkSuper[superPropertyName]) {
+    if (!Object.prototype.hasOwnProperty.call(arkSuper, superPropertyName)) {
         baseConfig.status.successCode = '20011'
         baseConfig.status.value = superPropertyName
         successLog()
