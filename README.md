@@ -7,7 +7,7 @@ This is the official JavaScript SDK for Analysys.
 
 # JavaScript SDK目录说明：
 * demo——API调用演示
-* SDK——SDK源码：
+* SDK——SDK源码
 * vue-demo——VUE框架API调用演示
 
 # JavaScript 基础说明：
