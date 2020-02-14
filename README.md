@@ -30,13 +30,13 @@ JS SDK 用于由 HTML 、 Css 及 Javascript 制作成的网站，集成前请�
 
 更多Api使用方法参考：https://docs.analysys.cn/ark/integration/sdk/js/js
 
-# License
-
-[gpl-3.0](https://www.gnu.org/licenses/gpl-3.0.txt)
-
 # 讨论
 * 微信号：nlfxwz
 * 钉钉群：30099454
 * 邮箱：nielifeng@analysys.com.cn
   
+
+# License
+
+[gpl-3.0](https://www.gnu.org/licenses/gpl-3.0.txt)
 
