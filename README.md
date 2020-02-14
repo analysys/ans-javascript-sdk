@@ -6,15 +6,15 @@
 This is the official JavaScript SDK for Analysys.
 
 # JavaScript SDK目录说明：
-demo API调用演示
-SDK  SDK源码：
-vue-demo  VUE框架API调用演示
+demo——API调用演示
+SDK——SDK源码：
+vue-demo——VUE框架API调用演示
 
 ## JavaScript 基础说明：
 
 JS SDK 用于由 HTML 、 Css 及 Javascript 制作成的网站，集成前请先下载SDK
 
-###快速集成
+### 快速集成
 如果您是第一次使用易观方舟产品，可以通过阅读本文快速了解此产品
 1. 选择集成方式
 目前我们提供了异步集成、同步集成的方式
