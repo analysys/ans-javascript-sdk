@@ -35,8 +35,8 @@ JS SDK 用于由 HTML 、 Css 及 Javascript 制作成的网站，集成前请�
 [gpl-3.0](https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # 讨论
-  微信号：nlfxwz
-  钉钉群：30099454
-  邮箱：nielifeng@analysys.com.cn
+微信号：nlfxwz
+钉钉群：30099454
+邮箱：nielifeng@analysys.com.cn
   
 
