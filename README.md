@@ -32,7 +32,7 @@ JS SDK 用于由 HTML 、 Css 及 Javascript 制作成的网站，集成前请�
 
 # 讨论
 * 微信号：nlfxwz
-* 钉钉群：30099454
+* 钉钉群：30099866
 * 邮箱：nielifeng@analysys.com.cn
   
 
