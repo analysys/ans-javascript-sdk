@@ -1,5 +1,9 @@
 
-# Analysys JavaScript SDK
+# Analysys JavaScript SDK[![License](https://img.shields.io/github/license/analysys/ans-javascript-sdk
+.svg)](https://github.com/analysys/ans-javascript-sdk
+/blob/master/LICENSE) [![GitHub release](https://img.shields.io/github/release/analysys/ans-javascript-sdk
+.svg)](https://github.com/analysys/ans-javascript-sdk
+/releases)
 
 ========
 
