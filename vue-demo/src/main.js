@@ -6,6 +6,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import "./sdk/AnalysysAgent_GBK.es6.min.js";
 import "./sdk/AnalysysAgent_Encrypt.es6.min.js";
+import "./sdk/AnalysysAgent_PageViewStayTime.es6.min.js";
 import AnalysysAgent from "./sdk/AnalysysAgent_JS_SDK.es6.min.js";
 
 AnalysysAgent.init({
