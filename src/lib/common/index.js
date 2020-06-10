@@ -219,8 +219,7 @@ Util.prototype.decode = function (input) {
   return output
 }
 Util.prototype.isEmptyObject = function (obj) {
-  var name
-  for (name in obj) {
+  for (var name in obj) {
     return false
   }
   return true
@@ -516,7 +515,7 @@ Util.prototype.delEmpty = function (obj) {
 
 Util.prototype.addEvent = function (el, type, fn, useCapture) {
   if (document.addEventListener) {
-    if (this.paramType(el) === 'Array' && el.length && el !== window) {
+    if ((this.paramType(el) === 'Array' || this.paramType(el) === 'HTMLCollection') && el.length && el !== window) {
       for (var i = 0; i < el.length; i++) {
         this.addEvent(el[i], type, fn, useCapture)
       }
@@ -621,12 +620,18 @@ Util.prototype.addScript = function (fileName, urlPath, callback) {
       }
     }
   } else {
+    if (this.paramType(urlPath) === 'Array') {
+      var commonFn = urlPath[0]
+      var path = urlPath[1]
+      commonFn([path], callback)
+      return
+    }
     sdkUrl = urlPath.charAt(urlPath.length - 1) === '/' ? urlPath : urlPath + '/'
   }
 
   var sdkPath = sdkUrl.substring(0, sdkUrl.lastIndexOf('/') + 1)
   createScript.src = sdkPath + fileName + '.min.js?v=' + this.format(new Date(), 'yyyyMMddhhmm') // 方舟B SDK地址
-  createScript.onload = callback
+  createScript.onload = setTimeout(callback, 500)
   domHead[0].parentNode.insertBefore(createScript, domHead[0])
 }
 // Util.prototype.unique = function (arr) {
@@ -836,33 +841,88 @@ Util.prototype.selectorAllEleList = function (selectors) {
   // eleList = anchors
   return eleList
 }
-/**
- * [parserDom description]根据元素及其上层元素获取元素位置及显示/隐藏
- * @param  {[type]} ele [description] 元素Dom对象
- * @return {[type]} obj [description] 元素对应位置与显示/隐藏
- */
-function offset (curEle) {
-  var totalLeft = null, totalTop = null, par = curEle.offsetParent;
-  //首先加自己本身的左偏移和上偏移
-  totalLeft += curEle.offsetLeft;
-  totalTop += curEle.offsetTop
-  //只要没有找到body，我们就把父级参照物的边框和偏移也进行累加
-  while (par) {
-    if (navigator.userAgent.indexOf("MSIE 8.0") === -1) {
-      //累加父级参照物的边框
-      totalLeft += par.clientLeft;
-      totalTop += par.clientTop
+// /**
+//  * [parserDom description]根据元素及其上层元素获取元素位置及显示/隐藏
+//  * @param  {[type]} ele [description] 元素Dom对象
+//  * @return {[type]} obj [description] 元素对应位置与显示/隐藏
+//  */
+// function offset (curEle) {
+//   var totalLeft = null, totalTop = null, par = curEle.offsetParent;
+//   //首先加自己本身的左偏移和上偏移
+//   totalLeft += curEle.offsetLeft;
+//   totalTop += curEle.offsetTop
+//   //只要没有找到body，我们就把父级参照物的边框和偏移也进行累加
+//   while (par) {
+//     if (navigator.userAgent.indexOf("MSIE 8.0") === -1) {
+//       //累加父级参照物的边框
+//       totalLeft += par.clientLeft;
+//       totalTop += par.clientTop
+//     }
+
+//     //累加父级参照物本身的偏移
+//     totalLeft += par.offsetLeft;
+//     totalTop += par.offsetTop
+//     par = par.offsetParent;
+//   }
+
+//   return {
+//     left: totalLeft,
+//     top: totalTop
+//   }
+// }
+Util.prototype.getDomainFromUrl = function (domianStatus, host) {
+  host = host || window.location.hostname
+
+
+
+  // var regex = /^*\.*/
+  // var match = host.match(regex)
+  var urlArr = host.split("/");
+  if (urlArr.length > 2) {
+    host = urlArr[2]
+  }
+  var ip = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/
+  if (ip.test(host) === true || host === 'localhost') return ''
+  var strAry = host.split('.')
+  var level = domianStatus === true ? 2 : strAry.length
+  if (this.paramType(level) !== 'Number' || level < 2) {
+    level = 2
+  }
+  var urlDomain = []
+  // console.log(match)
+  // if (typeof match !== 'undefined' && match !== null) host = match[1]
+  // if (typeof host !== 'undefined' && host !== null) {
+  if (strAry.length > 1) {
+    if (strAry.length < level) {
+      level = strAry.length
     }
+    for (var i = strAry.length - 1; i >= 0; i--) {
+      if (urlDomain.length === level) {
+        break
+      }
+      urlDomain.push(strAry[i])
+    }
+    // host = strAry[strAry.length - 2] + "." + strAry[strAry.length - 1];
+  } else {
+    return ''
+  }
+  // }
+  return '.' + urlDomain.reverse().join('.')
+}
+Util.prototype.delNotHybrid = function (obj) {
+  delete obj.$is_first_day
+  delete obj.$session_id
+  delete obj.$is_time_calibrated
+  delete obj.$startup_time
+  return obj
+}
 
-    //累加父级参照物本身的偏移
-    totalLeft += par.offsetLeft;
-    totalTop += par.offsetTop
-    par = par.offsetParent;
+Util.prototype.getUrlPath = function () {
+  var hash = window.location.hash
+  if (hash.indexOf('?') > -1) {
+    hash = hash.split('?')[0]
   }
 
-  return {
-    left: totalLeft,
-    top: totalTop
-  }
+  return window.location.host + window.location.pathname + hash
 }
 export default new Util()

@@ -6,7 +6,7 @@
  *
  * :: 2016-09-05 01:16
  */
-;(function (name, context, factory) {
+(function (name, context, factory) {
   // Supports UMD. AMD, CommonJS/Node.js and browser context
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = factory()
@@ -16,7 +16,7 @@
     context[name] = factory()
   }
 })('h337', this, function () {
-// Heatmap Config stores default values and will be merged with instance config
+  // Heatmap Config stores default values and will be merged with instance config
   var HeatmapConfig = {
     defaultRadius: 40,
     defaultRenderer: 'canvas2d',
@@ -48,7 +48,7 @@
     var defaultRadius = HeatmapConfig.defaultRadius
 
     Store.prototype = {
-    // when forceRender = false -> called from setData, omits renderall event
+      // when forceRender = false -> called from setData, omits renderall event
       _organiseData: function (dataPoint, forceRender) {
         var x = dataPoint[this._xField]
         var y = dataPoint[this._yField]
@@ -132,10 +132,10 @@
             this.addData.call(this, dataArr[dataLen])
           }
         } else {
-        // add to store
+          // add to store
           var organisedEntry = this._organiseData(arguments[0], true)
           if (organisedEntry) {
-          // if it's the first datapoint initialize the extremas with it
+            // if it's the first datapoint initialize the extremas with it
             if (this._data.length === 0) {
               this._min = this._max = organisedEntry.value
             }
@@ -167,7 +167,7 @@
         return this
       },
       removeData: function () {
-      // TODO: implement
+        // TODO: implement
       },
       setDataMax: function (max) {
         this._max = max
@@ -286,7 +286,7 @@
       var min = data.min
       var max = data.max
       var radi = data.radi
-      var data = data.data
+      data = data.data
 
       var xValues = Object.keys(data)
       var xValuesLen = xValues.length
@@ -319,7 +319,7 @@
       var container = config.container
       var shadowCanvas = this.shadowCanvas = document.createElement('canvas')
       var canvas = this.canvas = config.canvas || document.createElement('canvas')
-      var renderBoundaries = this._renderBoundaries = [10000, 10000, 0, 0]
+      this._renderBoundaries = [10000, 10000, 0, 0]
 
       var computed = getComputedStyle(config.container) || {}
 
@@ -343,7 +343,7 @@
       this._templates = {}
 
       this._setStyles(config)
-    };
+    }
 
     Canvas2dRenderer.prototype = {
       renderPartial: function (data) {
@@ -353,7 +353,7 @@
         }
       },
       renderAll: function (data) {
-      // reset render boundaries
+        // reset render boundaries
         this._clear()
         if (data.data.length > 0) {
           this._drawAlpha(_prepareData(data))
@@ -397,7 +397,7 @@
       _drawAlpha: function (data) {
         var min = this._min = data.min
         var max = this._max = data.max
-        var data = data.data || []
+        data = data.data || []
         var dataLen = data.length
         // on a point basis?
         var blur = 1 - this._blur
@@ -554,7 +554,7 @@
     var Coordinator = (function CoordinatorClosure () {
       function Coordinator () {
         this.cStore = {}
-      };
+      }
 
       Coordinator.prototype = {
         on: function (evtName, callback, scope) {
@@ -591,11 +591,11 @@
       coordinator.on('renderall', renderer.renderAll, renderer)
       coordinator.on('extremachange', function (data) {
         scope._config.onExtremaChange &&
-      scope._config.onExtremaChange({
-        min: data.min,
-        max: data.max,
-        gradient: scope._config.gradient || scope._config.defaultGradient
-      })
+          scope._config.onExtremaChange({
+            min: data.min,
+            max: data.max,
+            gradient: scope._config.gradient || scope._config.defaultGradient
+          })
       })
       store.setCoordinator(coordinator)
     }
@@ -618,7 +618,7 @@
         this._store = new Store(config)
       }
       _connect(this)
-    };
+    }
 
     // @TODO:
     // add API documentation

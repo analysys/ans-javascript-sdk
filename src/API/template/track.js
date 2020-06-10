@@ -4,7 +4,7 @@ import baseConfig from '../../lib/baseConfig/index.js'
 import { upLog } from '../../lib/upload/index.js'
 import Util from '../../lib/common/index.js'
 import Storage from '../../lib/storage/index.js'
-
+import { transporter, backParamsArray } from '../../lib/upload/hybrid.js'
 function track (eventName, obj, callback) {
   baseConfig.status.FnName = eventName || '$track'
   resetCode()
@@ -26,7 +26,14 @@ function track (eventName, obj, callback) {
       xcontext: obj
     }
   }
-
+  if (baseConfig.base.isHybrid === true) {
+    var backParams = backParamsArray(eventName, userProp.xcontext, callback)
+    var paramArray = backParams.argArray
+    // paramArray.postion = elePostionObj || null
+    transporter('track', paramArray, backParams.callback)
+    // window.AnalysysAgentHybrid.track(eventName, JSON.stringify(userProp.xcontext), JSON.stringify(elePostionObj))
+    return
+  }
   var arkSuper = Storage.getLocal('ARKSUPER') || {}
 
   /**

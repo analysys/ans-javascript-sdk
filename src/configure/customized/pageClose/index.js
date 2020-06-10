@@ -26,8 +26,8 @@ function pageEndTrack (callback) {
       pageStayTime: pageStay,
       $url: url,
       $title: pageTitle
-    // sdkVersion: Version,
-    // pageOpenTime: Util.format(new Date(pageOpenTime), 'yyyy-MM-dd hh:mm:ss.SSS')
+      // sdkVersion: Version,
+      // pageOpenTime: Util.format(new Date(pageOpenTime), 'yyyy-MM-dd hh:mm:ss.SSS')
     })
 
     Util.paramType(callback) === 'Function' && callback.call(callback, null)

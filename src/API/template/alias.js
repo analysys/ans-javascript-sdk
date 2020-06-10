@@ -4,10 +4,16 @@ import baseConfig from '../../lib/baseConfig/index.js'
 import { upLog } from '../../lib/upload/index.js'
 import Util from '../../lib/common/index.js'
 import Storage from '../../lib/storage/index.js'
-
+import { transporter, backParamsArray } from '../../lib/upload/hybrid.js'
 function alias (aliasId, callback) {
   baseConfig.status.FnName = '$alias'
   resetCode()
+  if (baseConfig.base.isHybrid === true) {
+    var backParams = backParamsArray(aliasId, '', callback)
+    var paramArray = backParams.argArray
+    transporter('alias', paramArray, backParams.callback)
+    return
+  }
   // 检测aliasId
   var status = checkPrivate(aliasId, '$alias', true)
 

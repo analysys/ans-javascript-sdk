@@ -263,18 +263,21 @@ function checkChildrenEvent (ele) {
 
 }
 function offset (curEle) {
-  var totalLeft = null, totalTop = null, par = curEle.offsetParent;
+  var totalLeft = null, totalTop = null, par = curEle;
+  var eleTable = null
   //首先加自己本身的左偏移和上偏移
-  totalLeft += curEle.offsetLeft;
-  totalTop += curEle.offsetTop
+  // totalLeft += curEle.offsetLeft;
+  // totalTop += curEle.offsetTop
   //只要没有找到body，我们就把父级参照物的边框和偏移也进行累加
   while (par) {
+    if (par.tagName === 'TABLE') {
+      eleTable = par
+    }
     if (navigator.userAgent.indexOf("MSIE 8.0") === -1) {
       //累加父级参照物的边框
       totalLeft += par.clientLeft;
       totalTop += par.clientTop
     }
-
     //累加父级参照物本身的偏移
     totalLeft += par.offsetLeft;
     totalTop += par.offsetTop
@@ -283,7 +286,8 @@ function offset (curEle) {
 
   return {
     left: totalLeft,
-    top: totalTop
+    top: totalTop,
+    eleTable: eleTable
   }
 }
 var moveX = 0
@@ -312,8 +316,15 @@ function mouseMoveEvent (e) {
     eleDiv.id = 'ARK_CLICK'
     eleDiv.className = 'ARK_CLICK_ELE'
     var eleOffsetParent = mouseMoveEle.offsetParent || document.body
-    var y = offset(mouseMoveEle).top - offset(eleOffsetParent).top
-    var x = offset(mouseMoveEle).left - offset(eleOffsetParent).left
+    var mouseElePosition = offset(mouseMoveEle)
+    var parentPostion = offset(eleOffsetParent)
+    var y = mouseElePosition.top - parentPostion.top
+    var x = mouseElePosition.left - parentPostion.left
+    if (mouseElePosition.eleTable !== null) {
+      parentPostion = offset(mouseElePosition.eleTable.offsetParent)
+      x = mouseElePosition.left - parentPostion.left
+      y = mouseElePosition.top - parentPostion.top
+    }
     var width = mouseMoveEle.offsetWidth
     var height = mouseMoveEle.offsetHeight
     eleDiv.style.top = y + 'px'

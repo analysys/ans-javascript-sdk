@@ -3,7 +3,7 @@ import { successLog } from '../../lib/printLog/index.js'
 import baseConfig from '../../lib/baseConfig/index.js'
 import Util from '../../lib/common/index.js'
 import Storage from '../../lib/storage/index.js'
-
+import { backParamsArray, transporter } from '../../lib/upload/hybrid.js'
 function registerSuperProperties (key, value, callback) {
   baseConfig.status.FnName = '$registerSuperProperties'
   resetCode()
@@ -18,6 +18,12 @@ function registerSuperProperties (key, value, callback) {
     if (Util.paramType(obj[itemKey]) === 'Function') {
       obj[itemKey] = obj[itemKey].call(obj[itemKey])
     }
+  }
+  if (baseConfig.base.isHybrid === true) {
+    var backParams = backParamsArray(key, value, callback)
+    var paramArray = backParams.argArray
+    transporter('registerSuperProperties', paramArray, backParams.callback)
+    return
   }
   checkPrivate(obj, '$registerSuperProperties')
 

@@ -4,7 +4,7 @@ import { sendMsg, getMsg } from './common/iframeMsg.js'
 import { addVisualListener, removeVisualListener, showVisualEvent, delVisualEvent, openVisualEvent, hiddenVisualEvent } from './visual/index.js'
 import { addDebugListener, removeDebugListener, openDebugBox, delDebugBox, hiddenDebugEvent } from './debug/index.js'
 import Storage from '../../../../lib/storage/index.js'
-
+import Util from '../../../../lib/common/index.js'
 var isVisaulInit = true
 var visualStatus = false
 var highlightStatus = true
@@ -51,7 +51,7 @@ function processMsg (msg) {
       if (highlightStatus === false) {
         return
       }
-      if (!eventList) {
+      if (eventList.length === 0) {
         console.log('无埋点列表')
       }
       if (!isElmentReady() || document.readyState !== 'complete') {
@@ -174,8 +174,15 @@ function processMsg (msg) {
  */
 function initVisual () {
   if (isEmbedded('visual') || Storage.getSession('ISVISUAL') === true) {
-    getMsg(processMsg)
+    // getMsg(processMsg)
     Storage.setSession('ISVISUAL', true)
   }
 }
 initVisual()
+window.AnalysysModule = Util.objMerge(window.AnalysysModule || {}, {
+  visual: {
+    init: initVisual,
+    msg: processMsg,
+    version: '4.4.1'
+  }
+})

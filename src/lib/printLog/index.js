@@ -77,11 +77,8 @@ function successLog (msg) {
     showMsg = msg
   }
   if (!showMsg) return
-  try {
-    return console.log.apply(console, showMsg)
-  } catch (e) {
-    console.log(showMsg)
-  }
+
+  console.log(showMsg)
 }
 
 function errorLog () {

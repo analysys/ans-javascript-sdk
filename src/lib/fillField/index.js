@@ -90,8 +90,8 @@ function fillField (feilds, rules) {
           } else {
             obj[key] = feildValue
           }
-        //     }
-        // }
+          //     }
+          // }
         }
 
         if (rule.valueType === 1) {
@@ -106,8 +106,8 @@ function fillField (feilds, rules) {
           } else {
             obj[key] = feildValue
           }
-        // }
-        // }
+          // }
+          // }
         }
       }
     }
@@ -155,10 +155,24 @@ function clearCache (resetStatus) {
  */
 function isStartUp () {
   var startUpStatus = Storage.getSession('STARTUP') || false
+  var cookieStartup = Storage.getCookie('ARK_STARTUP')
+  if (document.referrer !== '' && cookieStartup && baseConfig.base.cross_subdomain === true) {
+    var cookieObj = JSON.parse(Util.decode(decodeURIComponent(cookieStartup)))
+    var cookieStartUpStatus = cookieObj['STARTUP']
+    var cookieStartUpTime = cookieObj['STARTUPTIME']
+    Storage.setSession('STARTUP', cookieStartUpStatus)
+    Storage.setSession('STARTUPTIME', cookieStartUpTime)
+    // Storage.removeCookie('ARK_STARTUP', baseConfig.base.cross_subdomain, 'session')
+    startUpStatus = Storage.getSession('STARTUP') || false
+  }
   if (startUpStatus === false) {
+    var startUpTime = Util.format(new Date(), 'yyyy-MM-dd hh:mm:ss.SSS')
     Storage.setSession('STARTUP', true)
-    Storage.setSession('STARTUPTIME', Util.format(new Date(), 'yyyy-MM-dd hh:mm:ss.SSS'))
+    Storage.setSession('STARTUPTIME', startUpTime)
     sessionId.setId()
+    if (baseConfig.base.cross_subdomain === true) {
+      Storage.setCookie('ARK_STARTUP', encodeURIComponent(Util.encode(JSON.stringify({ 'STARTUP': true, 'STARTUPTIME': startUpTime }))), 'session')
+    }
   }
   return startUpStatus
 }
@@ -212,4 +226,5 @@ function checkPrivate (obj, ruleName, isKey) {
   }
   return true
 }
+
 export { fillField, clearCache, isStartUp, checkBase, checkPrivate, resetCode }

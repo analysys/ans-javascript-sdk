@@ -4,6 +4,7 @@ import baseConfig from '../../lib/baseConfig/index.js'
 import { upLog } from '../../lib/upload/index.js'
 import Util from '../../lib/common/index.js'
 import Storage from '../../lib/storage/index.js'
+import { transporter, backParamsArray } from '../../lib/upload/hybrid.js'
 /**
  * @method pageView 统计页面事件
  * 第一个参数为页面名称 类型：String
@@ -29,8 +30,24 @@ import Storage from '../../lib/storage/index.js'
  * @param {function} callback
  */
 function pageView (pageName, obj, callback) {
-  if (window.AnalysysModule && window.AnalysysModule.pageClose && Util.paramType(window.AnalysysModule.pageClose.createTime) === 'Function') {
-    window.AnalysysModule.pageClose.pageEndTrack()
+  var log = pageViewLog(pageName, obj, callback)
+
+  // 去除空数据后上传数据
+
+  upLog(log, callback)
+}
+var pageCloseStatus = false
+function pageViewLog (p, o, c) {
+  var pageName = p
+  var obj = o
+  var callback = c
+  // 页面关闭组件发送
+  if (window.AnalysysModule && window.AnalysysModule.pageClose) {
+    if (pageCloseStatus === true) {
+      window.AnalysysModule.pageClose.pageEndTrack()
+    } else {
+      pageCloseStatus = true
+    }
     if (Util.paramType(pageName) === 'String') {
       window.AnalysysModule.pageClose.createTime(+new Date(), pageName)
     } else {
@@ -51,16 +68,17 @@ function pageView (pageName, obj, callback) {
     nameObj = {
       $title: pageName
     }
-
     checkPrivate(nameObj)
   } else if (Util.paramType(pageName) === 'Object') {
     if (Util.paramType(obj) === 'Function') {
       callback = obj
     }
     obj = pageName
+    pageName = ''
   } else if (Util.paramType(pageName) === 'Function') {
     callback = pageName
     obj = ''
+    pageName = ''
   }
   if (Util.paramType(obj) === 'Function') {
     callback = obj
@@ -74,15 +92,19 @@ function pageView (pageName, obj, callback) {
         obj[key] = obj[key].call(obj[key])
       }
     }
-    // 检测distinctId
-    checkPrivate(obj)
+    // 检测用户自定义属性
+    if (baseConfig.base.isHybrid === false) {
+      checkPrivate(obj)
+    }
     userProp = {
       xcontext: obj || {}
     }
   }
 
   var arkSuper = Storage.getLocal('ARKSUPER') || {}
-
+  if (baseConfig.base.isHybrid === true) {
+    arkSuper = {}
+  }
   /**
      * 超级属性与用户自定义属性合并
      */
@@ -99,15 +121,20 @@ function pageView (pageName, obj, callback) {
 
   var pageViewTemp = temp('$pageview')
   var pageViewObj = Util.delEmpty(fillField(pageViewTemp))
-
+  if (baseConfig.base.isHybrid === true) {
+    pageViewTemp = temp('$pageviewbase')
+    pageViewObj = Util.delEmpty(fillField(pageViewTemp))
+    var hybridPageViewLog = Util.objMerge(pageViewObj, xcontext)
+    hybridPageViewLog = Util.delNotHybrid(Util.delEmpty(hybridPageViewLog.xcontext))
+    var backParams = backParamsArray(pageName || '', hybridPageViewLog, callback)
+    var paramArray = backParams.argArray
+    transporter('pageView', paramArray, backParams.callback)
+    return
+  }
   /**
      * 自动采集与个性化属性合并
      */
-  var pageViewLog = Util.objMerge(pageViewObj, xcontext)
-
-  // 去除空数据后上传数据
-
-  upLog(pageViewLog, callback)
+  return Util.objMerge(pageViewObj, xcontext)
 }
 
 var pageUrl = window.location.href
@@ -116,8 +143,9 @@ function hashPageView () {
   Util.changeHash(function () {
     if (pageUrl !== window.location.href) {
       pageUrl = window.location.href
+
       pageView()
     }
   })
 }
-export { pageView, hashPageView }
+export { pageView, hashPageView, pageViewLog }

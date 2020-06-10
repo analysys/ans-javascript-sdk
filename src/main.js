@@ -6,94 +6,92 @@ import Util from './lib/common/index.js'
 import baseConfig from './lib/baseConfig/index.js'
 import * as getField from './lib/fillField/getField.js'
 import { lifecycle } from './configure/index.js'
-import { startUp, clearCache } from './API/template/startUp.js'
+import { startUp } from './API/template/startUp.js'
+import { clearCache } from './lib/fillField/index.js'
 import { ieCreat } from './lib/compatible/index.js'
+var AnalysysAgent = window.AnalysysAgent || {}
+var config = AnalysysAgent.config || {}
+var param = AnalysysAgent.param || []
+function isHybrid () {
+  if (window.navigator.userAgent.indexOf('AnalysysAgent/Hybrid') > -1
+  ) {
+    baseConfig.base.isHybrid = true
+  }
+  //   if (window.AnalysysAgentHybrid && window.AnalysysAgentHybrid.isHybrid() === true) {
+  //     baseConfig.base.isMessageSDK = true
+  //     baseConfig.base.isHybrid = true
+  //   }
+}
+isHybrid() //Hybrid模式检测
+ieCreat() //ie兼容
 
 function _createAnsSDK () {
-  if (Util.paramType(window.AnalysysAgent) === 'Array') {
-    var AnalysysAgent = []
-    Array.prototype.push.apply(AnalysysAgent, window.AnalysysAgent)
-    window.AnalysysAgent = ans
-    ieCreat()
-    if (window.navigator.userAgent.indexOf('AnalysysAgent/Hybrid') > -1) {
-      if (lifecycle.AnalysysAgent && Util.paramType(lifecycle.AnalysysAgent.hybridAns) === 'Object') {
-        lifecycle.AnalysysAgent.hybrid(AnalysysAgent)
 
-        for (var i = 0; i < AnalysysAgent.length; i++) {
-          var item = AnalysysAgent[i]
-          if (item[0] === 'name') {
-            window[item[1]] = lifecycle.AnalysysAgent.hybridAns
-          }
-          if (item[0] === 'SDKFileDirectory') {
-            lifecycle.AnalysysAgent.hybridAns.SDKFileDirectory = item[1]
-          }
-        }
-        window.AnalysysAgent = lifecycle.AnalysysAgent.hybridAns
-      }
+  AnalysysAgent.isInit = true
+  // if (baseConfig.base.isHybrid === true) {
+  //   for (var hybridKey in HybridAns) {
+  //     AnalysysAgent[hybridKey] = HybridAns[hybridKey]
+  //   }
+  //   initHybrid(config, param)
+  //   return
+  // }
+  for (var key in ans) {
+    AnalysysAgent[key] = ans[key]
+  }
+
+  for (var configKey in config) {
+    if (Util.paramType(getField[configKey]) === 'Function') {
+      getField[configKey](config[configKey])
     } else {
-      for (var index = 0; index < AnalysysAgent.length; index++) {
-        var indexItem = AnalysysAgent[index]
-
-        if (Util.paramType(getField[indexItem[0]]) === 'Function') {
-          getField[indexItem[0]](indexItem[1])
-        } else {
-          baseConfig.base[indexItem[0]] = indexItem[1]
-        }
-      }
-      clearCache()
-      for (var y = 0; y < AnalysysAgent.length; y++) {
-        var yItem = AnalysysAgent[y]
-        if (Util.objHasKay(ans, yItem[0]) && (yItem[0] === 'identify' || yItem[0] === 'alias' || yItem[0].indexOf('Super') > -1)) {
-          var args = yItem.length > 1 ? yItem.slice(1, yItem.length) : []
-          ans[yItem[0]].apply(ans[yItem[0]], args)
-        }
-      }
-
-      if (lifecycle.AnalysysAgent && lifecycle.AnalysysAgent.init) {
-        lifecycle.AnalysysAgent.init(baseConfig.base)
-      }
-
-      // 如存在修改则重置登录及启动状态
-      startUp()
-      try {
-        // 启动完毕后执行调用上报日志累接口
-        if (Util.paramType(AnalysysAgent) === 'Array') {
-          for (var z = 0; z < AnalysysAgent.length; z++) {
-            var zItem = AnalysysAgent[z]
-            if (Util.objHasKay(ans, zItem[0]) && zItem[0] !== 'identify' && zItem[0] !== 'alias' && zItem[0].indexOf('Super') < 0) {
-              var zArgs = zItem.length > 1 ? zItem.slice(1, zItem.length) : []
-              ans[zItem[0]].apply(ans[zItem[0]], zArgs)
-            }
-            if (zItem[0] === 'name') {
-              window[zItem[1]] = ans
-            }
-          }
-        }
-      } catch (e) { }
+      baseConfig.base[configKey] = config[configKey]
     }
+  }
+  AnalysysAgent.config = Util.objMerge(baseConfig.base, config)
+  clearCache()
+  for (var y = 0; y < param.length; y++) {
+    var yItem = param[y]
+    if (Util.objHasKay(ans, yItem[0]) && (yItem[0] === 'identify' || yItem[0] === 'alias' || yItem[0].indexOf('Super') > -1)) {
+      ans[yItem[0]].apply(ans[yItem[0]], yItem[1])
+    }
+  }
+  if (lifecycle.AnalysysAgent && lifecycle.AnalysysAgent.init) {
+    lifecycle.AnalysysAgent.init(baseConfig.base)
+  }
+  // 如存在修改则重置登录及启动状态
+  startUp()
+  for (var z = 0; z < param.length; z++) {
+    var zItem = param[z]
+    if (Util.objHasKay(ans, zItem[0]) && zItem[0] !== 'identify' && zItem[0] !== 'alias' && zItem[0].indexOf('Super') < 0) {
+      ans[zItem[0]].apply(ans[zItem[0]], zItem[1])
+    }
+
   }
 }
-var ansConfig = window.AnalysysAgent
-var ansObj = Util.objMerge({
-  init: function (config) {
-    if (!ansConfig && Util.paramType(config) === 'Object') {
-      window.AnalysysAgent = []
 
-      for (var key in config) {
-        window.AnalysysAgent.push([key, config[key]])
-      }
-      _createAnsSDK()
-      this.config = Util.objMerge(this.config, config)
-    }
-  },
-  config: baseConfig.base
-}, ans)
-if (Util.paramType(ansConfig) === 'Array') {
-  var config = {}
-  for (var i = 0; i < ansConfig.length; i++) {
-    config[window.AnalysysAgent[i][0]] = window.AnalysysAgent[i][1]
+AnalysysAgent.init = function (conf) {
+  if (Util.paramType(config) === 'Object' && !AnalysysAgent.isInit) {
+    config = conf
+    _createAnsSDK()
   }
+}
+if (!AnalysysAgent.isInit) {
+  if (Util.paramType(AnalysysAgent) === 'Array') {
+    for (var i = 0; i < AnalysysAgent.length; i++) {
+      if (Util.paramType(ans[AnalysysAgent[i][0]]) === 'Function') {
+        var fnName = AnalysysAgent[i][0]
+        AnalysysAgent[i].splice(0, 1)
+        param.push([fnName, AnalysysAgent[i]])
+      } else {
+        config[AnalysysAgent[i][0]] = AnalysysAgent[i][1]
+      }
+    }
+  }
+  if (Util.isEmptyObject(config) === false) {
+    _createAnsSDK()
+
+  }
+}
+if (baseConfig.base.isHybrid === true) {
   _createAnsSDK()
-  window.AnalysysAgent.config = Util.objMerge(ansObj.config, config)
 }
-export default ansObj
+export default AnalysysAgent

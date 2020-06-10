@@ -5,7 +5,7 @@
  * $开头的字段为各个事件特殊拥有字段
  */
 var temp = {}
-var event = ['$startup', '$track', '$pageview', '$webstay', '$web_click', '$errorLog']
+var event = ['$startup', '$track', '$pageview', '$webstay', '$web_click', '$errorLog', '$user_click']
 var common = {
   // "base": {
   xcontext: [

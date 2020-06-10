@@ -2,7 +2,6 @@ import baseConfig from '../baseConfig/index.js'
 import Util from '../common/index.js'
 import Storage from '../storage/index.js'
 import sessionId from './sessionId.js'
-import extractDomain from './domain.js'
 import { checkSpider } from './spider.js'
 import { UTM, clearUTM } from './UTM.js'
 
@@ -56,7 +55,11 @@ function getXwhat () {
 }
 
 function isLogin () {
-  return !!((getAliasId() || Storage.getLocal('ARK_TRACK_LOGIN')))
+  var status = false
+  if (getAliasId() || Storage.getLocal('ARK_TRACK_LOGIN')) {
+    status = true
+  }
+  return status
 }
 
 var timeZone = 'GMT' + Util.clientTimeZone()
@@ -97,11 +100,15 @@ function originalId () {
 }
 
 function getReferrer () {
-  return document.referrer
+  var refer = decodeURIComponent(document.referrer)
+  if (baseConfig.base.isHybrid === true) {
+    refer = encodeURIComponent(refer)
+  }
+  return refer
 }
 
 function getReferrerDomain () {
-  return extractDomain(document.referrer)
+  return Util.getDomainFromUrl(false, document.referrer)
 }
 
 function getTitle () {
@@ -113,7 +120,11 @@ function startupTime () {
 }
 
 function getUrl () {
-  return window.location.href
+  var url = decodeURIComponent(window.location.href)
+  if (baseConfig.base.isHybrid === true) {
+    url = encodeURIComponent(url)
+  }
+  return url
 }
 
 function getLibVersion () {

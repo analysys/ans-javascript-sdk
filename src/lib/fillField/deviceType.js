@@ -9,14 +9,14 @@ function isPhone () {
   // - Android with "Mobile" in the UA
 
   return /(iPhone|iPod)/.test(ua) ||
-        (!/(Silk)/.test(ua) && (/(Android)/.test(ua) && (/(Android 2)/.test(ua) || isMobile))) ||
-        (/(BlackBerry|BB)/.test(ua) && isMobile) ||
-        /(Windows Phone)/.test(ua)
+    (!/(Silk)/.test(ua) && (/(Android)/.test(ua) && (/(Android 2)/.test(ua) || isMobile))) ||
+    (/(BlackBerry|BB)/.test(ua) && isMobile) ||
+    /(Windows Phone)/.test(ua)
 }
 
 function isTablet () {
-  return !isPhone(ua) && (/iPad/.test(ua) || /Android/.test(ua) || /(RIM Tablet OS)/.test(ua) ||
-        (/MSIE 10/.test(ua) && /; Touch/.test(ua)))
+  return !isPhone() && (/iPad/.test(ua) || /Android/.test(ua) || /(RIM Tablet OS)/.test(ua) ||
+    (/MSIE 10/.test(ua) && /; Touch/.test(ua)))
 }
 
 function isMobile () {

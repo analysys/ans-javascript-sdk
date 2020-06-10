@@ -1,22 +1,20 @@
-(function (config) {
-    window.AnalysysAgent = window.AnalysysAgent || [];
-    window.AnalysysAgent.methods = 'identify alias reset track profileSet profileSetOnce profileIncrement profileAppend profileUnset profileDelete registerSuperProperty registerSuperProperties unRegisterSuperProperty clearSuperProperties getSuperProperty getSuperProperties pageView getDistinctId getPresetProperties'.split(' ');
-
-    function factory(b) {
+(function (c) {
+    window.AnalysysAgent = window.AnalysysAgent || {}
+    var a = window.AnalysysAgent || {}
+    var ans = ['identify', 'alias', 'reset', 'track', 'profileSet', 'profileSetOnce', 'profileIncrement', 'profileAppend', 'profileUnset', 'profileDelete', 'registerSuperProperty', 'registerSuperProperties', 'unRegisterSuperProperty', 'clearSuperProperties', 'getSuperProperty', 'getSuperProperties', 'pageView', 'getDistinctId']
+    a['config'] = c
+    a['param'] = []
+    function factory (b) {
         return function () {
-            var a = Array.prototype.slice.call(arguments);
-            a.unshift(b);
-            window.AnalysysAgent.push(a);
-            return window.AnalysysAgent;
+            a['param'].push([b, arguments])
+            return window.AnalysysAgent
         }
-    };
-    for (var i = 0; i < AnalysysAgent.methods.length; i++) {
-        var key = window.AnalysysAgent.methods[i];
-        AnalysysAgent[key] = factory(key);
     }
-    for (var key in config) {
-        if (!AnalysysAgent[key]) AnalysysAgent[key] = factory(key);
-        AnalysysAgent[key](config[key]);
+    for (var i = 0; i < ans.length; i++) {
+        a[ans[i]] = factory(ans[i])
+    }
+    if (c.name) {
+        window[c.name] = a
     }
 })({
     appkey: "commondebug", //APPKEY

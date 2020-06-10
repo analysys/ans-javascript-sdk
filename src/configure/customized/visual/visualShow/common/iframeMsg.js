@@ -25,7 +25,7 @@ function getMsg (callback) {
       if (Util.paramType(msg) === 'String') {
         msg = JSON.parse(msg)
       }
-    } catch (e) {}
+    } catch (e) { }
     console.log('获取可视化消息===>', JSON.stringify(msg, null, 2))
     callback(msg)
   })

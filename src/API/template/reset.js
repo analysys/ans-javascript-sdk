@@ -6,8 +6,12 @@ import Util from '../../lib/common/index.js'
 import { resetCode, clearCache } from '../../lib/fillField/index.js'
 import { removeUUId } from '../../lib/fillField/id.js'
 import { profileSetOnce } from './profileSetOnce.js'
-
+import { transporter } from '../../lib/upload/hybrid.js'
 function reset (callback) {
+  if (baseConfig.base.isHybrid === true) {
+    transporter('reset', [], callback)
+    return
+  }
   resetCode()
   removeUUId()
   clearSuperProperties()

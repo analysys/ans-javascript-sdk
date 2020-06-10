@@ -37,7 +37,6 @@ export default {
       '$utm_term',
       '$utm_content',
       '$utm_campaign',
-      '$session_id',
       '$is_time_calibrated'
     ]
   },
@@ -56,7 +55,6 @@ export default {
       '$utm_term',
       '$utm_content',
       '$utm_campaign',
-      '$session_id',
       '$is_time_calibrated'
     ]
   },
@@ -80,7 +78,6 @@ export default {
       '$utm_term',
       '$utm_content',
       '$utm_campaign',
-      '$session_id',
       '$is_time_calibrated'
     ]
   },

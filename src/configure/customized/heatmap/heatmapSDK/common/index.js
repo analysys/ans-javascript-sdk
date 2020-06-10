@@ -186,13 +186,6 @@ function elementPostion (elem) {
     hidden: elePosition.hidden
   }
 
-  if (!position) {
-    return {
-      top: 0,
-      left: 0,
-      hidden: true
-    }
-  }
   return position
 }
 /**

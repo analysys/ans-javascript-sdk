@@ -275,14 +275,6 @@ function elementPostion (elem) {
     left: elePosition.left,
     hidden: elePosition.hidden
   }
-
-  if (!position) {
-    return {
-      top: 0,
-      left: 0,
-      hidden: true
-    }
-  }
   return position
 }
 /**
@@ -306,9 +298,8 @@ function isEmbedded (key) {
 function isElmentReady () {
   if (!document.documentElement || document.documentElement.scrollWidth === 0) {
     return false
-  } else {
-    return true
   }
+  return true
 }
 
 /**
@@ -375,7 +366,7 @@ function setIndex (ele, link) {
   if (baseEle.elePath.indexOf('#') > -1) {
     baseEle.elePath = '#' + baseEle.elePath.split('#')[1]
   }
-  var eleList = Util.selectorAllEleList(baseEle.elePath) // document.querySelectorAll(baseEle.elePath)
+  var eleList = Util.selectorAllEleList(baseEle.elePath) || [] // document.querySelectorAll(baseEle.elePath)
   // var anchors = [];
   // for (var y = 0; y < eleList.length; y++) {
   //   anchors.push(eleList[y]);
@@ -384,7 +375,6 @@ function setIndex (ele, link) {
   //   return eleOffset(x).left - eleOffset(y).left && eleOffset(x).top - eleOffset(y).top
   // })
   // eleList = anchors
-  var allEleList = []
   var index = 0
   for (var i = 0; i < eleList.length; i++) {
     if (pathContrast({
@@ -392,7 +382,6 @@ function setIndex (ele, link) {
     }, {
       path: link
     }) === true) {
-      allEleList.push(eleList[i])
       if (eleList[i] === ele) {
         return index
       }

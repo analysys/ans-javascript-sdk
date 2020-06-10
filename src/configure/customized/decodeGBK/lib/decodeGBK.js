@@ -119,4 +119,5 @@ var G2Uhash = {}
 // module.exports = urlencode;
 window.AnalysysModule = window.AnalysysModule || {}
 window.AnalysysModule.decodeGBK = urldecode
-module.exports.decodeGBK = urldecode
+// module.expo/rts.decodeGBK = urldecode
+export { urldecode }

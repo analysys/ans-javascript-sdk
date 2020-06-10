@@ -4,16 +4,26 @@ import baseConfig from '../../lib/baseConfig/index.js'
 import { upLog } from '../../lib/upload/index.js'
 import Util from '../../lib/common/index.js'
 import Storage from '../../lib/storage/index.js'
-
+import { transporter, backParamsArray } from '../../lib/upload/hybrid.js'
 function freeApi (apiName) {
+
   baseConfig.status.FnName = apiName
   resetCode()
   var freeApiTemp = temp(apiName)
   if (!freeApiTemp) {
     return
   }
-  var freeApiLog = fillField(freeApiTemp)
+  if (baseConfig.base.isHybrid === true) {
+    var hybridTemp = temp(apiName + 'base')
+    var hybridLog = fillField(hybridTemp)
+    var log = Util.delNotHybrid(Util.delEmpty(hybridLog.xcontext))
 
+    var backParams = backParamsArray(apiName, log)
+    var paramArray = backParams.argArray
+    transporter('track', paramArray)
+    return
+  }
+  var freeApiLog = fillField(freeApiTemp)
   var arkSuper = Storage.getLocal('ARKSUPER') || {}
 
   freeApiLog = Util.objMerge({ xcontext: arkSuper }, freeApiLog)

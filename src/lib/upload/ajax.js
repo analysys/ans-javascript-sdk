@@ -1,5 +1,6 @@
 import Storage from '../storage/index.js'
 import Util from '../common/index.js'
+import baseConfig from '../baseConfig/index.js'
 
 function getJSON (data) {
   if (Util.paramType(data) === 'String') {
@@ -9,10 +10,10 @@ function getJSON (data) {
 
     try {
       return JSON.parse(data)
-    } catch (e) {}
+    } catch (e) { }
     try {
       return window.AnalysysModule.zipInflate(data)
-    } catch (e) {}
+    } catch (e) { }
     if (data === 'H4sIAAAAAAAAAKtWSs5PSVWyMjIwqAUAVAOW6gwAAAA=') {
       return {
         code: 200
@@ -25,10 +26,9 @@ function getJSON (data) {
       return {
         code: 420
       }
-    } else {
-      return {
-        code: 200
-      }
+    }
+    return {
+      code: 200
     }
   } else if (Util.paramType(data) === 'Object') {
     return data
@@ -81,11 +81,13 @@ function xmlhttp (_this) {
         if (xhr.getAllResponseHeaders().indexOf('Date') > -1 || xhr.getAllResponseHeaders().indexOf('date') > -1) {
           var time = +new Date()
           var date = xhr.getResponseHeader('Date') || xhr.getResponseHeader('date')
-          if (date) {
+          if (date && baseConfig.base.allowTimeCheck === true) {
             Storage.setLocal('ANSSERVERTIME', +new Date(date) - time)
+          } else {
+            Storage.setLocal('ANSSERVERTIME', 0)
           }
         }
-      } catch (e) {}
+      } catch (e) { }
 
       if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
         if (sendStatus) return
@@ -110,7 +112,7 @@ function xmlhttp (_this) {
     } else {
       xhr.send(_this.data)
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 
 // function lengthBaty(str) {
@@ -131,8 +133,8 @@ function ajax () {
   this.url = ''
   this.data = ''
   this.type = 'GET'
-  this.success = function () {}
-  this.error = function () {}
+  this.success = function () { }
+  this.error = function () { }
 }
 ajax.prototype.get = function (option) {
   var param = []
@@ -143,16 +145,16 @@ ajax.prototype.get = function (option) {
   this.url = url
   this.data = option.data
   this.type = 'GET'
-  this.success = option.success || function () {}
-  this.error = option.error || function () {}
+  this.success = option.success || function () { }
+  this.error = option.error || function () { }
   xmlhttp(this)
 }
 ajax.prototype.post = function (option) {
   this.url = option.url
   this.data = option.data
   this.type = 'POST'
-  this.success = option.success || function () {}
-  this.error = option.error || function () {}
+  this.success = option.success || function () { }
+  this.error = option.error || function () { }
   xmlhttp(this)
 }
 export default ajax

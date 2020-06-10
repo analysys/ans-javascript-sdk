@@ -3,11 +3,15 @@ import { successLog } from '../../lib/printLog/index.js'
 import baseConfig from '../../lib/baseConfig/index.js'
 import Storage from '../../lib/storage/index.js'
 import Util from '../../lib/common/index.js'
-
-function getSuperProperty (superPropertyName, callback) {
+import { backParamsArray, transporter } from '../../lib/upload/hybrid.js'
+function getSuperProperty (superPropertyName, callbackFun, callback) {
   baseConfig.status.FnName = '$getSuperProperty'
   resetCode()
-
+  if (baseConfig.base.isHybrid === true) {
+    var paramArray = backParamsArray(superPropertyName)
+    transporter('getSuperProperty', paramArray.argArray, callbackFun.name, callback)
+    return
+  }
   checkPrivate(superPropertyName, '$getSuperProperty', true)
   // if (!status) {
   //     return
@@ -24,8 +28,8 @@ function getSuperProperty (superPropertyName, callback) {
   }
   baseConfig.status.key = superPropertyName
   successLog()
-  if (Util.paramType(callback) === 'Function') {
-    callback.call(callback, superProperty)
+  if (Util.paramType(callbackFun) === 'Function') {
+    callbackFun.call(callbackFun, superProperty)
   }
   return superProperty
 }

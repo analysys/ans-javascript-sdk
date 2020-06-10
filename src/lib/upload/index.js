@@ -80,7 +80,6 @@ function sendPost (data, callback) {
         saveData.push(postDataList[i])
       }
     }
-    postDataList = null
 
     if (saveData.length > 0 && sendType !== 'img') {
       Storage.setLocal('POSTDATA', saveData)
@@ -96,7 +95,9 @@ function sendPost (data, callback) {
         baseConfig.status.successCode = '20001'
         successLog()
         successCheckPost(data)
-        Util.paramType(callback) === 'Function' && callback.call(callback)
+        if (Util.paramType(callback) === 'Function') {
+          callback.call(callback)
+        }
       } else {
         error()
       }
@@ -116,10 +117,10 @@ function sendPost (data, callback) {
     window.AnalysysModule.encryptInit(baseConfig.base)
     postMsg = window.AnalysysModule.uploadData(postMsg)
   }
-  if (sendType === 'get') {
-    snedGet(postMsg)
-    return
-  }
+  // if (sendType === 'get') {
+  //   snedGet(postMsg)
+  //   return
+  // }
   if (sendType === 'img') {
     snedGet(postMsg, 'img')
     return
@@ -137,7 +138,7 @@ function sendPost (data, callback) {
 
 function setValidKey (option) {
   var data = {
-    data: Util.encode(option.data),
+    data: option.data,
     send_type: ''
   }
   var param = []
@@ -150,7 +151,8 @@ function setValidKey (option) {
 
   var validValue = Util.MD5(validurl, 32).split('')
   var validkey = validValue[2] + '' + validValue[0] + '' + validValue[4]
-  return validkey
+  data.send_type = validkey
+  return data
 }
 
 function snedGet (option, type) {
@@ -166,11 +168,12 @@ function snedGet (option, type) {
   if (type === 'send' && !navigator.sendBeacon) {
     type = 'img'
   }
-  var validkey = setValidKey(option)
-  option.data = {
-    data: Util.encode(option.data),
-    send_type: validkey
-  }
+  option.data = Util.encode(option.data)
+  option.data = setValidKey(option)
+  // option.data = {
+  //   data: option.data,
+  //   send_type: validkey
+  // }
   if (type === 'img') {
     var param = []
     for (var key in option.data) {
@@ -191,7 +194,7 @@ function snedGet (option, type) {
       this.onload = null
       this.onerror = null
       this.onabort = null
-    // option.success({ code: 200 })
+      // option.success({ code: 200 })
     }
     createImg.onerror = function () {
       // clearTimeout(callbackTimer)
@@ -200,7 +203,7 @@ function snedGet (option, type) {
       this.onload = null
       this.onerror = null
       this.onabort = null
-    // option.success({ code: 200 })
+      // option.success({ code: 200 })
     }
     createImg.onabort = function () {
       // clearTimeout(callbackTimer)
@@ -209,20 +212,23 @@ function snedGet (option, type) {
       this.onload = null
       this.onerror = null
       this.onabort = null
-    // option.success({ code: 200 })
+      // option.success({ code: 200 })
     }
     // callbackTimer = setTimeout(function() {
     // createImg.src = ''
     // createImg.onload = null, createImg.onerror = null, createImg.onabort = null
-    option.success({
-      code: 200
-    })
-  // }, 600)
+
+    setTimeout(function () {
+      option.success({
+        code: 200
+      })
+    }, 300)
+    // }, 600)
   }
 
-  if (type === 'get') {
-    new LogAjax().get(option)
-  }
+  // if (type === 'get') {
+  //   new LogAjax().get(option)
+  // }
 }
 
 function checkLogBaseJson (obj) {
@@ -273,8 +279,6 @@ function upLog (log, callback) {
 
     if (postDataList.length === 0) {
       Storage.removeLocal('POSTDATA')
-    } else {
-      upData = postDataList
     }
     upData = postDataList
     if (postDataList.length < 500) {

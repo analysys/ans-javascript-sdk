@@ -1,7 +1,6 @@
 import Util from '../../../../lib/common/index.js'
-import {
-  getElementContent
-} from './elementContent.js'
+import { getElementContent } from './elementContent.js'
+import baseConfig from '../../../../lib/baseConfig/index.js'
 var elePostion = {
   ele: '',
   click_x: 0,
@@ -71,7 +70,12 @@ function getElementPath () {
 }
 
 function getUrlPath () {
-  return window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash
+  var url = window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash
+  url = decodeURIComponent(url)
+  if (baseConfig.base.isHybrid === true) {
+    url = encodeURIComponent(url)
+  }
+  return url
 }
 
 function getElementX () {
@@ -118,7 +122,7 @@ function getElementClickable () {
       var svgChildren = elePostion.ele.children
       for (var i = 0; i < svgChildren.length; i++) {
         if (svgChildren[i].tagName.toLowerCase() === 'use' &&
-                    svgChildren[i].getAttribute('xlink:href')) {
+          svgChildren[i].getAttribute('xlink:href')) {
           svgIsClickable = 1
         }
       }
@@ -148,7 +152,7 @@ function getElementName () {
 function getElementClassName () {
   var eleClassName = elePostion.ele.getAttribute('class') || ''
   if (eleClassName) {
-    var eleClassList = eleClassName ? eleClassName.split(' ') : []
+    var eleClassList = eleClassName.split(' ')
     var eleClassArray = []
     for (var i = 0; i < eleClassList.length; i++) {
       if (eleClassList[i] !== '') {
@@ -156,13 +160,18 @@ function getElementClassName () {
       }
     }
     eleClassName = '.' + eleClassArray.join('.')
+    return eleClassName
   }
-  return eleClassName
+  return ''
 }
 
 function getElementTargetUrl () {
   var href = elePostion.ele.getAttribute('href')
   if (href && href.indexOf('javascript:') < 0) {
+    href = decodeURIComponent(href)
+    if (baseConfig.base.isHybrid === true) {
+      href = encodeURIComponent(href)
+    }
     return href
   }
   return ''

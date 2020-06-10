@@ -4,7 +4,7 @@ import './JSON2.js'
  */
 function ieCreat () {
   if (!Array.prototype.indexOf) {
-    Array.indexOf = function (elt /*, from */) {
+    Array.prototype.indexOf = function (elt /*, from */) {
       var len = this.length >>> 0
       var from = Number(arguments[1]) || 0
       from = (from < 0)
@@ -13,7 +13,7 @@ function ieCreat () {
       if (from < 0) { from += len }
       for (; from < len; from++) {
         if (from in this &&
-                    this[from] === elt) { return from }
+          this[from] === elt) { return from }
       }
       return -1
     }

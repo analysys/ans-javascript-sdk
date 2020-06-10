@@ -18,7 +18,9 @@ for (var i = 0; i < outerTemp.length; i++) {
 
 for (var key in fieldTemplate) {
   if (key !== 'base') {
-    eventTemp[key] = Util.objMerge(commonTemp, Util.toDeepObj(fieldTemplate[key]))
+    var keyTemp = Util.toDeepObj(fieldTemplate[key])
+    eventTemp[key + 'base'] = keyTemp
+    eventTemp[key] = Util.objMerge(commonTemp, keyTemp)
   }
 }
 

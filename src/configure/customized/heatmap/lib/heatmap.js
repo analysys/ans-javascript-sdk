@@ -1,5 +1,5 @@
 import Util from '../../../../lib/common/index.js'
-import { elePostion, getParentClickableElement} from './getField.js'
+import { elePostion, getParentClickableElement } from './getField.js'
 
 var heatmapConfig = {}
 
@@ -38,8 +38,8 @@ function addClickEvent (event) {
 
   if (Util.checkTypeList(heatmapConfig.heatMapBlackList, ele) ||
     (heatmapConfig.heatMapWhiteList &&
-    !Util.checkTypeList(heatmapConfig.heatMapWhiteList, ele))
-    ) return
+      !Util.checkTypeList(heatmapConfig.heatMapWhiteList, ele))
+  ) return
   // e.stopPropagation()
   // e.preventDefault()
   var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft
@@ -77,10 +77,10 @@ function heatmapInit (config) {
   heatmapConfig = config
   if (window.location.href.indexOf('arkheatmap=true') > -1) {
     loadHeatmapSDK()
-  } else if (config.autoHeatmap === true) {
+  } else if (config.autoHeatmap === true && config.isHybrid === false) {
     initHeatmap()
   }
   return config
 }
 
-export { heatmapInit}
+export { heatmapInit }

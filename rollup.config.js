@@ -1,10 +1,11 @@
 import babel from 'rollup-plugin-babel'
-import eslint from 'rollup-plugin-eslint'
+import { eslint } from 'rollup-plugin-eslint'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import postcss from 'rollup-plugin-postcss'
 import { uglify } from 'rollup-plugin-uglify'
 import { terser } from 'rollup-plugin-terser'
+import es3 from 'rollup-plugin-es3';
 export default [
   {
     input: './src/main.js',
@@ -12,7 +13,7 @@ export default [
       {
         file: './demo/sdk/AnalysysAgent_JS_SDK.min.js',
         format: 'umd',
-        name: 'Ans',
+        name: 'AnalysysAgent',
         freeze: false,
         plugins: [
           uglify({
@@ -21,12 +22,32 @@ export default [
             },
             ie8: true
           })
-        ]
+        ],
+        amd: {
+          define: '{}'
+        }
       },
       {
         file: './SDK/AnalysysAgent_JS_SDK.min.js',
         format: 'umd',
-        name: 'Ans',
+        name: 'AnalysysAgent',
+        freeze: false,
+        plugins: [
+          uglify({
+            mangle: {
+              toplevel: true
+            },
+            ie8: true
+          })
+        ],
+        amd: {
+          define: '{}'
+        }
+      },
+      {
+        file: './demo/sdk/AnalysysAgent_JS_SDK.amd.min.js',
+        format: 'amd',
+        name: 'AnalysysAgent',
         freeze: false,
         plugins: [
           uglify({
@@ -36,11 +57,10 @@ export default [
             ie8: true
           })
         ]
-      },
-      {
-        file: './vue-demo/src/sdk/AnalysysAgent_JS_SDK.es6.min.js',
+      }, {
+        file: './SDK/AnalysysAgent_JS_SDK.es6.min.js',
         format: 'esm',
-        name: 'Ans',
+        name: 'AnalysysAgent',
         plugins: [
           terser({
             mangle: {
@@ -50,9 +70,10 @@ export default [
         ]
       },
       {
-        file: './SDK/AnalysysAgent_JS_SDK.es6.min.js',
+        file: './vue-demo/src/sdk/AnalysysAgent_JS_SDK.es6.min.js',
         format: 'esm',
-        name: 'Ans',
+        name: 'AnalysysAgent',
+        freeze: false,
         plugins: [
           terser({
             mangle: {
@@ -73,110 +94,31 @@ export default [
       }),
       commonjs(),
       eslint({
-        exclude: [
-          'src/**'
-        ]
+        include: 'src/**',
+        exclude: ['node_modules/**'],
       }),
       babel({
-        exclude: 'node_modules/**', // 排除引入的库
-        runtimeHelpers: true // 配置runtime，不设置会报错
-      })
-    ]
-  },
-  {
-    input: './src/configure/customized/visual/visualShow/index.js',
-    output: [
-      {
-        file: './demo/sdk/AnalysysAgent_JS_SDK_VISUAL.min.js',
-        format: 'umd',
-        name: 'Ans',
-        freeze: false
-      }, {
-        file: './vue-dome/public/js/sdk/AnalysysAgent_JS_SDK_VISUAL.min.js',
-        format: 'umd',
-        name: 'Ans',
-        freeze: false
-      },
-      {
-        file: './SDK/AnalysysAgent_JS_SDK_VISUAL.min.js',
-        format: 'umd',
-        name: 'Ans',
-        freeze: false
-      }],
-    plugins: [
-      resolve({
-        jsnext: true,
-        main: true,
-        browser: true
-      }),
-      postcss({
-        extensions: ['.css']
-      }),
-      commonjs(),
-      eslint({
-        exclude: [
-          'src/**'
-        ]
-      }),
-      babel({
-        exclude: 'node_modules/**',
-        runtimeHelpers: true // 配置runtime，不设置会报错
-      }),
-      uglify({
-        mangle: {
-          toplevel: true
-        },
-        ie8: true
-      })
-    ]
-  },
-  {
-    input: './src/configure/customized/heatmap/heatmapSDK/index.js',
-    output: [
-      {
-        file: './demo/sdk/AnalysysAgent_JS_SDK_HEATMAP.min.js',
-        format: 'umd',
-        name: 'Ans',
-        freeze: false
-      }, {
-        file: './vue-dome/public/js/sdk/AnalysysAgent_JS_SDK_HEATMAP.min.js',
-        format: 'umd',
-        name: 'Ans',
-        freeze: false
-      },
-      {
-        file: './SDK/AnalysysAgent_JS_SDK_HEATMAP.min.js',
-        format: 'umd',
-        name: 'Ans',
-        freeze: false
-      }],
-    plugins: [
-      resolve({
-        jsnext: true,
-        main: true,
-        browser: true
-      }),
-      postcss({
-        extensions: ['.css']
-      }),
-      commonjs(),
-      eslint({
-        exclude: [
-          'src/**'
-        ]
-      }),
-      babel({
-        exclude: 'node_modules/**',
+
+        babelrc: false,
+
+        presets: [['@babel/preset-env', {
+          modules: false, loose: true, "targets": {
+            "ie": "6"
+          }
+        }]],
+
+        include: ['src/**'],
+
+        plugins: ['@babel/plugin-external-helpers'],
+
         runtimeHelpers: true
+
       }),
-      // replace({
-      //   ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-      // }),
-      uglify({
-        mangle: {
-          toplevel: true
-        },
-        ie8: true
+
+      es3({
+
+        remove: ['defineProperty', 'freeze']
+
       })
     ]
   }
