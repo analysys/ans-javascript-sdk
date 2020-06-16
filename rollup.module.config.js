@@ -461,6 +461,12 @@ export default [
 
         remove: ['defineProperty', 'freeze']
 
+      }),
+      uglify({
+        mangle: {
+          toplevel: true
+        },
+        ie8: true
       })
     ]
   },

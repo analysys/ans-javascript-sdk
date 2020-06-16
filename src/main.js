@@ -9,7 +9,8 @@ import { lifecycle } from './configure/index.js'
 import { startUp } from './API/template/startUp.js'
 import { clearCache } from './lib/fillField/index.js'
 import { ieCreat } from './lib/compatible/index.js'
-var AnalysysAgent = window.AnalysysAgent || {}
+window.AnalysysAgent = window.AnalysysAgent || {}
+var AnalysysAgent = window.AnalysysAgent
 var config = AnalysysAgent.config || {}
 var param = AnalysysAgent.param || []
 function isHybrid () {
@@ -17,10 +18,6 @@ function isHybrid () {
   ) {
     baseConfig.base.isHybrid = true
   }
-  //   if (window.AnalysysAgentHybrid && window.AnalysysAgentHybrid.isHybrid() === true) {
-  //     baseConfig.base.isMessageSDK = true
-  //     baseConfig.base.isHybrid = true
-  //   }
 }
 isHybrid() //Hybrid模式检测
 ieCreat() //ie兼容
@@ -28,13 +25,7 @@ ieCreat() //ie兼容
 function _createAnsSDK () {
 
   AnalysysAgent.isInit = true
-  // if (baseConfig.base.isHybrid === true) {
-  //   for (var hybridKey in HybridAns) {
-  //     AnalysysAgent[hybridKey] = HybridAns[hybridKey]
-  //   }
-  //   initHybrid(config, param)
-  //   return
-  // }
+
   for (var key in ans) {
     AnalysysAgent[key] = ans[key]
   }
@@ -47,6 +38,8 @@ function _createAnsSDK () {
     }
   }
   AnalysysAgent.config = Util.objMerge(baseConfig.base, config)
+  AnalysysAgent.config.setDebugModel = getField.debugMode
+
   clearCache()
   for (var y = 0; y < param.length; y++) {
     var yItem = param[y]
@@ -64,7 +57,6 @@ function _createAnsSDK () {
     if (Util.objHasKay(ans, zItem[0]) && zItem[0] !== 'identify' && zItem[0] !== 'alias' && zItem[0].indexOf('Super') < 0) {
       ans[zItem[0]].apply(ans[zItem[0]], zItem[1])
     }
-
   }
 }
 

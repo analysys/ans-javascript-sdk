@@ -72,22 +72,13 @@ function checkPointBase (elePath, eventPath) {
 }
 
 function addElesListener (e) {
-  // var e = eventEle
-  // if (!e) {
-  //   return
-  // }
   e = e || window.event
   if (e.touches && e.touches.length > 0) {
     e = e.touches[0]
   }
 
   var ele = e.target || e.srcElement
-  // var elePath = domParentList(ele)
-  // var eleIndex = setIndex(ele, elePath)
   var patt = /\d{13}/g;
-  // if (patt.test(elePath) === true) {
-  //   elePath = elePath.replace(patt, '')
-  // }
 
   for (var i = 0; i < visitorEventList.length; i++) {
     var link = visitorEventList[i].link
@@ -136,9 +127,7 @@ function getVisitorEvent () {
     hash = hash.split('?')[0]
   }
   var url = window.location.protocol + '//' + window.location.host + window.location.pathname + hash
-  // var noProUrl = '//' + window.location.host + window.location.pathname + hash
   getPoint(url)
-  // getPoint(noProUrl, true)
 }
 
 function parsePath (path) {
@@ -161,44 +150,6 @@ function getPoint (url) {
       if (data.code !== 0) {
         return
       }
-
-      // if (!status) {
-      //   if (visitorEventList.length === 0) {
-      //     visitorEventList = []
-      //   } else {
-      //     var list = data.data
-      //     for (var i = 0; i < list.length; i++) {
-      //       var isInArray = true
-      //       for (var y = 0; y < visitorEventList.length; y++) {
-      //         if (visitorEventList[y].appEventId === list[i].appEventId) {
-      //           isInArray = false
-      //         }
-      //       }
-      //       if (isInArray === true) {
-      //         visitorEventList.push(list[i])
-      //       }
-      //     }
-      //   }
-      // } else {
-      //   if (visitorEventList.length === 0) {
-      //     visitorEventList = data.data
-      //   } else {
-      //     var listF = data.data
-      //     for (var x = 0; x < listF.length; x++) {
-      //       var isInArrayX = true
-      //       for (var z = 0; z < visitorEventList.length; z++) {
-      //         if (visitorEventList[z].appEventId === list[x].appEventId) {
-      //           isInArrayX = false
-      //           visitorEventList[y] = list[z]
-      //         }
-      //       }
-      //       if (isInArrayX === true) {
-      //         visitorEventList.push(list[x])
-      //       }
-      //     }
-      //   }
-      // }
-
       var list = []
       for (var i = 0; i < data.data.length; i++) {
         var pointEvent = data.data[i]
