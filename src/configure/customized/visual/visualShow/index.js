@@ -51,9 +51,6 @@ function processMsg (msg) {
       if (highlightStatus === false) {
         return
       }
-      if (eventList.length === 0) {
-        console.log('无埋点列表')
-      }
       if (!isElmentReady() || document.readyState !== 'complete') {
         setTimeout(function () {
           processMsg(msg)
@@ -183,6 +180,6 @@ window.AnalysysModule = Util.objMerge(window.AnalysysModule || {}, {
   visual: {
     init: initVisual,
     msg: processMsg,
-    version: '4.4.1'
+    version: '4.4.2'
   }
 })

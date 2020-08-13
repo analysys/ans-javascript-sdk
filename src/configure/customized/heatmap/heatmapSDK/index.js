@@ -44,9 +44,9 @@ var isInitHeatmap = false
  */
 function processMsg (msg) {
   if (msg.code === 'ark/heatmap' ||
-        msg.code === 'ark/depth' ||
-        msg.code === 'ark/element' ||
-        msg.code === 'ark/attention') {
+    msg.code === 'ark/depth' ||
+    msg.code === 'ark/element' ||
+    msg.code === 'ark/attention') {
     if (!isInitHeatmap) {
       ifarmeMessageList.push(msg)
     } else {
@@ -283,7 +283,7 @@ function initHeatmap () {
           var testParams = unescape(arkcontentText)
           showMapConfig.contentText = JSON.parse(testParams)
           initContent()
-        } catch (e) {}
+        } catch (e) { }
       }
     } else {
       setTimeout(initHeatmap, 20)

@@ -69,51 +69,9 @@ function startUp () {
 
   // 自动采集页面
   if (baseConfig.base.auto === true) {
-    // var status = true
-    // /**
-    //      * 判断黑白名单
-    //      * 符合黑名单，不上报
-    //      * 有白名单，且不符合白名单，不上报
-    //      */
-    // if (Util.checkTypeList(baseConfig.base.pageViewBlackList) || (baseConfig.base.pageViewWhiteList && !Util.checkTypeList(baseConfig.base.pageViewWhiteList))) {
-    //   status = false
-    // }
-    // if (status === true) { // 获取事件日志模板
-    // baseConfig.status.FnName = '$pageview'
-    // var pageViewTemp = temp('$pageview')
-    // var pageViewObj = fillField(pageViewTemp)
-    // /**
-    //  * 超级属性优先于自动采集属性
-    //  */
-    // pageViewObj = Util.objMerge(Util.delEmpty(pageViewObj), {
-    //   xcontext: arkSuper
-    // })
-    // var pageProperty = baseConfig.base.pageProperty
-    // if (Util.paramType(pageProperty) === 'Object' && !Util.isEmptyObject(pageProperty)) {
-    //   // 检测distinctId
-    //   for (var key in pageProperty) {
-    //     if (Util.paramType(pageProperty[key]) === 'Function') {
-    //       pageProperty[key] = pageProperty[key].call(pageProperty[key])
-    //     }
-    //   }
-    //   checkPrivate(pageProperty)
-    //   // baseConfig.status.FnName = '$pageview'
-    //   /**
-    //    * 自定义属性属性优先于自动采集属性
-    //    */
-    //   pageViewObj = Util.objMerge(pageViewObj, {
-    //     xcontext: pageProperty
-    //   })
-    //   baseConfig.base.pageProperty = {}
-    // }
     var pageLog = pageViewLog(baseConfig.base.pageProperty)
 
     log.push(pageLog)
-    //   if (window.AnalysysModule && window.AnalysysModule.pageClose && Util.paramType(window.AnalysysModule.pageClose.createTime) === 'Function') {
-    //     window.AnalysysModule.pageClose.createTime(+new Date(), pageLog.xcontext.$title)
-    //   }
-    // }
-
     // 开启hash跳转
     if (baseConfig.base.hash === true || baseConfig.base.singlePage === true) {
       hashPageView()

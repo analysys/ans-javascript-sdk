@@ -98,9 +98,16 @@ function isFirstDay () {
 function originalId () {
   return getIdentifyId() || getUUId()
 }
-
+var referrer = document.referrer || ''
+function setReferrer (ref) {
+  referrer = ref
+}
 function getReferrer () {
-  var refer = decodeURIComponent(document.referrer)
+  var refer = document.referrer
+  try {
+    refer = decodeURIComponent(refer)
+  } catch (e) { }
+
   if (baseConfig.base.isHybrid === true) {
     refer = encodeURIComponent(refer)
   }
@@ -108,7 +115,7 @@ function getReferrer () {
 }
 
 function getReferrerDomain () {
-  return Util.getDomainFromUrl(false, document.referrer)
+  return Util.getDomainFromUrl(false, referrer)
 }
 
 function getTitle () {
@@ -120,7 +127,10 @@ function startupTime () {
 }
 
 function getUrl () {
-  var url = decodeURIComponent(window.location.href)
+  var url = window.location.href
+  try {
+    url = decodeURIComponent(url)
+  } catch (e) { }
   if (baseConfig.base.isHybrid === true) {
     url = encodeURIComponent(url)
   }
@@ -148,7 +158,7 @@ function getScreenHeight () {
 
 var oldUTM = Storage.getSession('ARK_UTM') || ''
 
-if (UTM.utm_campaign || UTM.utm_source || UTM.utm_medium || UTM.campaign_id || UTM.utm_term || UTM.utm_content) {
+if (UTM.utm_campaign || UTM.utm_source || UTM.utm_medium || UTM.utm_campaign_id || UTM.utm_term || UTM.utm_content) {
   if (oldUTM !== JSON.stringify(UTM)) {
     sessionId.setId()
   }
@@ -214,6 +224,7 @@ export {
   utmTerm,
   utmContent,
   utmCampaign,
-  timeCalibration
+  timeCalibration,
+  setReferrer
   // device_type
 }

@@ -27,7 +27,7 @@ function encryptKey (lib, appid, libVersion) {
   var F = libVersion.split('.')
   var F1 = F[F.length - 1]
   var F2 = F[F.length - 2]
-  if (!(Number(F2) % 2) === 0) {
+  if (!(Number(F2) % 2) === false) {
     // 倒叙
     base64Str = baseStr.reverse()
   } else {

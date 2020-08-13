@@ -268,7 +268,7 @@ function addEventListener () {
 
 function visitorInit (config) {
   visitorConfig = config
-  if (Util.paramType(window.top) !== 'Undefined' && (window.top !== window.self) && (window.location.href.indexOf('visual=true') > -1 || Storage.getSession('visitor') === true)) {
+  if (Util.paramType(window.top) !== 'Undefined' && (window.top !== window.self) && (window.location.href.indexOf('visual=true') > -1 || (Storage.getSession('ISVISUAL') === true && window.location.href.indexOf('arkheatmap=true') < 0))) {
     loadVisitorSDK()
   } else {
     visitorPageViewInit(config)

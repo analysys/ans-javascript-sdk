@@ -71,7 +71,9 @@ function getElementPath () {
 
 function getUrlPath () {
   var url = window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.hash
-  url = decodeURIComponent(url)
+  try {
+    url = decodeURIComponent(url)
+  } catch (e) { }
   if (baseConfig.base.isHybrid === true) {
     url = encodeURIComponent(url)
   }
@@ -168,7 +170,9 @@ function getElementClassName () {
 function getElementTargetUrl () {
   var href = elePostion.ele.getAttribute('href')
   if (href && href.indexOf('javascript:') < 0) {
-    href = decodeURIComponent(href)
+    try {
+      href = decodeURIComponent(href)
+    } catch (e) { }
     if (baseConfig.base.isHybrid === true) {
       href = encodeURIComponent(href)
     }

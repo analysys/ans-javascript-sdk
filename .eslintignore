@@ -1,0 +1,9 @@
+node_modules/*
+ua-parser.js
+test/
+**/decodeGBK.js
+**/JSON2.js
+!src/
+*.html
+*.json
+*.min.js

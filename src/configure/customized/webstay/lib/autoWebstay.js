@@ -30,17 +30,17 @@ function initWebStay () {
   // setTimeout(startScroll, 1000)
 }
 
-function startScroll () {
-  if (!window.AnalysysAgent || !window.AnalysysAgent.freeApi || !document.body) {
-    setTimeout(function () { startScroll() }, 100)
-  } else {
-    var fristScrollTop = document.documentElement.scrollTop || document.body.scrollTop
-    if (fristScrollTop === 0) {
+// function startScroll () {
+//   if (!window.AnalysysAgent || !window.AnalysysAgent.freeApi || !document.body) {
+//     setTimeout(function () { startScroll() }, 100)
+//   } else {
+//     var fristScrollTop = document.documentElement.scrollTop || document.body.scrollTop
+//     if (fristScrollTop === 0) {
 
-      window.AnalysysAgent.freeApi('$webstay')
-    }
-  }
-}
+//       window.AnalysysAgent.freeApi('$webstay')
+//     }
+//   }
+// }
 
 function autoWebstayInit (config) {
   if (config.autoHeatmap === true && config.autoWebstay === true && config.isHybrid === false) {

@@ -26,14 +26,6 @@ function track (eventName, obj, callback) {
       xcontext: obj
     }
   }
-  if (baseConfig.base.isHybrid === true) {
-    var backParams = backParamsArray(eventName, userProp.xcontext, callback)
-    var paramArray = backParams.argArray
-    // paramArray.postion = elePostionObj || null
-    transporter('track', paramArray, backParams.callback)
-    // window.AnalysysAgentHybrid.track(eventName, JSON.stringify(userProp.xcontext), JSON.stringify(elePostionObj))
-    return
-  }
   var arkSuper = Storage.getLocal('ARKSUPER') || {}
 
   /**
@@ -42,6 +34,20 @@ function track (eventName, obj, callback) {
   var xcontext = Util.objMerge({
     xcontext: arkSuper
   }, userProp)
+  if (baseConfig.base.isHybrid === true) {
+    var trackHybridTemp = temp('$trackbase')
+    var trackHybridObj = fillField(trackHybridTemp)
+    trackHybridObj = Util.delEmpty(trackHybridObj)
+    var hybridPageViewLog = Util.objMerge(trackHybridObj, xcontext)
+    hybridPageViewLog = Util.delNotHybrid(Util.delEmpty(hybridPageViewLog.xcontext))
+    var backParams = backParamsArray(eventName, hybridPageViewLog, callback)
+    var paramArray = backParams.argArray
+    // paramArray.postion = elePostionObj || null
+    transporter('track', paramArray, backParams.callback)
+    // window.AnalysysAgentHybrid.track(eventName, JSON.stringify(userProp.xcontext), JSON.stringify(elePostionObj))
+    return
+  }
+
   var trackTemp = temp('$track')
   var trackObj = fillField(trackTemp)
   /**

@@ -165,7 +165,7 @@ function getPoints () {
 
 function radiusPoint (p1, p2) {
   return (p1.x - radius - diffRadius <= p2.x && p2.x <= p1.x + radius - diffRadius) &&
-        (p1.y - radius - diffRadius <= p2.y && p2.y <= p1.y + radius - diffRadius)
+    (p1.y - radius - diffRadius <= p2.y && p2.y <= p1.y + radius - diffRadius)
 }
 
 function resetGradient (max, min) {

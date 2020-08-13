@@ -75,7 +75,10 @@ function initHeatmap () {
 
 function heatmapInit (config) {
   heatmapConfig = config
-  if (window.location.href.indexOf('arkheatmap=true') > -1) {
+  if (window.location.href.indexOf('arkheatmap=true') > -1 || window.name.indexOf('arkheatmap=true') > -1) {
+    if (window.name === '') {
+      window.name = window.location.href
+    }
     loadHeatmapSDK()
   } else if (config.autoHeatmap === true && config.isHybrid === false) {
     initHeatmap()

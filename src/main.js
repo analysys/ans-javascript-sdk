@@ -9,6 +9,7 @@ import { lifecycle } from './configure/index.js'
 import { startUp } from './API/template/startUp.js'
 import { clearCache } from './lib/fillField/index.js'
 import { ieCreat } from './lib/compatible/index.js'
+// import { HybridAns } from './configure/customized/hybrid/lib/hybrid'
 window.AnalysysAgent = window.AnalysysAgent || {}
 var AnalysysAgent = window.AnalysysAgent
 var config = AnalysysAgent.config || {}
@@ -18,14 +19,20 @@ function isHybrid () {
   ) {
     baseConfig.base.isHybrid = true
   }
+  if (window.AnalysysAgentHybrid && window.AnalysysAgentHybrid.isHybrid() === true) {
+    baseConfig.base.isHybrid = true
+  }
 }
-isHybrid() //Hybrid模式检测
 ieCreat() //ie兼容
 
 function _createAnsSDK () {
-
+  isHybrid() //Hybrid模式检测
   AnalysysAgent.isInit = true
-
+  // if (baseConfig.base.isHybrid === true) {
+  //   for (var hybridKey in HybridAns) {
+  //     AnalysysAgent[hybridKey] = HybridAns[hybridKey]
+  //   }
+  // }
   for (var key in ans) {
     AnalysysAgent[key] = ans[key]
   }
@@ -68,6 +75,7 @@ AnalysysAgent.init = function (conf) {
 }
 if (!AnalysysAgent.isInit) {
   if (Util.paramType(AnalysysAgent) === 'Array') {
+
     for (var i = 0; i < AnalysysAgent.length; i++) {
       if (Util.paramType(ans[AnalysysAgent[i][0]]) === 'Function') {
         var fnName = AnalysysAgent[i][0]
@@ -78,12 +86,9 @@ if (!AnalysysAgent.isInit) {
       }
     }
   }
-  if (Util.isEmptyObject(config) === false) {
+  if (Util.isEmptyObject(config) === false || baseConfig.base.isHybrid === true) {
     _createAnsSDK()
-
   }
 }
-if (baseConfig.base.isHybrid === true) {
-  _createAnsSDK()
-}
+
 export default AnalysysAgent

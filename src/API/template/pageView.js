@@ -1,10 +1,15 @@
 import { temp } from '../../lib/mergeRules/index.js'
 import { fillField, checkPrivate, resetCode } from '../../lib/fillField/index.js'
+import { setReferrer } from '../../lib/fillField/getField.js'
 import baseConfig from '../../lib/baseConfig/index.js'
 import { upLog } from '../../lib/upload/index.js'
 import Util from '../../lib/common/index.js'
 import Storage from '../../lib/storage/index.js'
 import { transporter, backParamsArray } from '../../lib/upload/hybrid.js'
+
+var pageCloseStatus = false
+var pageUrl = window.location.href
+
 /**
  * @method pageView 统计页面事件
  * 第一个参数为页面名称 类型：String
@@ -33,10 +38,9 @@ function pageView (pageName, obj, callback) {
   var log = pageViewLog(pageName, obj, callback)
 
   // 去除空数据后上传数据
-
   upLog(log, callback)
 }
-var pageCloseStatus = false
+
 function pageViewLog (p, o, c) {
   var pageName = p
   var obj = o
@@ -129,21 +133,22 @@ function pageViewLog (p, o, c) {
     var backParams = backParamsArray(pageName || '', hybridPageViewLog, callback)
     var paramArray = backParams.argArray
     transporter('pageView', paramArray, backParams.callback)
+    setReferrer(pageUrl)
+
     return
   }
+  setReferrer(pageUrl)
   /**
      * 自动采集与个性化属性合并
      */
   return Util.objMerge(pageViewObj, xcontext)
 }
 
-var pageUrl = window.location.href
 
 function hashPageView () {
   Util.changeHash(function () {
     if (pageUrl !== window.location.href) {
       pageUrl = window.location.href
-
       pageView()
     }
   })

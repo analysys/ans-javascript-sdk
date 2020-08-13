@@ -63,6 +63,24 @@ Util.prototype.keyValueToObje = function (key, value) {
   obj[key] = value
   return obj
 }
+Util.prototype.toDeep = function (param) {
+  var paramNew = null
+  if (this.paramType(param) === 'Array') {
+    paramNew = []
+    for (var i = 0; i < param.length; i++) {
+      paramNew.push(this.toDeep(param[i]))
+    }
+  } else if (this.paramType(param) === 'Object') {
+    paramNew = {}
+    for (var key in param) {
+      paramNew[key] = this.toDeep(param[key])
+    }
+  } else {
+    paramNew = param
+  }
+  return paramNew
+}
+
 Util.prototype.toDeepObj = function (param1, param2) {
   var obj = {}
 
@@ -151,8 +169,22 @@ Util.prototype.arrayUnique = function (arr) {
   return tmpArr
 }
 Util.prototype.arrayMerge = function (arr1, arr2) {
-  arr1.push.apply(arr1, arr2)
-  return arr1
+  var a1 = []
+  for (var i = 0; i < arr1.length; i++) {
+    var a1i = arr1[i]
+    if (this.paramType(arr1[i]) === 'Object') {
+      a1i = this.objMerge({}, arr1[i])
+    }
+    a1.push(a1i)
+  }
+  for (var y = 0; y < arr2.length; y++) {
+    var a2i = arr1[y]
+    if (this.paramType(arr2[y]) === 'Object') {
+      a2i = this.objMerge({}, arr2[y])
+    }
+    a1.push(a2i)
+  }
+  return a1
 }
 Util.prototype.arrayMergeUnique = function (arr1, arr2) {
   arr1.push.apply(arr1, arr2)
@@ -556,36 +588,8 @@ Util.prototype.removeEvent = function (el, type, fn, useCapture) {
     }
   }
 }
-Util.prototype.addWindowEvent = function (type) {
-  var orig = window.history[type]
-  return function () {
-    var rv = orig.apply(this, arguments)
-    if (!document.createEvent) {
-      // IE浏览器支持fireEvent方法
-      var evt = document.createEventObject()
-      evt.arguments = arguments
-      document.fireEvent('on' + type, evt)
-    } else {
-      // 其他标准浏览器使用dispatchEvent方法
-      var evtEvent = document.createEvent('HTMLEvents')
-      evtEvent.initEvent(type, true, true)
-      evtEvent.arguments = arguments
-      window.dispatchEvent(evtEvent)
-    }
-    return rv
-  }
-}
-Util.prototype.extend = function (subClass, superClass) {
-  var F = function () { }
-  F.prototype = superClass.prototype
-  subClass.prototype = new F()
-  subClass.prototype.constructor = subClass
 
-  subClass.superclass = superClass.prototype
-  if (superClass.prototype.constructor === Object.prototype.constructor) {
-    superClass.prototype.constructor = superClass
-  }
-}
+
 Util.prototype.addEleLable = function (eleName, className, id, parent) {
   var dom = document
   var createEle = dom.createElement(eleName)
@@ -634,17 +638,6 @@ Util.prototype.addScript = function (fileName, urlPath, callback) {
   createScript.onload = setTimeout(callback, 500)
   domHead[0].parentNode.insertBefore(createScript, domHead[0])
 }
-// Util.prototype.unique = function (arr) {
-//     var a = {}
-//     for (var i = 0; i < arr.length; i++) {
-//         if (typeof a[arr[i]] == "undefined")
-//             a[arr[i]] = 1
-//     }
-//     arr.length = 0
-//     for (var i in a)
-//         arr[arr.length] = i
-//     return arr
-// }
 
 function CheckChinese (val) {
   var reg = new RegExp('[\\u4E00-\\u9FFF]+', 'g')
@@ -653,8 +646,13 @@ function CheckChinese (val) {
   }
   return false
 }
+
 Util.prototype.GetUrlParam = function (paraName) {
   var url = document.location.toString()
+  var wName = window.name
+  if (this.paramType(wName) === 'String' && wName.indexOf(paraName) > -1) {
+    url = wName
+  }
   var arrObj = url.split('?')
   if (arrObj.length > 1) {
     var arrPara = [] // arrObj[1].split("&")
@@ -692,14 +690,7 @@ Util.prototype.GetUrlParam = function (paraName) {
     return ''
   }
 }
-// Util.prototype.isInArray = function (arr, value) {
-//     for (var i = 0; i < arr.length; i++) {
-//         if (value === arr[i]) {
-//             return true
-//         }
-//     }
-//     return false
-// }
+
 Util.prototype.stringSlice = function (str, length) {
   return str.slice(0, length)
 }
@@ -728,27 +719,6 @@ Util.prototype.changeHash = function (callback) {
       setTimeout(callback, 0)
     })
   }
-  // window.history.replaceState = this.addWindowEvent('pushState')
-  // if ('onpopstate' in window) {
-  //   if (!('onpushState' in window)) {
-  //     window.history.pushState = this.addWindowEvent('pushState')
-  //   }
-  //   if (!('onreplaceState' in window)) {
-  //     window.history.replaceState = this.addWindowEvent('replaceState')
-  //   }
-  //   this.addEvent(window, 'popstate', callback)
-  //   this.addEvent(window, 'pushState', callback)
-  //   this.addEvent(window, 'replaceState', callback)
-  //   if (!!window.ActiveXObject || 'ActiveXObject' in window) {
-  //     if ('onhashchange' in window) {
-  //       this.addEvent(window, 'hashchange', callback)
-  //     }
-  //   }
-  // } else if ('onhashchange' in window) {
-  //   if (document.addEventListener) {
-  //     this.addEvent(window, 'hashchange', callback)
-  //   }
-  // }
 }
 
 Util.prototype.deviceType = function () {
@@ -798,7 +768,6 @@ Util.prototype.selectorAllEleList = function (selectors) {
     try {
       return document.querySelectorAll(selectors)
     } catch (e) {
-      // console.log(e.message)
     }
   }
   var eleId = ''
@@ -871,6 +840,9 @@ Util.prototype.selectorAllEleList = function (selectors) {
 //   }
 // }
 Util.prototype.getDomainFromUrl = function (domianStatus, host) {
+  if (host === '') {
+    return ''
+  }
   host = host || window.location.hostname
 
 
@@ -907,8 +879,9 @@ Util.prototype.getDomainFromUrl = function (domianStatus, host) {
     return ''
   }
   // }
-  return '.' + urlDomain.reverse().join('.')
+  return urlDomain.reverse().join('.')
 }
+Util.prototype.isiOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
 Util.prototype.delNotHybrid = function (obj) {
   delete obj.$is_first_day
   delete obj.$session_id
@@ -924,5 +897,22 @@ Util.prototype.getUrlPath = function () {
   }
 
   return window.location.host + window.location.pathname + hash
+}
+
+Util.prototype.detectZoom = function () {
+  var metaEles = this.selectorAllEleList('meta')
+  var ratio = 1
+  for (var i = 0; i < metaEles.length; i++) {
+    var attr = metaEles[i].getAttribute('content')
+    if (attr && attr.indexOf('initial-scale=') > -1) {
+      var attrList = attr.split(',')
+      for (var y = 0; y < attrList.length; y++) {
+        if (attrList[y].indexOf('initial-scale') > -1) {
+          ratio = parseFloat(attrList[y].split('=')[1])
+        }
+      }
+    }
+  }
+  return ratio;
 }
 export default new Util()

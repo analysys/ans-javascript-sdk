@@ -10,10 +10,10 @@ export default {
     autoWebstay: true, // 自动采集访问深度
     singlePage: true, // 自动采集单页面应用
     pageProperty: {}, // 自动采集页面打开时页面自定义属性
-    $lib_version: '4.4.3', // sdk版本号
+    $lib_version: '4.4.4', // sdk版本号
     cross_subdomain: true, // 跨子域存储cookie
     cross_subdomain_super: true, // 同步跨子域存储cookie时 同步通用属性
-    allowTimeCheck: true, // ajax上报日志 开启时间校准
+    allowTimeCheck: false, // ajax上报日志 开启时间校准
     isMessageSDK: false,
     isHybrid: false
   },

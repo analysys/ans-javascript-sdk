@@ -20,7 +20,7 @@ try {
 function Storage () {
   this.localName = 'FZ_STROAGE'
   this.sessionName = 'FZ_SESSION'
-  this.cookieName = 'FZ_STROAGE' + Util.getDomainFromUrl(baseConfig.base.cross_subdomain)
+  this.cookieName = 'FZ_STROAGE' + '.' + Util.getDomainFromUrl(baseConfig.base.cross_subdomain)
   this.checkSubdomain()
   this.localObj = this.getLocal()
   this.sessionObj = this.getSession()
@@ -84,7 +84,10 @@ Storage.prototype.setLocal = function (key, value) {
       // this.removeCookie(this.localName)
     }
     if (key !== 'POSTDATA' && baseConfig.base.cross_subdomain === true) {
-      this.setCookie(this.cookieName, encodeURIComponent(Util.encode(JSON.stringify(this.localObj))))
+      var saveLocalObj = Util.toDeep(this.localObj)
+      delete saveLocalObj['POSTDATA']
+
+      this.setCookie(this.cookieName, encodeURIComponent(Util.encode(JSON.stringify(saveLocalObj))))
     }
   } catch (e) { }
 }
@@ -145,7 +148,11 @@ Storage.prototype.removeLocal = function (key) {
       Session.setItem(this.localName, Util.encode(JSON.stringify(this.localObj)))
     }
     if (key !== 'POSTDATA' && key !== 'ARK_ID' && baseConfig.base.cross_subdomain === true) {
-      this.setCookie(this.cookieName, Util.encode(JSON.stringify(this.localObj)))
+      var saveLocalObj = Util.toDeep(this.localObj)
+      delete saveLocalObj['POSTDATA']
+      delete saveLocalObj['ARK_ID']
+
+      this.setCookie(this.cookieName, Util.encode(JSON.stringify(saveLocalObj)))
     }
   }
 }
@@ -213,7 +220,7 @@ Storage.prototype.setCookie = function (name, value, type) {
   //   this.removeCookie(name, !baseConfig.base.cross_subdomain, type)
   // }
   // this.removeCookie(name, baseConfig.base.cross_subdomain, type)
-  var urlDomain = Util.getDomainFromUrl(baseConfig.base.cross_subdomain)
+  var urlDomain = '.' + Util.getDomainFromUrl(baseConfig.base.cross_subdomain)
   var path = '; path=/'
   var domain = !urlDomain ? '' : ('; domain=' + urlDomain)
   var time = ''
@@ -245,7 +252,7 @@ Storage.prototype.getCookie = function (name) {
 }
 Storage.prototype.removeCookie = function (name, domainStatus, type) {
   domainStatus = Util.paramType(domainStatus) === 'Boolean' ? domainStatus : baseConfig.base.cross_subdomain
-  var urlDomain = Util.getDomainFromUrl(domainStatus)
+  var urlDomain = '.' + Util.getDomainFromUrl(domainStatus)
   var path = '; path=/'
   var domain = !urlDomain ? '' : ('; domain=' + urlDomain)
   if (type !== 'session') {
