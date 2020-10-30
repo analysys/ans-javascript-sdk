@@ -1,8 +1,8 @@
 {
   "name": "ans-javascript-sdk",
-  "version": "4.4.4",
+  "version": "4.5.2",
   "description": "official analysysAgent javascript sdk",
-  "main": "./SDK/AnalysysAgent_JS_SDK.min.js",
+  "main": "./sdk/AnalysysAgent_JS_SDK.min.js",
   "scripts": {
     "test": "jest",
     "dev": "rollup -c rollup.config.js --watch",
@@ -96,6 +96,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/plugin-transform-member-expression-literals": "^7.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
     "@babel/plugin-transform-property-literals": "^7.0.0",
     "@babel/polyfill": "^7.8.7",
     "@babel/runtime": "^7.7.2",
@@ -103,6 +104,8 @@
     "babel-preset-env": "^1.7.0",
     "core-js": "^3.6.5",
     "crypto-js": "^3.1.9-1",
+    "intersection-observer": "^0.11.0",
+    "mutationobserver-shim": "^0.3.7",
     "regenerator-runtime": "^0.13.3"
   },
   "bugs": {
