@@ -1,0 +1,57 @@
+.ARK_PAGE_LINE_BOX {
+    z-index: 1000000000;
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    /*overflow-x:hidden;*/
+}
+
+.ARK_PAGE_LINE_LINE {
+    width: 100%;
+    height: 0px;
+    border-bottom: dashed 1px #262d39 !important;
+}
+
+.ARK_PAGE_LINE_VALUE {
+    /*width: 76px;
+	height: 32px;*/
+    background-color: #262d39;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 16px;
+    letter-spacing: 0px;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 0 4px 0 0;
+    -moz-border-radius: 0 4px 0 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.ARK_MOUSE_LINE_VALUE {
+    position: relative; 
+    left: -50%;
+    text-align: center;
+    padding: 8px 16px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    background-color: #262d39;
+    font-family: Roboto-Bold;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 16px;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+.ARK_MOUSE_LINE_LINE{
+	 border-bottom: solid 1px #262d39 !important;
+}
+.ARK_MOUSE_LINE_VALUE_BOX{
+	    left: 50%;
+	    position: absolute;
+	    top:-16px; 
+}

@@ -1,6 +1,6 @@
 {
   "name": "ans-javascript-sdk",
-  "version": "4.5.4",
+  "version": "4.5.5",
   "description": "official analysysAgent javascript sdk",
   "main": "./sdk/AnalysysAgent_JS_SDK.min.js",
   "module": "./sdk/AnalysysAgent_JS_SDK.es6.min.js",
@@ -8,7 +8,8 @@
     "test": "jest",
     "dev": "rollup -c rollup.config.js --watch",
     "module": "rollup -c rollup.module.config.js --watch",
-    "build": "rollup -c rollup.config.js&&rollup -c rollup.module.config.js",
+    "plugins": "rollup -c rollup.plugins.config.js --watch",
+    "build": "rollup -c rollup.config.js&&rollup -c rollup.module.config.js&&rollup -c rollup.plugins.config.js",
     "cover": "jest --coverage",
     "lint": "standard \"src/**/*.{js,vue}\"",
     "lint:fix": "standard \"src/**/*.{js,vue}\" --fix"
