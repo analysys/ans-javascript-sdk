@@ -1,65 +1,67 @@
+# [易观方舟](https://www.analysys.cn/) asd-javascript-sdk [![NPM version][npm-image]][npm-url] [![License](https://img.shields.io/github/license/analysys/ans-wechat-sdk.svg)](https://github.com/analysys/ans-wechat-sdk/blob/master/LICENSE) [![GitHub release](https://img.shields.io/github/release/analysys/ans-wechat-sdk.svg)](https://github.com/analysys/ans-wechat-sdk/releases)
 
-# Analysys JavaScript SDK [![NPM version][npm-image]][npm-url] [![License](https://img.shields.io/github/license/analysys/ans-javascript-sdk.svg)](https://github.com/analysys/ans-javascript-sdk/blob/master/LICENSE)  [![GitHub release](https://img.shields.io/github/release/analysys/ans-javascript-sdk.svg)](https://github.com/analysys/ans-javascript-sdk/releases) 
+## 安装
 
-========
-
-This is the official JavaScript SDK for Analysys.
-
-# JavaScript SDK目录说明：
-* demo——API调用演示
-* SDK——SDK文件
-* src——SDK源码
-* vue-demo——VUE框架API调用演示
-
-# 安装
-
-```
-    npm install ans-javascript-sdk --save
+```sh
+$ npm install asd-javascript-sdk --save 
 ```
 
-# JavaScript 基础说明：
+## javascript SDK 基础说明
 
-JS SDK 用于由 HTML 、 Css 及 Javascript 制作成的网站，集成前请先安装SDK
+#### 快速集成
+##### 引入sdk模块并初始化
+```js
 
-## 快速集成
-如果您是第一次使用易观方舟产品，可以通过阅读本文快速了解此产品
-1. 选择集成方式
-目前我们提供了异步集成、同步集成的方式
-2. 设置初始化接口
-通过初始化代码的配置参数配置您的 AppKey
-3. 设置上传地址
-通过初始化代码的配置参数 uploadURL 设置您上传数据的地址。
-4. 设置需要采集的页面或事件
-通过手动埋点，设置需要采集的页面或事件。
-5. 打开Debug模式查看日志
-通过设置 Ddebug 模式，开(debugMode为1或2)/关(debugMode为0或不设置) log 查看日志。
+import AnalysysAgent from "asd-javascript-sdk"
 
-> 通过以上步骤您即可验证SDK是否已经集成成功，具体使用方法参考：[易观方舟 JavaScript SDK 文档](https://docs.analysys.cn/ark/integration/sdk/js/js)
+// 引入加密模块(非必须)
+import AnalysysEncryption  from 'asd-javascript-sdk/dist/AnalysysAgent_encryption.min.js';
+AnalysysAgent.encrypt = AnalysysEncryption;
 
-> 注意 SDK 可能不完全向前兼容，请查看版本更新说明 [Release及版本升级记录](https://github.com/analysys/ans-javascript-sdk/releases)。如果有说明不兼容的话，需要升级易观方舟对应的版本。 请根据需要前往 [Release](https://github.com/analysys/ans-javascript-sdk/releases) 里下载对应的文件
+//初始化
+AnalysysAgent.init({
+  appkey: '',
+  uploadURL: ''
+})
+```
+
+##### 初始化参数说明 
+
+参数 | 是否必须| 类型 | 默认值 | 说明
+--- | :--- | :--- | :--- | :---
+appkey | 是 | string | - |  在网站获取的AppKey
+uploadURL | 是 | string | - | 自定义上传地址
+debugMode | 否 | number | 0 |  0: 关闭调试模式；1 - 开启调试模式，数据不入库；2 - 开启调试模式，数据入库
+autoProfile | 否 | boolean | true | 设置是否追踪新用户的首次属性
+encryptType | 否 | number | 0 | 设置是否对上传数据加密：0 - 对上传数据不加密(默认)；1 - 对上传数据进行AES 128位ECB加密；2 对上传数据进行AES 128位CBC加密
+allowTimeCheck | 否 | boolean | false | 设置是否开启时间校准
+maxDiffTimeInterval | 否 | number | 30 | 设置最大时间校准分为：30s(默认) ，当设置的时间差值小于他，将不开启校准。否则将会进行时间校准。假如设置成为负值，将默认为 30s。
+autoTrack | 否 | boolean | false | 设置是否开启全埋点，开启全埋点将会上报所有绑定（支持tab、longtab、longpress）事件,并上报$user_click 事件,设置data-content为采集的 $element_content、data-type为采集的 $element_type、data-name为采集的$element_name、id为采集的$element_id。不设置采集不到。不支持系统方法包括生命周期事件的上报，如果要采集tabbar切换，务必在注册Page的时候注册OnTabItemTap方法，否则采集不到。
+autoCompleteURL | 否 | boolean | true | 设置是否采集完整URL，true - 采集URL包括参数；false - 采集URL不包括参数
+autoPageViewDuration | 否 | boolean | false | 是否采集页面离开事件
+
+> 通过以上步骤您即可验证SDK是否已经集成成功，更多Api使用方法参考：[易观方舟 wechat SDK 文档](https://docs.analysys.cn/ark/integration/sdk/wx/wxsdkcustom)
+
+> 注意 SDK 可能不完全向前兼容，请查看版本更新说明 [Release及版本升级记录](https://github.com/analysys/ans-wechat-sdk/releases)。如果有说明不兼容的话，需要升级易观方舟对应的版本。 请根据需要前往 [Release](https://github.com/analysys/ans-wechat-sdk/releases) 里下载对应的文件
+
 
 ## 版本升级记录
 请参见 [Release及版本升级记录](https://github.com/analysys/ans-wechat-sdk/releases)
-更多Api使用方法参考：[易观方舟 JavaScript SDK 文档](https://docs.analysys.cn/ark/integration/sdk/js/js)
 
-# 讨论
-* 微信号：nlfxwz
-* 钉钉群：30099866
-* 邮箱：nielifeng@analysys.com.cn
-  
 
-# License
 
-[gpl-3.0](https://www.gnu.org/licenses/gpl-3.0.txt)
 
-**禁止一切基于易观方舟 javascript 开源 SDK 的所有商业活动！**
+**禁止一切基于易观方舟 wechat 开源 SDK 的所有商业活动！**
 
 ---
 
 [![NPM downloads][npm-downloads]][npm-url]
 
 
+
+
 [homepage]: https://github.com/analysys/ans-javascript-sdk
-[npm-url]: https://www.npmjs.com/package/ans-javascript-sdk
-[npm-image]: https://img.shields.io/npm/v/ans-javascript-sdk.svg?style=flat
-[npm-downloads]: https://img.shields.io/npm/dm/ans-javascript-sdk.svg?style=flat
+[npm-url]: https://www.npmjs.com/package/asd-javascript-sdk
+[npm-image]: https://img.shields.io/npm/v/asd-javascript-sdk.svg?style=flat
+[npm-downloads]: https://img.shields.io/npm/dm/asd-javascript-sdk.svg?style=flat
+

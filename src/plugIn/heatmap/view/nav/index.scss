@@ -1,0 +1,364 @@
+.ark-heatmap-head {
+  position: fixed;
+  left: 0;
+  top:0;
+  background-color: rgba(0, 0, 0, .8);
+  z-index: 10001;
+  width: 100%;
+  height: 64px;
+  font-size: 16px;
+  color: #9cacbf;
+  transition: all 0.3s;
+  .ark-icon {
+    display: inline-block;
+    background-size: 100% 100%;
+    width: 14px;
+    height: 14px;
+    margin-right: 10px;
+    &.ark-icon-point {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAQFJREFUOBGlUjEKwlAMTVR0cRGsQ1HP4QFcPIfgZl28gINDi4t2EzyHV/AcrXQRdNBFUWPTNiWUFsV+KC8vfXk/PwSg5MFf68110H/cnzskHBDSod6ojYOZ6VXEoOP4i7btnRklp5GLgWBIQE3GiIeC1OBNNA15K0FdG8V8s04KTw0qiG4ouCSotVHMbeuk8NIzyDUwVv6IXrDlG7EKk9O8t9e36zh9gk7GxdQFoK4Y6f86zjXQgm9xrgG3HTZ/5C+Oi21yZ5CVFy0R66IODMdbGrZ/ZcwWMy9aIv4XP4HQijcMLU5mjyyN5DVPZkAuAt4AaSMijbI0ktO89AzE9G/8AFToh10DAaI4AAAAAElFTkSuQmCC) no-repeat;
+    }
+    &.ark-icon-ele {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAQZJREFUOBGtUsEOwUAQnZn4AKTc9A8dERJt1IkmDuoLy0ka9QW7ZpZlrUUqNml23ryZ2bdvC/CP1V8dsmhd1lFezkPzJC98f71f+DxKQkjQ0PbJAK6rSdx18y0DEDY8ICPE7DgepG6BxHKy0jpBotzn7jhalfoOAsE7ngK1H1O+H9crfGx5kEaFumIFeshR2kgBG4hAkMiIJz+MLPYg9ExSLHk53T6z60ezZ0Q4V+O4IwOMGh5urkCaCmBS5FlCdvux3BnX1gS4FUVflysxVOzyLyb28sNUmux9/QE2b3fjgVvE00+MO24uGN/8ePkPCGinUA3Zk001ipd+syjUSo3Yj8LnfsIXR3J0GEi1vfgAAAAASUVORK5CYII=) no-repeat;
+    }
+    &.ark-icon-dep {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsSAAALEgHS3X78AAAA10lEQVQ4y63SsU3DQBjF8Z9RBqBxaYkN7JoGMwEMgBRGSOWatK7cUgEbsEGSDZKGOpJLN9ngaA5EEfsima+6+77TvXf/e1kIwZy6MrMWkLf9HuXImcPQFFXKQTkhUiYdpCpv+7OghqbIsrkQFxeoV+hw96f9gdXQFKcshDAG8YBnbOP+HV+4xTLO6ymIJV7iusYer/HC+zhfpXLwEJVPeMMa3dAUW+xQT0LM2/4zqt/gMbKocY0N1ikHP084osJT5LKJDLoxiL/pu/QXwrmQzMrBWPr+PYnfX8xTYCBLOCIAAAAASUVORK5CYII=) no-repeat;
+    }
+    &.ark-icon-element {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMlJREFUOBFjYBhowAhywP///9uBlD4QhzAyMn4D8s2AbGEgxgdeAdWeZQQqBhnyEohFgdgAKHgRKHYKyJYAYnzgPlCtPVgBUIMhEPvjU01bOaDtLEDMT44tsEA8B9SsDsQaQH89BhrWBGSLETDwCVBtCwtU0T8g/R+KQUJ/oBjExgVAaiAAaCMzEPPC+PSngbabAHEwOTbDEtIroGYRIDYEBswFoGGgQCUmIVmzADUA1f+fAdQASso3gRgEUoFYCMzCTbzGLUVPGQAuSE4Qo6rhyQAAAABJRU5ErkJggg==) no-repeat;
+    }
+    &.ark-icon-content {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAALRJREFUOBFjYKAQMML0////XxfI9gdiFpgYDvoPUHwTIyPjJRR5oAE3gZhY8ACmmQnGANLXkNiEmBcwFACt5gTiHUQ44TRQDS+GASABoAQbEK/HY8hVoJwwVs0wQaACFiBeisWQe0AxKZg6vDRQIRMQL0Ay5BWQrYRXE7okUIMPkgEH0OVhfORYgImRRA9uA44B/XKXkH9wegGY1t8BNTsD8WMg/k/IIJzyoOgDYk+cCiiVAABBtddgMn4BogAAAABJRU5ErkJggg==) no-repeat;
+    }
+    &.ark-icon-set {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAURJREFUOBG1kz9LglEUh71WaGM55OrSB3DtE1RLFg3qUpOOgbhE3yHdCmqJPkIE0WpETurWpksQbTWEUb09v/vea68IKoIHHs655/zuee+/NxabhwVBsAJd8NYjWJ34LUSLEuE33cwivuDibVezmpFmiHLwDQ/wBG9eRPwKTVDtB/Z8Le66LuPrcAsvsAA58LZLYEC1G6jRRHNCY1CBD0hHcgeMHx2HkfwauXeoKmdXgE9CAnZAZ5DHXUIH2nBBroCXSeP1NqEJBk5BloI7uA6rtuEV43vQ7cjqoC0NVuC1s3m6HcMXlNUBnwed9jmcudhugbgEfTgZfI3BzIdo90EDXckztKAPGTgyxjTwWtEGrgY9WIIsrFP/xIeGSA9Jy570kH7R7Pt5Q57CuKe8JTGa/wc0NDsyQKTr6oK36X6mSI+pwz+2s2sE4j6K/AAAAABJRU5ErkJggg==) no-repeat;
+    }
+    &.ark-icon-refresh {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAQ1JREFUOBG1ks8KAVEUxmckFijkAWztZqMsLJQsPIc8hLLyIKws5Dk8AClZsLFkIRZIGb8zXN07l/wpt36dc77vu3eaO+M4/1y+76cg8dUz2BCHDqxgDXNYQuvtQYQKMIMu5NUG+iR4an5aCcRgAo2ngbuIX4G0lUFsw9AyNAE/BzvYQlWzHAdhCjVDDA34JRjACDKGjXCwRCNxG8ikYaOsiGqoe7ho86vWxXh82uAATkwijqFPX361864XqQsjwya5WbkYuaCcYYYG/CG0Q3JwifJuFcvQBPwGyKeOabLdEvBAXitY9HmQn0t+soLSpUb1Qevr9E3CZ2oWjtADz3XdE/WzxQEJSH2W/jF1BQYvzfgwrEoEAAAAAElFTkSuQmCC) no-repeat;
+    }
+    &.ark-icon-help {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAWdJREFUOBGNk79Kw1AUhxuX0qGLjo5SXEyXgiK1dFBcXNRdV7fiWwgurVudVPoAxReQPIOTUAc76SAUg7goxO8XcpPjjUovfLnn/M6f5ObeW6l4I0mSEPpwD3GGbGmhl164BKswhE8YwSGo2RrswxUoppxqUYklASJ4hM6PoHGItWECyi2a4KiriusuH3s90y+ZN41ex1fuMNUwmqBPy9+M3YUPuIFzeIdd06SDr5ow4DEgsBgEwbFJuMWeovWkkXPG1MTfk6+BNmJ6XeCxA2Ow4w7nwggz7C/jy1TNtjppq/7cHmIteIN8CapWDcT/NiBhGV7gVEV2oKUNtIQpNGzQ2CfYEWvXf/LHCsKT+4lLJB35GbxlFS0m9vxL7BptpiWUttElE3uALee7Ga0N6TamGk7pICmAvgE1V5hpOkgT1eQ6zrxHWQdIpzBSTd4g6+xfpgOS9KeFbF0wfXb5MtlOJKhg7uv8DahvoK6C+lwsAAAAAElFTkSuQmCC) no-repeat;
+    }
+    &.ark-icon-down {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAALpJREFUOBFjYBi+4P///1xAvAGIY0n2JVCTIBAfBeJNQPwEiIuINgSoWBqIrwDxJCBmAmI5IL4GxB0EDQEqUgPi+0BciawYyAe56BAQzwViZmQ5OBsoYQLEz4A4ESQIpFHCAMhnB+JVQAwKFw64RhgDKukN1Yw1DIBqGIG4D4jDYfowaKAkLAwmA9lkhcEDoMYqZJOBfKLD4DlQcRKyZhgbKE4wDHYBFfnCNGCjgfK4wwAoyYRN0+AXAwDWDeuTwsPrDwAAAABJRU5ErkJggg==) no-repeat;
+    }
+    &.ark-icon-crowd {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAATtJREFUOBHVUbFKA0EQnd0cKCh+gaKVX5BKbSwsRBIJyGGpgViJiLGxS2Vjgm0IKFHs0iWCoHX+wyJ/kEbU2+fMrnts7oK2OrA3b2bnzc2bJfr3prIKStX6NkAdyStFR4Pb1lO2JoyjMBBsycCixaSk0ZLg8kF9S3y/23oR70178JMvVc9PDeFZjuCwNtdAxubZR3Is5moYFD0pxJLLSfjWbMf2pCii6+ST1iUuMPZ58ekSK7Wz1eRDnYCwo7S+k0sYcwjSx4/d5kDiaWYbsK4YMPcEmkmLWEKB1B7rXuPNxtzoUmmscE3M/+3NLs+3e43Gu5MANCfI3EVrvW9McsGvsuuamgcyNAdWwbNtvL2ONzlfsUsEMKFZCP2bqyGTy45svwuO7DIs1TbOvUJAEJjuKJP/7W5K+Z9NfQHcMWh6c1UmgAAAAABJRU5ErkJggg==) no-repeat;
+    }
+  }
+  .ark-heatmap-switch {
+    display: inline-block;
+    width: 36px;
+    height: 18px;
+    border-radius: 9px;
+    position: relative;
+    background-color: #4c6072;
+    cursor: pointer;
+    vertical-align: sub;
+    margin-right: 5px;
+    &.ark-switch-act {
+      background-color: #0095e3;
+      &::before {
+        left: 20px;
+      }
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      border-radius: 20px;
+      background-color: #fff;
+      z-index: 20;
+      -webkit-transition: all 0.5s;
+      transition: all 0.5s;
+    }
+  }
+  .ark-head-hide {
+    display: none;
+    position: absolute;
+    width: 64px;
+    height: 32px;
+    line-height: 32px;
+    right: 56px;
+    top: 64px;
+    background-color: rgba(20, 137, 226, 0.8);
+    text-align: center;
+    cursor: pointer;
+    i {
+      cursor: pointer;
+      margin-right: 0;
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.ark-heatmap-head-menu {
+  float: left;
+  margin-left: 20px;
+}
+
+.ark-heatmap-head-menu-item {
+  float: left;
+  line-height: 64px;
+  text-align: center;
+  margin-right: 10px;
+  cursor: pointer;
+  position: relative;
+  &:hover, &.ark-active {
+    color: #1489e2;
+    &::after {
+      content: '';
+      height: 2px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-color: #1489e2;
+      width: 100%;
+    }
+  }
+  @media (max-width: 880px) {
+    i {
+      margin-left: 10px;
+    }
+    span {
+      display: none;
+    }
+  }
+}
+
+
+
+
+.ark-heatmap-head-handle {
+  float: right;
+  margin-right: 20px;
+  .ark-heatmap-head-handle-item {
+    float: left;
+    padding: 0 10px;
+    margin-right: 10px;
+    position: relative;
+    line-height: 64px;
+    &:hover {
+      .ark-handle-hover {
+        color: #fff;
+      }
+      .ark-pop-box, .ark-pop-tips {
+        display: inline-block;
+      }
+    }
+    .ark-handle-hover {
+      cursor: pointer;
+    }
+    .ark-icon-box {
+      i {
+        cursor: pointer;
+        width: 16px;
+        height: 16px;
+        float: left;
+        margin-top: 23px;
+        opacity: .8;
+        &:hover {
+          opacity: 1;
+        }
+      }
+      .ark-pop-tips {
+        top: 50px;
+        left: -5px;
+      }
+    }
+    .ark-pop-box, .ark-pop-tips {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      padding: 10px;
+      box-shadow: 2px 0px 4px #252d3933;
+      border: 1px solid #D8E0E9;
+      border-radius: 4px;
+      top: 64px;
+      left: -100px;
+      line-height: 12px;
+      font-size: 12px;
+      color:#333;
+      &::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        top: 5px;
+        left: 50%;
+        margin-top: -10px;
+        border-width: 0 7px 5px;
+        border-bottom-color: #fff;
+        margin-left: -7px;
+      }
+    }
+    .ark-pop-box {
+      padding: 20px;
+    }
+    .ark-element-list {
+      width: 500px;
+      left: -200px;
+      .ark-element-list-hd {
+        font-size: 16px;
+        color: #252d39;
+        padding-bottom: 5px;
+      }
+      .ark-element-list-bd {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-align: center;
+        td {
+          height: 40px;
+          line-height: 40px;
+          font-size: 14px;
+        }
+        thead {
+          td {
+            border-bottom: 2px solid #e4eaf1;
+          }
+        }
+        tbody {
+          max-height: 400px;
+          overflow-y: auto;
+          td {
+            border-bottom: 1px solid #e4eaf1;
+            color: #4c6072;
+          }
+          .ark-element-content {
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 5px;
+          }
+        }
+      }
+    }
+    .ark-filter-condition {
+      width: 300px;
+      .ark-filter-condition-title {
+        color: #6d859e;
+        font-size: 13px;
+      }
+      .ark-filter-condition-crowd {
+        padding: 17px 0;
+        i {
+          margin-right: 5px;
+          vertical-align: bottom;
+        }
+      }
+      .ark-filter-condition-attrs {
+        position: relative;
+        margin-top: 20px;
+        padding-top: 10px;
+        padding-left: 20px;
+        border-left: solid #e4eaf1 1px;
+        .ark-condigton-item {
+          padding-bottom: 15px;
+          color: #354359;
+          font-size: 12px;
+        }
+        .ark-condigton-relation {
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          border: solid 1px #c5ced8;
+          border-radius: 10px;
+          font-size: 12px;
+          color: #9cacbf;
+          text-align: center;
+          line-height: 20px;
+          left: -10px;
+          top: 50%;
+          margin-top: -10px;
+          background-color: #fff;
+        }
+      }
+    }
+    .ark-display-set {
+      width: 280px;
+      .ark-display-set-item {
+        position: relative;
+        .ark-display-set-item-name {
+          width: 120px;
+          font-size: 14px;
+          position: absolute;
+        }
+        .ark-display-set-item-content {
+          padding-left: 120px;
+          .ark-color-slider-box {
+            position: relative;
+            height: 4px;
+            .ark-color-left-track {
+              position: absolute;
+              background-color: #9cacbf;
+              height: 100%;
+              left: 0;
+              width: 0px;
+            }
+            .ark-left-trigger {
+              left: 0px;
+            }
+            .ark-color-middle-track {
+              position: absolute;
+              height: 100%;
+              left: 0px;
+              background: linear-gradient(to right, #3023ae 0%, #53a0fd 20%, #b4ec51 41%, #ffa301 81%, #fb0000 100%);
+              right: 0px;
+            }
+            .ark-color-right-track {
+              position: absolute;
+              height: 100%;
+              right: 0;
+              width: 0px;
+              background-color: rgb(251, 0, 0);
+            }
+            .ark-right-trigger {
+              left: calc(100% - 10px);
+            }
+          }
+          .ark-slider-trigger {
+            z-index: 2;
+            position: absolute;
+            cursor: pointer;
+            width: 10px;
+            height: 10px;
+            top: -4px;
+            background-color: #e4eaf1;
+            border: solid 1px #9cacbf;
+            border-radius: 4px;
+            left: 30%;
+          }
+          .ark-slider-box {
+            position: relative;
+            background-color: #9cacbf;
+            border-radius: 2px;
+            height: 4px;
+            .ark-slider-rate {
+              position: absolute;
+              background-color: #0095e3;
+              left: 0;
+              height: 100%;
+              width: 30%;
+              border-radius: 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 880px) {
+    margin-right: 0;
+    #arkHeatmapSwitch, #arkHotEleList, #arkHeatDisplayConfig, #arkConditionList {
+      display: none !important;
+    }
+  }
+}
+

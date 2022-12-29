@@ -1,24 +1,32 @@
-module.exports = {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "jest": true,
-        "node": true
-    },
-    "extends": "eslint:recommended",
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly",
-        "__static": true
-    },
-    "parser": 'babel-eslint',
-    "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module",
-    },
-    "rules": {
-        "no-empty": 0,
-        "no-control-regex": "off",
-        "no-misleading-character-class": "off"
-    }
-};
+const { defineConfig } = require('eslint-define-config');
+
+module.exports = defineConfig({
+  root: true,
+  env: {
+    browser: true,
+    node: true,
+    es6: true
+  },
+  globals: {
+    wx: true,
+    Page: true,
+    App: true,
+    Component: true,
+    getCurrentPages: true
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  rules: {
+    "@typescript-eslint/no-this-alias": ["error", {
+      allowedNames: ['_this', 'self']
+    }],
+    "@typescript-eslint/no-explicit-any": ["off"]
+  },
+});

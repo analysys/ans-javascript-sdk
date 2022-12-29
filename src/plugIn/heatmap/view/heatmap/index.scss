@@ -1,0 +1,15 @@
+.ark-heatmap-location {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+}
+
+
+.ark-headmap-body-location-none {
+  .ark-heatmap-location {
+    display: none;
+  }
+}

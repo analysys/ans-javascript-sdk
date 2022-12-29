@@ -1,128 +1,94 @@
 {
-  "name": "ans-javascript-sdk",
-  "version": "4.5.5",
-  "description": "official analysysAgent javascript sdk",
-  "main": "./sdk/AnalysysAgent_JS_SDK.min.js",
-  "module": "./sdk/AnalysysAgent_JS_SDK.es6.min.js",
-  "scripts": {
-    "test": "jest",
-    "dev": "rollup -c rollup.config.js --watch",
-    "module": "rollup -c rollup.module.config.js --watch",
-    "plugins": "rollup -c rollup.plugins.config.js --watch",
-    "build": "rollup -c rollup.config.js&&rollup -c rollup.module.config.js&&rollup -c rollup.plugins.config.js",
-    "cover": "jest --coverage",
-    "lint": "standard \"src/**/*.{js,vue}\"",
-    "lint:fix": "standard \"src/**/*.{js,vue}\" --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/analysys/ans-javascript-sdk.git"
-  },
-  "standard": {
-    "parser": "babel-eslint",
-    "rules": {
-      "no-control-regex": "off",
-      "no-misleading-character-class": "off"
-    },
-    "ignore": [
-      "**/parseUA/**",
-      "test/",
-      "decodeGBK.js",
-      "**/lib/heatmap.js",
-      "JSON2.js",
-      "**/upload/index.js",
-      "*.html",
-      "*.json"
-    ]
-  },
-  "author": "zhangyufei@analysys.com.cn",
-  "license": "ISC",
-  "devDependencies": {
-    "@babel/cli": "^7.10.0",
-    "@babel/core": "^7.10.0",
-    "@babel/helpers": "^7.7.0",
-    "@babel/plugin-external-helpers": "^7.8.3",
-    "@babel/plugin-proposal-class-properties": "^7.7.0",
-    "@babel/plugin-proposal-decorators": "^7.7.0",
-    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
-    "@babel/plugin-proposal-function-sent": "^7.7.0",
-    "@babel/plugin-proposal-json-strings": "^7.0.0",
-    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
-    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
-    "@babel/plugin-syntax-import-meta": "^7.0.0",
-    "@babel/plugin-transform-reserved-words": "^7.2.0",
-    "@babel/plugin-transform-runtime": "^7.0.0",
-    "@babel/preset-env": "^7.10.0",
-    "@babel/register": "^7.7.0",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^10.0.3",
-    "babel-jest": "^26.0.1",
-    "babel-loader": "^8.1.0",
-    "babel-plugin-transform-member-expression-literals": "^6.9.4",
-    "babel-plugin-transform-property-literals": "^6.9.4",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-es2015-rollup": "~3.0.0",
-    "babel-preset-es3": "~1.0.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "eslint": "^7.1.0",
-    "heatmap.js": "^2.0.5",
-    "jest": "^26.0.1",
-    "pako": "^1.0.10",
-    "rollup-plugin-babel": "^4.0.1",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-es3": "^1.1.0",
-    "rollup-plugin-eslint": "^7.0.0",
-    "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-node-builtins": "~2.1.2",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^3.1.1",
-    "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-terser": "^6.1.0",
-    "rollup-plugin-uglify": "^6.0.3",
-    "rollup-watch": "~4.3.1",
-    "ua-device": "^0.1.10"
-  },
-  "dependencies": {
-    "@babel/plugin-proposal-do-expressions": "^7.0.0",
-    "@babel/plugin-proposal-export-default-from": "^7.0.0",
-    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
-    "@babel/plugin-proposal-function-bind": "^7.0.0",
-    "@babel/plugin-proposal-json-strings": "^7.0.0",
-    "@babel/plugin-proposal-logical-assignment-operators": "^7.0.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",
-    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
-    "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
-    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
-    "@babel/plugin-syntax-import-meta": "^7.0.0",
-    "@babel/plugin-transform-member-expression-literals": "^7.0.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
-    "@babel/plugin-transform-property-literals": "^7.0.0",
-    "@babel/polyfill": "^7.8.7",
-    "@babel/runtime": "^7.7.2",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "babel-preset-env": "^1.7.0",
-    "core-js": "^3.6.5",
-    "crypto-js": "^3.1.9-1",
-    "intersection-observer": "^0.11.0",
-    "mutationobserver-shim": "^0.3.7",
-    "regenerator-runtime": "^0.13.3"
-  },
-  "bugs": {
-    "url": "https://github.com/analysys/ans-javascript-sdk/issues"
-  },
-  "homepage": "https://github.com/analysys/ans-javascript-sdk#readme",
-  "keywords": [
-    "analysys",
-    "analysysagent",
-    "ans",
-    "analytics",
-    "sdk",
-    "js"
-  ],
-  "engines": {
-    "node": ">=6.0"
-  }
+	"name": "ans-javascript-sdk",
+	"version": "5.0.0",
+	"description": "official analysysAgent javascript sdk",
+	"main": "./sdk/AnalysysAgent_JS_SDK.min.js",
+	"module": "./sdk/AnalysysAgent_JS_SDK.es6.min.js",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "rollup --config rollup.config.js",
+		"dev": "cross-env NODE_ENV=development rollup --config rollup.config.js --watch",
+		"test": "cross-env rollup --config rollup.config.js",
+		"encryption": "rollup --config ./build/encryption/rollup.config.encryption.js --watch",
+		"lint": "eslint --cache --max-warnings 0  \"src/**/*.{vue,ts,tsx,js}\" --fix"
+	},
+	"jest": {
+		"setupFiles": [
+			"./unitTest/wx.js"
+		]
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/analysys/ans-wechat-sdk.git"
+	},
+	"author": {
+		"name": "huangriya",
+		"email": "huangriya@163.com",
+		"url": "https://github.com/huangriya"
+	},
+	"license": "ISC",
+	"dependencies": {
+		"base64-js": "^1.3.0",
+		"event-agent": "^1.0.1",
+		"heatmap.js": "^2.0.5"
+	},
+	"devDependencies": {
+		"@tarojs/cli": "^1.3.18",
+		"@typescript-eslint/eslint-plugin": "^5.33.0",
+		"@typescript-eslint/parser": "^5.33.0",
+		"babel-core": "^6.26.3",
+		"babel-loader": "^8.0.6",
+		"babel-plugin-external-helpers": "^6.22.0",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-es2015-rollup": "^3.0.0",
+		"cross-env": "^7.0.3",
+		"crypto-js": "^3.1.9-1",
+		"dotenv": "^16.0.1",
+		"eslint": "^7.32.0 || ^8.2.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-define-config": "^1.5.1",
+		"eslint-plugin-import": "^2.25.2",
+		"jest": "^24.9.0",
+		"js-base64": "^2.4.9",
+		"livereload": "^0.7.0",
+		"miniprogram-simulate": "^1.0.8",
+		"node-sass": "^7.0.3",
+		"npm-run-all": "^4.1.2",
+		"pako": "^1.0.6",
+		"query-string": "^5.1.1",
+		"rollup": "^1.27.3",
+		"rollup-plugin-babel": "^3.0.4",
+		"rollup-plugin-commonjs": "^8.4.1",
+		"rollup-plugin-es3": "^1.1.0",
+		"rollup-plugin-eslint": "^4.0.0",
+		"rollup-plugin-json": "^2.3.0",
+		"rollup-plugin-node-resolve": "^3.3.0",
+		"rollup-plugin-postcss": "^3.1.1",
+		"rollup-plugin-replace": "^2.0.0",
+		"rollup-plugin-scss": "^3.0.0",
+		"rollup-plugin-terser": "^5.1.2",
+		"rollup-plugin-typescript": "^1.0.1",
+		"rollup-plugin-uglify": "^6.0.3",
+		"rollup-plugin-uglify-es": "0.0.1",
+		"rollup-watch": "^4.3.1",
+		"vue-cli": "^2.9.6",
+		"zlibjs": "^0.3.1"
+	},
+	"bugs": {
+		"url": "https://github.com/analysys/ans-wechat-sdk/issues"
+	},
+	"homepage": "https://github.com/analysys/ans-wechat-sdk#readme",
+	"keywords": [
+		"analysys",
+		"analysysagent",
+		"ans",
+		"analytics",
+		"sdk",
+		"js"
+	],
+	"engines": {
+		"node": ">=6.0"
+	}
 }
