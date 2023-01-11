@@ -73,7 +73,10 @@ const outputPath = ['./dist/', './demo/vue-pc/public/sdk/', './demo/react/public
 const outputFile = [{
   file: 'AnalysysAgent_JS_SDK.min.js',
   format: 'umd',
-  name: 'AnalysysAgent'
+  name: 'AnalysysAgent',
+  amd: {
+    define: 'arkDefine'
+  }
 },{
   file: 'AnalysysAgent_JS_SDK.amd.min.js',
   format: 'amd',
@@ -88,11 +91,9 @@ const output = () => {
   let arr = []
   outputPath.forEach(o => {
     outputFile.forEach(v => {
-      arr.push({
-        file: o + v.file,
-        format: v.format,
-        name: v.name
-      })
+      let obj = {...v}
+      obj.file = o + v.file
+      arr.push(obj)
     })
   })
   return arr

@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Vue3 + TS</title>
-    <script src="./public/sdk/AnalysysAgent_JS_SDK.min.js"></script>
+    <!-- <script src="./public/sdk/AnalysysAgent_JS_SDK.min.js"></script> -->
     <!-- <script src="./public/sdk/4.5.0/AnalysysAgent_JS_SDK.min.js"></script> -->
-    <script>
+    <!-- <script>
       window.AnalysysAgent.init({
         appkey: "3fd82ebe10ec6437", //APPKEY
         debugMode: 2,
@@ -31,10 +31,30 @@
           'isClickEle': true
         }
       })
-    </script>
+    </script> -->
+    <script>
 
-    <!-- <script>
       (function (config) {
+        window.AnalysysAgent = window.AnalysysAgent || {}
+        var ans = ['identify', 'alias', 'reset', 'track', 'profileSet', 'profileSetOnce', 'profileIncrement', 'profileAppend', 'profileUnset', 'profileDelete', 'registerSuperProperty', 'registerSuperProperties', 'unRegisterSuperProperty', 'clearSuperProperties', 'getSuperProperty', 'getSuperProperties', 'pageView', 'getDistinctId']
+        var a = window.AnalysysAgent
+        a['param'] = []
+        function factory (b) {
+          return function () {
+            a['param'].push({
+              fn: b,
+              arg: arguments
+            })
+          }
+        }
+        for (var i = 0; i < ans.length; i++) {
+          a[ans[i]] = factory(ans[i])
+        }
+
+        if (config.name) {
+          window[config.name] = a
+        }
+    
         var c = document.createElement('script'), 
             n = document.getElementsByTagName('script')[0];
         c.type = 'text/javascript';
@@ -52,7 +72,13 @@
         visitorConfigURL: 'https://yaodandan-up.analysysdata.com/',
         autoHeatmap: true
       })
-    </script> -->
+    </script>
+
+    <script>
+      // window.AnalysysAgent.getDistinctId(function(v){
+      //   console.log(v)
+      // })
+    </script>
 
   </head>
   <body>
