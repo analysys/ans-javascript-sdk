@@ -1,8 +1,8 @@
 <template>
   <div class="layout-head">
-    <router-link to="/" class="logo">
+    <a href="/" class="logo">
       <img src="https://www.analysysdata.com/images/logo-white.svg" />
-    </router-link>
+    </a>
     <ul class="head-nav">
       <li><router-link to="/">首页</router-link></li>
       <li><router-link to="/product" replace id="product">产品列表</router-link></li>

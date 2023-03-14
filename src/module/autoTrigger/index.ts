@@ -8,6 +8,7 @@ import { getDeviceType, loadJs } from "../../utils/browser"
 import { globalWindow } from '../../constant/index'
 import { triggerPageClose, setPageHideTime } from '../methods/pageclose'
 import { getVisualList, loadVisual, visualClick } from '../methods/visual'
+import beacon from '../../utils/requrst/beacon'
 
 let scrollTime = null
 
@@ -45,11 +46,11 @@ function autoTrigger () {
       }
     })
   }
-
+  
 
   // 退出页面监听
-  const closeEventName = 'onpageshow' in window ? 'pagehide' : 'beforeunload'
-  window.addEventListener(closeEventName, () => {
+  const closeEventName = 'onpageshow' in globalWindow ? 'pagehide' : 'beforeunload'
+  globalWindow.addEventListener(closeEventName, () => {
     // 设置页面卸载状态
     eventAttribute.isUnload = true
     triggerPageClose()

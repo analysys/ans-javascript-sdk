@@ -6,7 +6,7 @@ import { initConfig } from './types'
 import { setConfig } from './store/config'
 import { globalWindow, optionsDefault } from './constant/index'
 import ready from './module/ready'
-
+import { webViewHybridInit } from './store/hybrid'
 import {
   pageView,
   profileSetOnce, profileSet, profileAppend, profileIncrement, profileDelete, profileUnset,
@@ -22,7 +22,7 @@ import {
   pageProperty
 } from './module/methods/index'
 
-
+webViewHybridInit()
 
 class ArkJsSdk {
   constructor () {
@@ -66,7 +66,6 @@ class ArkJsSdk {
 
 const ArkSdk = new ArkJsSdk()
 globalWindow.AnalysysAgent = ArkSdk
-
 
 
 export default ArkSdk

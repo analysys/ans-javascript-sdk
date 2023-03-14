@@ -1,5 +1,6 @@
 import { $lib, $lib_version, globalWindow } from "../../constant"
 import { config } from "../../store/config"
+import { hybrid } from "../../store/hybrid"
 import { core, getId, getSessionId } from "../../store/core"
 import { getNow, timeDiff } from '../../store/time'
 import { isSpider } from '../../utils/path'
@@ -19,7 +20,7 @@ import { startUpTime } from "../../store/startUpTime"
 
 export default {
   xwho () : string {
-    return getId()
+    return hybrid.userId || getId()
   },
   xwhen () : number {
     return getNow()
@@ -48,10 +49,10 @@ export default {
   },
 
   $screen_width (): number {
-    return window.screen.width || 0
+    return globalWindow.screen.width || 0
   },
   $screen_height (): number {
-    return window.screen.height || 0
+    return globalWindow.screen.height || 0
   },
   
   $language (): string {

@@ -9,6 +9,7 @@ import { errorLog, successLog } from '../printLog/index'
 import { globalWindow } from '../../constant/index'
 import { isFunction } from '../../utils/type'
 import beacon from '../../utils/requrst/beacon'
+import { isHybrid } from '../../store/hybrid'
 
 // 一次最多上报20条
 const MAXLINENUM = 20
@@ -135,7 +136,6 @@ function imgGetData (data: buriedPointData) {
  */
 
 function sendData (data: buriedPointData, fn?: Function) : any {
-
   if (!config.appkey) {
     errorLog({
       code: 60006
@@ -162,6 +162,36 @@ function sendData (data: buriedPointData, fn?: Function) : any {
       data: [data]
     }
     beacon(option)
+    return
+  }
+
+  if (isHybrid) {
+
+    const eventMap = {
+      '$pageview': 'pageView',
+      '$startup': 'startUp'
+    }
+
+    let underlineToHump = function (str): String {
+      if(str.slice(0,1) === '$'){ 
+        str = str.slice(1);
+      }
+      return str.replace(/([^_])(?:_+([^_]))/g, function ($0, $1, $2) {
+        return $1 + $2.toUpperCase();
+      });
+    }
+
+    let obj = {
+      functionName: eventMap[data.xwhat] || underlineToHump(data.xwhat),
+      functionParams: ['', data.xcontext]
+    }
+
+    // ios
+    globalWindow.webkit?.messageHandlers?.AnalysysAgent?.postMessage(obj)
+
+    // 安卓
+    globalWindow.AnalysysAgentHybrid?.analysysHybridCallNative(JSON.stringify(obj))
+    
     return
   }
 

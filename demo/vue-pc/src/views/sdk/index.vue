@@ -85,7 +85,7 @@
 
   // 自定义事件上报
   const track = function () {
-    window.AnalysysAgent.track('test001', {
+    window.AnalysysAgent.track('buy', {
       adds: function () {
         return 'ss'
       }

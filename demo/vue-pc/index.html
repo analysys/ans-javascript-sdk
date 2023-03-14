@@ -5,34 +5,34 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Vue3 + TS</title>
-    <!-- <script src="./public/sdk/AnalysysAgent_JS_SDK.min.js"></script> -->
+    <script src="./public/sdk/AnalysysAgent_JS_SDK.min.js"></script>
     <!-- <script src="./public/sdk/4.5.0/AnalysysAgent_JS_SDK.min.js"></script> -->
-    <!-- <script>
-      window.AnalysysAgent.init({
-        appkey: "3fd82ebe10ec6437", //APPKEY
-        debugMode: 2,
-        auto: true,
-        hash: true,
-        SDKFileDirectory: '/public/sdk',
-        uploadURL: 'https://yaodandan-up.analysysdata.com',
-        allowTimeCheck: false,
-        autoPageViewDuration: true,
-        autoTrack: false,
-        visitorConfigURL: 'https://yaodandan-up.analysysdata.com',
-        autoClickBlackList: ['http://127.0.0.1:5173/#/'],
-        pageViewBlackList: ['http://127.0.0.1:5173/#/'],
-        autoHeatmap: true,
-        sendType: 'ajax',
-        crossSubdomain: true,
-        pageProperty: {
-          'add': 123
-        },
-        userClickProperty: {
-          'isClickEle': true
-        }
-      })
-    </script> -->
     <script>
+      window.AnalysysAgent.init({
+        appkey: "47fce41a0472c616", //APPKEY
+        uploadURL: 'https://uba-up.analysysdata.com',
+        debugMode: 2,
+        auto: false,
+        // hash: true,
+        // SDKFileDirectory: '/public/sdk',
+        // allowTimeCheck: false,
+        // autoPageViewDuration: true,
+        autoTrack: true,
+        // visitorConfigURL: 'https://yaodandan-up.analysysdata.com',
+        // autoClickBlackList: ['http://127.0.0.1:5173/#/'],
+        // pageViewBlackList: ['http://127.0.0.1:5173/#/'],
+        // autoHeatmap: true,
+        // sendType: 'ajax',
+        // crossSubdomain: true,
+        // pageProperty: {
+        //   'add': 123
+        // },
+        // userClickProperty: {
+        //   'isClickEle': true
+        // }
+      })
+    </script>
+    <!-- <script>
 
       (function (config) {
         window.AnalysysAgent = window.AnalysysAgent || {}
@@ -72,7 +72,7 @@
         visitorConfigURL: 'https://yaodandan-up.analysysdata.com/',
         autoHeatmap: true
       })
-    </script>
+    </script> -->
 
     <script>
       // window.AnalysysAgent.getDistinctId(function(v){
