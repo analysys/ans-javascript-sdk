@@ -1,3 +1,9 @@
 package-lock.json
 node_modules/
 *.zip
+.DS_Store
+yarn.lock
+bac
+demo/react/
+demo/vue-h5/
+demo/vue-pc/

@@ -108,7 +108,8 @@
     "crypto-js": "^3.1.9-1",
     "intersection-observer": "^0.11.0",
     "mutationobserver-shim": "^0.3.7",
-    "regenerator-runtime": "^0.13.3"
+    "regenerator-runtime": "^0.13.3",
+    "rollup": "^1.27.3"
   },
   "bugs": {
     "url": "https://github.com/analysys/ans-javascript-sdk/issues"

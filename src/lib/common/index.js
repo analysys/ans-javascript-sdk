@@ -655,7 +655,11 @@ Util.prototype.addScript = function (fileName, urlPath, callback) {
   var sdkPath = sdkUrl.substring(0, sdkUrl.lastIndexOf('/') + 1)
   createScript.src = sdkPath + fileName + '.min.js?v=' + this.format(new Date(), 'yyyyMMddhhmm') // 方舟B SDK地址
   createScript.onload = setTimeout(callback, 500)
-  domHead[0].parentNode.insertBefore(createScript, domHead[0])
+
+  var body = document.getElementsByTagName('body')[0] || document.getElementsByTagName('head')[0]
+  if (body) {
+    body.appendChild(createScript)
+  }
 }
 
 function CheckChinese (val) {
