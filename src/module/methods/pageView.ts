@@ -8,6 +8,7 @@ import { eventAttribute } from '../../store/eventAttribute'
 import { config } from "../../store/config"
 import { autoClickBlackListCheck } from '../../utils/verify/index'
 import { assign } from '../../utils/object'
+import { getPageProperty } from '../../store/pageProperty'
 
 function pageView (pageName?: string, properties?: object, fn?: Function) {
 
@@ -38,7 +39,7 @@ function pageView (pageName?: string, properties?: object, fn?: Function) {
   eventAttribute.pageview.xwhen = res.xwhen
 
   // 合并通用属性 // 绑定页面属性 // 绑定传入的属性
-  res.xcontext = assign({}, res.xcontext, getSuperProperty(), config.pageProperty, userObj)
+  res.xcontext = assign({}, res.xcontext, getSuperProperty(), getPageProperty(), userObj)
   
   sendData(res, fn)
 }

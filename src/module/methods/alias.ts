@@ -5,7 +5,6 @@ import { config } from '../../store/config'
 import { profileSetOnce } from './profile'
 import { setCoreParam } from '../../store/core'
 import { successLog, errorLog } from '../printLog'
-import { addPostData } from '../../store/core'
 import { commonAttrs } from '../../constant/eventAttrs'
 
 function alias (aliasId: string, fn?: Function) {

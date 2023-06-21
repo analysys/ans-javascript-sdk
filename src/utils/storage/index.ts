@@ -1,17 +1,18 @@
 
-import { globalWindow } from '../../constant/index'
+import { globalWindow, storageKey } from '../../constant/index'
 import { getCore } from '../../store/core'
 import { encode, decode } from '../base64/index'
 import cookie from '../../utils/cookie'
 
-
-const storageKey = 'FZ_STROAGE'
+function replaceKey (str) {
+  return str.replace('ANSAPPID', 'ARKAPPID').replace('ANS$DEBUG', 'ARKDEBUG').replace('ANSUPLOADURL', 'ARKUPLOADURL')
+}
 
 export const getLocalStorage = function (key = storageKey, isSession?: boolean) {
   try {
     const storage = isSession ? globalWindow.sessionStorage : globalWindow.localStorage
     const data = storage.getItem(key)
-    return data ? JSON.parse(decode(data)) : null
+    return data ? JSON.parse(replaceKey(decode(data))) : null
   } catch(e) {
 
   }

@@ -4,6 +4,8 @@ import { setAnonymousID, getAnonymousID } from '../../store/core'
 import { lengthCheck } from '../../utils/verify/index'
 import { successLog, errorLog } from '../printLog'
 import { globalWindow } from '../../constant'
+import { callNativeCallback } from '../sendData/hybrid'
+import { isHybrid } from '../../store/hybrid'
 
 /**
  * 唯一匿名ID标识设置
@@ -11,6 +13,7 @@ import { globalWindow } from '../../constant'
  */
 export function identify(distinctId: string, fn?: Function) : void {
   if (lengthCheck(distinctId)) {
+    
     setAnonymousID(distinctId)
     
     successLog({
@@ -39,7 +42,12 @@ export function identify(distinctId: string, fn?: Function) : void {
  */
 
 export function getDistinctId(fn?: Function) : string {
-  const id = getAnonymousID()
-  fn && fn(id)
-  return id
+  if (isHybrid) {
+    callNativeCallback('getDistinctId', null, fn)
+  } else {
+    const id = getAnonymousID()
+    fn && fn(id)
+    return id
+  }
+  
 }

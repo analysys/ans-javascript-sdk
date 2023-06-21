@@ -1,7 +1,6 @@
 /**
- * 小程序标准版sdk
+ * js标准版sdk
  */
-
 import { initConfig } from './types'
 import { setConfig } from './store/config'
 import { globalWindow, optionsDefault } from './constant/index'
@@ -19,7 +18,8 @@ import {
   getPresetProperties,
   identify,
   getDistinctId,
-  pageProperty
+  pageProperty,
+  nativeCallback
 } from './module/methods/index'
 
 webViewHybridInit()
@@ -28,6 +28,7 @@ class ArkJsSdk {
   constructor () {
     
   }
+  isInit: boolean = false;
   config: initConfig = optionsDefault();
   pageView = ready(pageView);
   registerSuperProperty = ready(registerSuperProperty, true);
@@ -49,16 +50,20 @@ class ArkJsSdk {
   identify = identify;
   getDistinctId = getDistinctId;
   pageProperty = pageProperty;
+  nativeCallback = nativeCallback;
+
 
   // 初始化传入配置
   init (config: initConfig) {
-    setConfig(config, (o)=>{
+    setConfig(config, (o) => {
       
       this.config = o
 
       if (this.config.name) {
         globalWindow[this.config.name] = globalWindow.AnalysysAgent
       }
+
+      this.isInit = true
       
     })
   }
@@ -66,6 +71,5 @@ class ArkJsSdk {
 
 const ArkSdk = new ArkJsSdk()
 globalWindow.AnalysysAgent = ArkSdk
-
 
 export default ArkSdk

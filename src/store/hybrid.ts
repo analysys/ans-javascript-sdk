@@ -8,6 +8,10 @@ export const hybrid = {
   userId: ''
 }
 
+
+// hybrid模式下缓存获取类方法用户回调函数
+export const nativeCallbackFn = {}
+
 /**
  * 初始化webViewHybrid模式
  */
@@ -21,14 +25,16 @@ export function webViewHybridInit () {
       isHybrid = AnalysysAgentHybrid.isHybrid()
     }
 
-    if (AnalysysAgentHybrid.getAppStartInfo && isFunction(AnalysysAgentHybrid.getAppStartInfo)) {
-      let webViewHybridData = AnalysysAgentHybrid.getAppStartInfo()
-      if (isString(webViewHybridData)) {
-        webViewHybridData = JSON.parse(webViewHybridData)
-      }
-      hybrid.userId = webViewHybridData.userId
-    }
-  }
+    // let info = AnalysysAgentHybrid.getAppStartInfo
 
-  
+    // if (info && isFunction(info)) {
+    //   let webViewHybridData = info()
+
+    //   console.log('Hybrid模式注入参数', webViewHybridData)
+    //   if (isString(webViewHybridData)) {
+    //     webViewHybridData = JSON.parse(webViewHybridData)
+    //   }
+    //   hybrid.userId = webViewHybridData.userId
+    // }
+  }
 }

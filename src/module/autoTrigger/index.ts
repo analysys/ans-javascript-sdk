@@ -6,9 +6,10 @@ import { pathChange } from '../../utils/path'
 import { eventAttribute } from '../../store/eventAttribute'
 import { getDeviceType, loadJs } from "../../utils/browser"
 import { globalWindow } from '../../constant/index'
-import { triggerPageClose, setPageHideTime } from '../methods/pageclose'
+import { triggerPageClose, setPageHideTime } from '../methods/pageClose'
 import { getVisualList, loadVisual, visualClick } from '../methods/visual'
-import beacon from '../../utils/requrst/beacon'
+import { setHybirdWebUrl } from '../sendData/hybrid'
+import { isHybrid } from '../../store/hybrid'
 
 let scrollTime = null
 
@@ -24,6 +25,9 @@ function triggerPageView () {
     eventAttribute.pageview.xwhen = +new Date()
   }
 
+  // hybrid模式下实时同步当前url给原生端
+  setHybirdWebUrl()
+
   // 获取可视化数据
   getVisualList()
 }
@@ -33,7 +37,9 @@ function triggerPageView () {
  */
 function autoTrigger () {
 
-  startUp()
+  if (!isHybrid) {
+    startUp()
+  }
 
   triggerPageView()
 

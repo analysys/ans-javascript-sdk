@@ -6,7 +6,6 @@ import { getSuperProperty } from '../../store/core'
 import { attrCheck } from '../../utils/verify'
 import { errorLog } from '../printLog'
 import { isFunction } from '../../utils/type'
-import { eventAttribute } from '../../store/eventAttribute'
 import { assign } from '../../utils/object'
 
 function track (eventName : string, eventAttrs, fn?: Function) {
@@ -21,19 +20,17 @@ function track (eventName : string, eventAttrs, fn?: Function) {
   }
 
   // 获取上报数据模块
-  const res = fillData(eventName)
+  const res = fillData('track')
   
   let trackAttrs = {}
 
-  
   if (eventAttrs && !isFunction(eventAttrs)) {
     trackAttrs = attrCheck(eventAttrs, eventName)
   }
 
+  res.xwhat = eventName
   // 合并通用属性
   res.xcontext = assign({}, res.xcontext, getSuperProperty(), trackAttrs)
-
-
 
   // 回调函数
   let callback = fn ? fn : null
@@ -41,7 +38,7 @@ function track (eventName : string, eventAttrs, fn?: Function) {
     callback = eventAttrs
   }
 
-  sendData(res, callback)
+  sendData(res, callback, true)
 
 }
 

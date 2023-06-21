@@ -1,6 +1,5 @@
-import { getServerTime, isGetServerTime } from '../../store/time'
-import { core, resetCore, setCoreParams } from '../../store/core'
-import { config, isInitConfig } from '../../store/config'
+import { isGetServerTime } from '../../store/time'
+import { isInitConfig } from '../../store/config'
 import { globalWindow } from '../../constant/index'
 
 /**
@@ -55,26 +54,6 @@ function ready (callback, isTop?: boolean) {
         arg: args
       }
       isTop ? callbackArr.unshift(obj) : callbackArr.push(obj)
-      // if (!isReady) {
-      //   Promise.all([getServerTime()]).then(function() {
-      //     const ARKDEBUG = core.ARKDEBUG
-      //     if (config.appkey !== core.ARKAPPID || (ARKDEBUG === 1 && ARKDEBUG !== config.debugMode) || core.ARKUPLOADURL !== config.uploadURL) {
-      //       if (core.ARKAPPID) {
-      //         resetCore()
-      //       }
-      //       setCoreParams({
-      //         ARKAPPID: config.appkey,
-      //         ARKDEBUG: config.debugMode,
-      //         ARKUPLOADURL: config.uploadURL
-      //       })
-      //     }
-      //     callbackArr.forEach(o => {
-      //       o.fn.apply(o.fn, o.arg)
-      //     })
-          
-      //   })
-      //   isReady = true
-      // }
     } else {
       callback.apply(callback, args)
     }

@@ -15,6 +15,7 @@ import { getPresetProperties } from './presetProperties'
 import track from './track'
 import { identify, getDistinctId} from './identify'
 import { pageProperty } from './pageProperty'
+import nativeCallback from './nativeCallback'
 
 export {
   startUp,
@@ -38,5 +39,6 @@ export {
   getPresetProperties,
   identify,
   getDistinctId,
-  pageProperty
+  pageProperty,
+  nativeCallback
 }

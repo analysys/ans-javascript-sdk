@@ -5,6 +5,7 @@ import { setStorage, getStorage, emptyHistoryCookie } from '../module/storage'
 import MD5 from '../utils/md5'
 import { initStartUpTime, clearStartUpTime } from './startUpTime'
 import { assign } from '../utils/object'
+import { config } from './config'
 
 export interface coreInterface {
 
@@ -43,9 +44,9 @@ export interface coreInterface {
  */
 export function coreDefault() : coreInterface  {
   return {
-    ARKAPPID: '',
-    ARKDEBUG: 0,
-    ARKUPLOADURL: '',
+    ARKAPPID: config.appkey,
+    ARKDEBUG: config.debugMode,
+    ARKUPLOADURL: config.uploadURL,
     ARKFRISTPROFILE: '',
     ARKSUPER: {},
     ARK_ID: setId(),
@@ -61,19 +62,51 @@ export let core : coreInterface
 /**
  * 初始化
  */
-export function coreInit () {
+export function coreInit (fn?: Function) {
   initStartUpTime()
-  let storageCore = getStorage()
-  if (!storageCore) {
-    storageCore = coreDefault()
-    core = storageCore
-    setStorage()
-  } else {
-    core = storageCore
-  }
+  // let storageCore = getStorage()
 
-  // 5.0.0版本后，清空所有不需要的cookie，只根据场景保留一个
-  emptyHistoryCookie()
+  // function setDefCore () {
+  //   clearStartUpTime()
+  //   core = coreDefault()
+  //   setStorage()
+  // }
+  
+  // if (!storageCore) {
+  //   setDefCore()
+  // } else {
+  //   const debug = storageCore.ARKDEBUG
+  //   // 检测缓存appkey debug uploadurl是否和sdk初始化一致，不一致则重新生成匿名用户
+  //   if (config.appkey !== storageCore.ARKAPPID || (debug === 1 && debug !== config.debugMode) || storageCore.ARKUPLOADURL !== config.uploadURL) {
+  //     setDefCore()
+  //   } else {
+  //     core = storageCore
+  //   }
+  // }
+
+  function setDefCore () {
+    clearStartUpTime()
+    core = coreDefault()
+    setStorage()
+  }
+  getStorage((data) => {
+    if (data) {
+      // 检测缓存appkey debug uploadurl是否和sdk初始化一致，不一致则重新生成匿名用户
+      const debug = data.ARKDEBUG
+      // data.ARKUPLOADURL !== config.uploadURL
+      if (config.appkey !== data.ARKAPPID || (debug === 1 && debug !== config.debugMode)) {
+        setDefCore()
+      } else {
+        core = data
+      }
+    } else {
+      setDefCore()
+    }
+    fn && fn()
+
+    // 5.0.0版本后，清空所有不需要的cookie，只根据场景保留一个
+    emptyHistoryCookie()
+  })
 }
 
 export function getCore () : coreInterface {
@@ -136,11 +169,12 @@ export function getSessionId (): string {
   const date = new Date()
   const nowDate = date.getTime()
   const offset_GMT = date.getTimezoneOffset()
-  const nowDay = new Date(nowDate + offset_GMT * 60 * 1000 + 8 * 60 * 60 * 1000).getDate()
-  const sessionDay = !core.SEESIONDATE ? 0 : new Date(core.SEESIONDATE + offset_GMT * 60 * 1000 + 8 * 60 * 60 * 1000).getDate()
-  if (!core.SEESIONID || !core.SEESIONDATE || (nowDate - core.SEESIONDATE > 30 * 60 * 1000) || sessionDay !== nowDay) {
+  const getGmt = (time: number) => new Date(time + offset_GMT * 60 * 1000 + 8 * 60 * 60 * 1000).getDate()
+  const sessionDate = core.SEESIONDATE
+  if (!core.SEESIONID || !sessionDate || (nowDate - sessionDate > 30 * 60 * 1000) || getGmt(nowDate) !== getGmt(sessionDate)) {
     setSessionId()
   }
+
   return core.SEESIONID
 }
 

@@ -2,42 +2,66 @@ import { getCore } from '../../store/core'
 import { config } from '../../store/config'
 import { getCookie, setCookie, setLocalStorage, getLocalStorage } from '../../utils/storage'
 import { getDomainFromUrl } from '../../utils/path'
+import IndexedDb from '../../utils/IndexedDb'
+import { globalWindow, storageKey } from '../../constant/index'
 
 const domainUrl = getDomainFromUrl(true)
-const cookieKey = domainUrl ? 'FZ_STROAGE.' + domainUrl : ''
+const cookieKey = domainUrl ? `${storageKey}.` + domainUrl : ''
 
+const storeDb = new IndexedDb()
+let dBhasData = false
 
-// 获取缓存数据
-export function getStorage() {
+export function getStorage (fn: Function) {
+  const cookieStore = () => cookieKey ? getCookie(cookieKey) : null
+  const store = getLocalStorage() || cookieStore() || null
 
-  // 跨子域
-  if (config.crossSubdomain) {
-    return (cookieKey ? getCookie(cookieKey) : null) || getLocalStorage() || null
+  if (!globalWindow.indexedDB) {
+    config.crossSubdomain ? fn(cookieStore() || getLocalStorage() || null) : fn(store)
+  } else {
+    const get = () => {
+      storeDb.get((res) => {
+        dBhasData = !!res
+        const content = res ? res.content : store
+        config.crossSubdomain ? fn(cookieStore() || content) : fn(content)
+      })
+    }
+    storeDb.isOpen ? get() : storeDb.onConnectSuccess = get
   }
-  return getLocalStorage() || getCookie(cookieKey) || null
 }
 
-// 设置缓存数据
-export function setStorage() {
+export function setStorage () {
 
   const data = getCore()
 
-  if (config.crossSubdomain) {
-
+  if (config.crossSubdomain && cookieKey) {
     // 通用属性不存储在cookie里，防止太大
     const cookieData = { ...data }
     delete cookieData.ARKSUPER
 
-    if (cookieKey) {
-      setCookie(cookieKey, cookieData, {
-        expires: 365 * 20,
-        domain: domainUrl
-      })
-    }
+    setCookie(cookieKey, cookieData, {
+      expires: 365 * 20,
+      domain: domainUrl
+    })
+    
   }
 
-  setLocalStorage('FZ_STROAGE', data)
+  if (globalWindow.indexedDB) {
+    if (!dBhasData) {
+      storeDb.add({
+        id: 1,
+        content: data
+      })
+    } else {
+      storeDb.put({
+        id: 1,
+        content: data
+      })
+    }
+  } else {
+    setLocalStorage(storageKey, data)
+  }
 }
+
 
 // 清空历史cookie，根据场景只保留一个
 export function emptyHistoryCookie () {
@@ -65,5 +89,10 @@ export function emptyHistoryCookie () {
         domain: domainUrl
       })
     }
+  }
+
+  // 如果indexedDb打开成功 删掉Storage
+  if (storeDb.isOpen) {
+    globalWindow.localStorage.removeItem(storageKey)
   }
 }

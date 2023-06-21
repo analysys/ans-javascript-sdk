@@ -8,6 +8,7 @@ import { coreInit } from './core'
 import { implementAallbackArr } from '../module/ready'
 import { getServerTime } from './time'
 import autoTrigger from '../module/autoTrigger'
+import { setPageProperty } from './pageProperty'
 
 function nameListCheck (value: any) {
   if (isString(value)) {
@@ -133,29 +134,37 @@ export function setConfig (options: initConfig, fn?) {
             value += '/'
           }
         }
+
+        if (o === 'pageProperty' && value) {
+          setPageProperty(value)
+        }
+
         config[o] = value
       }
     }
   })
 
-  isInitConfig = true
-
-  coreInit()
-
-  successLog({
-    code: 20007
-  })
-
-  // 自动触发生命周期相关钩子
-  autoTrigger()
-
   getServerTime(() => {
     implementAallbackArr()
   })
+  
+  coreInit(() => {
+    
+    isInitConfig = true
 
-  implementAallbackArr()
+    successLog({
+      code: 20007
+    })
 
-  fn && fn(config)
+    // 自动触发生命周期相关钩子
+    autoTrigger()
+
+    // 执行初始化完成之前缓存的上报
+    implementAallbackArr()
+
+    fn && fn(config)
+
+  })
 }
 
 export function getConfig (): object {

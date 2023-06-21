@@ -3,6 +3,8 @@ import { successLog } from '../printLog'
 import { attrCheck, attrNameCheck } from '../../utils/verify'
 import { setSuperProperty, getSuperProperty as getSuperAttrs, delSuperProperty } from '../../store/core'
 import { isObject } from '../../utils/type'
+import { callNativeCallback } from '../sendData/hybrid'
+import { isHybrid } from '../../store/hybrid'
 
 function setAttrs (superProperty, methodName) {
   const attrs = attrCheck(superProperty, methodName)
@@ -54,18 +56,27 @@ export function registerSuperProperties (superProperty: object, fn?) {
  * 获取单个通用属性
  */
 export function getSuperProperty (superPropertyName: string, fn?) {
-  const value = getSuperAttrs(superPropertyName)
-  fn && fn(value)
-  return value
+  if (isHybrid) {
+    callNativeCallback('getSuperProperty', superPropertyName, fn)
+  } else {
+    const value = getSuperAttrs(superPropertyName)
+    fn && fn(value)
+    return value
+  }
+  
 }
 
 /**
  * 获取所有通用属性
  */
 export function getSuperProperties (fn?) {
-  const value = getSuperAttrs()
-  fn && fn(value)
-  return value
+  if (isHybrid) {
+    callNativeCallback('getSuperProperties', null, fn)
+  } else {
+    const value = getSuperAttrs()
+    fn && fn(value)
+    return value
+  }
 }
 
 

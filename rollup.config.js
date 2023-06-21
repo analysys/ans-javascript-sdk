@@ -10,6 +10,7 @@ import dotenv from 'dotenv'
 import postcss from 'rollup-plugin-postcss'
 import es3 from 'rollup-plugin-es3';
 import scss from 'rollup-plugin-scss'
+import copy from './build/copy'
 
 // 加载.env文件
 dotenv.config()
@@ -24,6 +25,7 @@ dotenv.config({
 })
 
 const pathResolve = p => path.join(__dirname, p)
+
 
 function changePath() {
   return {
@@ -65,59 +67,41 @@ function getPlugins () {
       mangle: {
         toplevel: true,
       },
+    }),
+    copy({
+      targets: [{
+        src: './dist/*',
+        dest: [`./demo/vue/public/sdk/${process.env.LibVERSION}`, `./demo/react/public/sdk/${process.env.LibVERSION}`, `./demo/jquery/sdk/${process.env.LibVERSION}`]
+      }]
     })
   ]
 }
 
-const outputPath = ['./dist/', './demo/vue-pc/public/sdk/', './demo/react/public/sdk/', './demo/jquery/sdk/']
-const outputFile = [{
-  file: 'AnalysysAgent_JS_SDK.min.js',
-  format: 'umd',
-  name: 'AnalysysAgent',
-  amd: {
-    define: 'arkDefine'
-  }
-},{
-  file: 'AnalysysAgent_JS_SDK.amd.min.js',
-  format: 'amd',
-  name: 'AnalysysAgent'
-},{
-  file: 'AnalysysAgent_JS_SDK.es6.min.js',
-  format: 'esm',
-  name: 'AnalysysAgent'
-}]
-
-const output = () => {
-  let arr = []
-  outputPath.forEach(o => {
-    outputFile.forEach(v => {
-      let obj = {...v}
-      obj.file = o + v.file
-      arr.push(obj)
-    })
-  })
-  return arr
-}
 
 export default [{
   input: './src/index.ts',
-  output: output(),
+  output: [{
+    file: './dist/AnalysysAgent_JS_SDK.min.js',
+    format: 'umd',
+    name: 'AnalysysAgent',
+    amd: {
+      define: 'arkDefine'
+    }
+  }, {
+    file: './dist/AnalysysAgent_JS_SDK.amd.min.js',
+    format: 'amd',
+    name: 'AnalysysAgent'
+  }, {
+    file: './dist/AnalysysAgent_JS_SDK.es6.min.js',
+    format: 'esm',
+    name: 'AnalysysAgent'
+  }],
   plugins: getPlugins(),
   sourceMap: true,
 }, {
   input: './src/plugIn/heatmap/index.ts',
   output: [{
     file: './dist/AnalysysAgent_JS_SDK_HEATMAP.min.js',
-    format: 'iife',
-    name: 'HEATMAP',
-    freeze: false
-  }, {
-    file: './demo/vue-pc/public/sdk/AnalysysAgent_JS_SDK_HEATMAP.min.js',
-    format: 'iife',
-    name: 'HEATMAP',
-    freeze: false
-  }, {
-    file: './demo/jquery/sdk/AnalysysAgent_JS_SDK_HEATMAP.min.js',
     format: 'iife',
     name: 'HEATMAP',
     freeze: false
@@ -130,15 +114,14 @@ export default [{
     format: 'iife',
     name: 'VISUAL',
     freeze: false
-  }, {
-    file: './demo/vue-pc/public/sdk/AnalysysAgent_JS_SDK_VISUAL.min.js',
+  }],
+  plugins: getPlugins()
+}, {
+  input: './src/plugIn/encrypt/index.ts',
+  output: [{
+    file: './dist/AnalysysAgent_Encrypt.min.js',
     format: 'iife',
-    name: 'VISUAL',
-    freeze: false
-  }, {
-    file: './demo/jquery/sdk/AnalysysAgent_JS_SDK_VISUAL.min.js',
-    format: 'iife',
-    name: 'VISUAL',
+    name: 'Encrypt',
     freeze: false
   }],
   plugins: getPlugins()

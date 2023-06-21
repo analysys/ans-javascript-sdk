@@ -4,6 +4,8 @@ export const $lib = '$LIB'
 export const $lib_version = '$LibVERSION'
 export const $ans = '$ANS'
 
+export const storageKey = 'FZ_STROAGE'
+
 
 export const globalWindow = window as any;
 

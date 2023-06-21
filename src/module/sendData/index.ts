@@ -10,6 +10,7 @@ import { globalWindow } from '../../constant/index'
 import { isFunction } from '../../utils/type'
 import beacon from '../../utils/requrst/beacon'
 import { isHybrid } from '../../store/hybrid'
+import hybridSendDate from './hybrid'
 
 // 一次最多上报20条
 const MAXLINENUM = 20
@@ -55,8 +56,8 @@ function postData () : any {
     return
   }
 
-  // if (globalWindow.AnalysysAgent.encrypt && isFunction(globalWindow.AnalysysAgent.encrypt.uploadData)) {
-  //   option = globalWindow.AnalysysAgent.encrypt.uploadData(option);
+  // if (globalWindow.AnalysysModule && isFunction(globalWindow.AnalysysModule.uploadData)) {
+  //   option = globalWindow.AnalysysModule.uploadData(option);
   // }
   
   ajax({
@@ -132,10 +133,28 @@ function imgGetData (data: buriedPointData) {
 
 /**
  * 上报数据
- * @param data object
+ * @param data object 
+ * @param fn 上报成功后回调函数
+ * @param isTrack 是否是自定义事件
  */
 
-function sendData (data: buriedPointData, fn?: Function) : any {
+function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : any {
+
+  const xwhat = data.xwhat
+
+  // Hybrid模式下由原生端上报
+  if (isHybrid && ['$web_click', '$webstay', '$user_click'].indexOf(xwhat) === -1) {
+    const functionParams = [data.xcontext]
+    if (xwhat === '$pageview') {
+      functionParams.unshift(data.xcontext.$title || '')
+    }
+    if (isTrack) {
+      functionParams.unshift(xwhat)
+    }
+    hybridSendDate(data.isTrack ? 'track' : xwhat, functionParams)
+    return
+  }
+
   if (!config.appkey) {
     errorLog({
       code: 60006
@@ -162,36 +181,6 @@ function sendData (data: buriedPointData, fn?: Function) : any {
       data: [data]
     }
     beacon(option)
-    return
-  }
-
-  if (isHybrid) {
-
-    const eventMap = {
-      '$pageview': 'pageView',
-      '$startup': 'startUp'
-    }
-
-    let underlineToHump = function (str): String {
-      if(str.slice(0,1) === '$'){ 
-        str = str.slice(1);
-      }
-      return str.replace(/([^_])(?:_+([^_]))/g, function ($0, $1, $2) {
-        return $1 + $2.toUpperCase();
-      });
-    }
-
-    let obj = {
-      functionName: eventMap[data.xwhat] || underlineToHump(data.xwhat),
-      functionParams: ['', data.xcontext]
-    }
-
-    // ios
-    globalWindow.webkit?.messageHandlers?.AnalysysAgent?.postMessage(obj)
-
-    // 安卓
-    globalWindow.AnalysysAgentHybrid?.analysysHybridCallNative(JSON.stringify(obj))
-    
     return
   }
 
