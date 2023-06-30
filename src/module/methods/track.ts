@@ -40,6 +40,7 @@ function track (eventName : string, eventAttrs, fn?: Function) {
 
   sendData(res, callback, true)
 
+  return res
 }
 
 export default track

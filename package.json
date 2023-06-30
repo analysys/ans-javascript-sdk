@@ -1,9 +1,9 @@
 {
-	"name": "ans-javascript-sdk",
+	"name": "asd-javascript-sdk",
 	"version": "5.0.0",
 	"description": "official analysysAgent javascript sdk",
-	"main": "./sdk/AnalysysAgent_JS_SDK.min.js",
-	"module": "./sdk/AnalysysAgent_JS_SDK.es6.min.js",
+	"main": "./dist/AnalysysAgent_JS_SDK.min.js",
+	"module": "./dist/AnalysysAgent_JS_SDK.es6.min.js",
 	"files": [
 		"dist"
 	],
@@ -21,7 +21,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/analysys/ans-wechat-sdk.git"
+		"url": "git+https://github.com/analysys/ans-javascript-sdk.git"
 	},
 	"author": {
 		"name": "huangriya",

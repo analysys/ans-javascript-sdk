@@ -91,12 +91,15 @@
 
   // 自定义事件上报
   const track = function () {
-    window.AnalysysAgent.track('login')
+    const res = window.AnalysysAgent.track('resource_expose', {
+      has_picture: true
+    })
+    console.log(res)
   }
 
   // 设置单个通用属性
   const registerSuperProperty = function () {
-    window.AnalysysAgent.registerSuperProperty('author', 'hry', (res) => {
+   window.AnalysysAgent.registerSuperProperty('author', 'hry', (res) => {
       console.log(res)
     })
   }

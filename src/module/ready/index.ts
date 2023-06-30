@@ -55,7 +55,7 @@ function ready (callback, isTop?: boolean) {
       }
       isTop ? callbackArr.unshift(obj) : callbackArr.push(obj)
     } else {
-      callback.apply(callback, args)
+      return callback.apply(callback, args)
     }
   }
 }

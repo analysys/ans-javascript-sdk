@@ -151,7 +151,7 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
     if (isTrack) {
       functionParams.unshift(xwhat)
     }
-    hybridSendDate(data.isTrack ? 'track' : xwhat, functionParams)
+    hybridSendDate(isTrack ? 'track' : xwhat, functionParams)
     return
   }
 
