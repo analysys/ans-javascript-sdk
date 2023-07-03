@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "ans-javascript-sdk": "^4.5.5",
+    "asd-javascript-sdk": "^5.0.0",
     "naive-ui": "^2.33.5",
     "sass": "^1.55.0",
     "vconsole": "^3.15.0",

@@ -144,6 +144,13 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
 
   // Hybrid模式下由原生端上报
   if (isHybrid && ['$web_click', '$webstay', '$user_click'].indexOf(xwhat) === -1) {
+
+    // hybrid模式下删除这些属性，由原生上报
+    const arr = ['$is_first_day', '$session_id', '$is_time_calibrated', '$startup_time', '$lib', '$lib_version', '$platform']
+    arr.forEach(o => {
+      delete data.xcontext[o]
+    })
+
     const functionParams = [data.xcontext]
     if (xwhat === '$pageview') {
       functionParams.unshift(data.xcontext.$title || '')
