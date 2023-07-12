@@ -2,7 +2,7 @@
  * js标准版sdk
  */
 import { initConfig } from './types'
-import { setConfig } from './store/config'
+import { setConfig, config } from './store/config'
 import { globalWindow, optionsDefault } from './constant/index'
 import ready from './module/ready'
 import { webViewHybridInit } from './store/hybrid'
@@ -11,6 +11,7 @@ import {
   profileSetOnce, profileSet, profileAppend, profileIncrement, profileDelete, profileUnset,
   reset,
   track,
+  timeEvent,
   alias,
   registerSuperProperty, registerSuperProperties, getSuperProperty, getSuperProperties,
   unRegisterSuperProperty,
@@ -28,28 +29,29 @@ class ArkJsSdk {
   constructor () {
     
   }
-  isInit: boolean = false;
-  config: initConfig = optionsDefault();
+  isInit = false;
+  config: initConfig = config;
   pageView = ready(pageView);
   registerSuperProperty = ready(registerSuperProperty, true);
   registerSuperProperties = ready(registerSuperProperties, true);
   getSuperProperty = ready(getSuperProperty);
-  getSuperProperties = getSuperProperties;
-  unRegisterSuperProperty = unRegisterSuperProperty;
-  clearSuperProperties = clearSuperProperties;
-  profileSetOnce = profileSetOnce;
-  profileSet = profileSet;
-  profileAppend = profileAppend;
-  profileIncrement = profileIncrement;
-  profileDelete = profileDelete;
-  profileUnset = profileUnset;
-  reset = reset;
+  getSuperProperties = ready(getSuperProperties);
+  unRegisterSuperProperty = ready(unRegisterSuperProperty);
+  clearSuperProperties = ready(clearSuperProperties);
+  profileSetOnce = ready(profileSetOnce);
+  profileSet = ready(profileSet);
+  profileAppend = ready(profileAppend);
+  profileIncrement = ready(profileIncrement);
+  profileDelete = ready(profileDelete);
+  profileUnset = ready(profileUnset);
+  reset = ready(reset);
   track = ready(track);
+  timeEvent= timeEvent;
   alias = ready(alias);
-  getPresetProperties = getPresetProperties;
-  identify = identify;
-  getDistinctId = getDistinctId;
-  pageProperty = pageProperty;
+  getPresetProperties = ready(getPresetProperties);
+  identify = ready(identify);
+  getDistinctId = ready(getDistinctId);
+  pageProperty = ready(pageProperty);
   nativeCallback = nativeCallback;
 
 
@@ -57,8 +59,6 @@ class ArkJsSdk {
   init (config: initConfig) {
     setConfig(config, (o) => {
       
-      this.config = o
-
       if (this.config.name) {
         globalWindow[this.config.name] = globalWindow.AnalysysAgent
       }

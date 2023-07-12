@@ -37,6 +37,12 @@ export interface initConfig {
   autoWebstay?: boolean; //在开启热图功能(autoHeatmap设置为true)后，设置是否追踪页面滚动行为，即在产品当中可分析页面浏览深度
   webstayDuration?: number; //设置追踪页面滚动行为时，最大停留时长
   heatMapBlackList?: string; //设置热图统计黑名单
+
+  beforePageView?: ((res:buriedPointData, setAttrs: Function) => boolean);  //pageView上报之前钩子，若返回false，则终止pageView上报
+  beforePageClose?: ((res:buriedPointData, setAttrs: Function) => boolean); //pageClose上报之前钩子，若返回false，则终止pageView上报
+  beforeTrack?: ((res:buriedPointData, setAttrs: Function) => boolean); //track之前的钩子，参数为当前上报的数据对象，若返回false，就会终止track上报
+
+  beforeInit?: ((res:initConfig, next: Function) => Promise<any>); //通知sdk客户端程序已经准备就绪了，你可以开始工作了
 }
 
 

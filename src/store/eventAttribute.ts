@@ -22,9 +22,7 @@ export const eventAttribute = {
   isUnload: false,
 
   // 事件发送成功后回调函数
-  eventCallback: {
-
-  },
+  eventCallback: {},
 
   // 页面关闭
   pageClose: {
@@ -34,9 +32,11 @@ export const eventAttribute = {
 
     // 页面开始隐藏时间
     hideStartTime: 0
-  }
+  },
 
-  
+  // 记录事件开始时间
+  timeEvent: {}
+
 }
 
 // 执行事件上报回调函数

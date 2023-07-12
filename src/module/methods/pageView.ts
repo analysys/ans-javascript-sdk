@@ -1,5 +1,6 @@
 
 
+import { globalWindow } from '../../constant/index'
 import sendData from '../sendData'
 import fillData from '../fillData'
 import { lengthCheck, attrCheck } from '../../utils/verify/index'
@@ -41,7 +42,28 @@ function pageView (pageName?: string, properties?: object, fn?: Function) {
   // 合并通用属性 // 绑定页面属性 // 绑定传入的属性
   res.xcontext = assign({}, res.xcontext, getSuperProperty(), getPageProperty(), userObj)
   
+  // 执行beforePageView钩子，返回false则停止上报
+  const beforePageView = config.beforePageView
+  if (beforePageView) {
+    const obj = {...res, xcontext: {...res.xcontext}}
+
+    // 设置属性
+    const setAttrs = (attrs: object) => {
+      let obj = attrCheck(attrs, '$pageview')
+      res.xcontext = assign({}, res.xcontext, obj)
+      return res.xcontext
+    }
+
+    if (beforePageView.call(globalWindow.AnalysysAgent, obj, setAttrs) === false) {
+      return res
+    }
+  }
+
+  // 缓存当前pv上报的title
+  eventAttribute.pageview['$title'] = res.xcontext['$title']
+  
   sendData(res, fn)
+  return res
 }
 
 export default pageView

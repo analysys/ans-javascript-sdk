@@ -18,7 +18,7 @@ const eventMap = {
 
 // hybrid模式下上报事件
 function callNative (functionName: string, functionParams?: Array<any>, isCallback?:boolean) {
-  let obj = {
+  const obj = {
     functionName: eventMap[functionName] || functionName,
     functionParams: functionParams
   }

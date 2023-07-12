@@ -7,7 +7,7 @@ import MD5 from "../../utils/md5"
 import { encode } from '../../utils/base64'
 import { globalWindow } from '../../constant/index'
 
-let reqt:string = ''
+let reqt = ''
 
 function getSpv(lib, appid, lib_version) {
   const policyversion = ''

@@ -60,6 +60,11 @@
   
   // const message = useMessage()
 
+  // window.AnalysysAgent.pageView('dsdfasf')
+
+  // 开始记录时长
+  window.AnalysysAgent.timeEvent('resource_expose')
+
   const state = reactive({
     anonymousId: '',
     aliasId: '',  

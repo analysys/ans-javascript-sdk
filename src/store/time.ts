@@ -58,9 +58,8 @@ export function getServerTime (fn?) {
     }
     isGetServerTime = true
     fn && fn(serverTime)
-  }, (err) => {
+  }, () => {
     isGetServerTime = true
     fn && fn(serverTime)
   })
-  
 }

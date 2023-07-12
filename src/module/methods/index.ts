@@ -13,6 +13,7 @@ import { profileSetOnce, profileSet, profileAppend, profileIncrement, profileDel
 import reset from './reset'
 import { getPresetProperties } from './presetProperties'
 import track from './track'
+import timeEvent from './timeEvent'
 import { identify, getDistinctId} from './identify'
 import { pageProperty } from './pageProperty'
 import nativeCallback from './nativeCallback'
@@ -30,6 +31,7 @@ export {
   pageClose,
   end,
   track,
+  timeEvent,
   alias,
   userClick,
   webClick,

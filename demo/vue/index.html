@@ -5,27 +5,41 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>js sdk集成演示</title>
-    <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+    <!-- <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
     <script>
       var vConsole = new window.VConsole();
-    </script>
+    </script> -->
     <script src="/sdk/5.0.2/AnalysysAgent_JS_SDK.min.js"></script>
     <!-- <script src="./public/sdk/4.5.0/AnalysysAgent_JS_SDK.min.js"></script> -->
     <script>
+
+      function getUserInfo () {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              name: 'hry',
+              age: 18,
+              phone: 18888888888
+            })
+          }, 2000)
+        })
+      }
+
       window.AnalysysAgent.init({
         appkey: "47fce41a0472c616", //APPKEY
         uploadURL: 'https://uba-up.analysysdata.com',
         debugMode: 2,
+        auto: true,
         // hash: true,
         // SDKFileDirectory: '/sdk/5.0.0',
-        // allowTimeCheck: false,
-        // autoPageViewDuration: true,
+        allowTimeCheck: true,
+        autoPageViewDuration: true,
         // autoTrack: true,
         // visitorConfigURL: 'https://yaodandan-up.analysysdata.com',
         // autoClickBlackList: ['http://127.0.0.1:5173/#/'],
         // pageViewBlackList: ['http://127.0.0.1:5173/#/'],
         // autoHeatmap: true,
-        // sendType: 'ajax',
+        sendType: 'post',
         // crossSubdomain: true,
         // pageProperty: {
         //   'add': 12333
@@ -33,6 +47,36 @@
         // userClickProperty: {
         //   'isClickEle': true
         // }
+
+        // 自定义事件上报之前钩子，返回false则终止上报，可以通过setAttrs设置属性
+        beforeTrack (res, setAttrs) {
+          
+        },
+
+        // 页面浏览上报之前钩子，返回false则终止上报，可以通过setAttrs设置属性
+        beforePageView (res, setAttrs) {
+          
+        },
+
+        // 页面关闭上报之前钩子，返回false则终止上报，可以通过setAttrs设置属性
+        beforePageClose (res, setAttrs) {
+          
+        },
+
+        // sdk初始化完成之前钩子，支持执行异步逻辑，执行完通过next()完成执行，也可以返回一个Promise任务
+        beforeInit (config, next) {
+          // const userInfo = await getUserInfo()
+          // this.alias(userInfo.name)
+
+          // return getUserInfo().then((userInfo) => {
+          //   this.alias(userInfo.name)
+          // })
+
+          getUserInfo().then((userInfo) => {
+            this.alias(userInfo.name)
+            next()
+          })
+        }
       })
       
     </script>
@@ -81,7 +125,14 @@
     </script> -->
 
     <script>
-      // window.AnalysysAgent.getDistinctId(function(v){
+      // window.AnalysysAgent.profileAppend('username', 'asdfadsdf')
+      // window.AnalysysAgent.getDistinctId((v)=> {
+      //   console.log(v)
+      // })
+      // window.AnalysysAgent.getSuperProperties((v) => {
+      //   console.log(v)
+      // })
+      // window.AnalysysAgent.getPresetProperties((v) => {
       //   console.log(v)
       // })
     </script>

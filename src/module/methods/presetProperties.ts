@@ -11,7 +11,7 @@ import { successLog } from '../printLog'
  * @returns object
  */
 
-export function getPresetProperties(fn):object {
+export function getPresetProperties(fn) : object {
 
   
   // 获取上报数据模块

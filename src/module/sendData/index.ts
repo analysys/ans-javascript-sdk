@@ -188,6 +188,11 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
       data: [data]
     }
     beacon(option)
+    successLog({
+      key: option.url,
+      value: option.data,
+      code: 20012
+    })
     return
   }
 

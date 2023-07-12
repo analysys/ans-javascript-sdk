@@ -5,11 +5,11 @@ const tableName = 'FZ_STORAGE'
 class IndexedDb {
   constructor () {
     this.open()
-  };
+  }
 
   db: IDBDatabase;
 
-  isOpen: boolean = false;
+  isOpen = false;
 
   // 打开数据库
   open() {
@@ -28,7 +28,7 @@ class IndexedDb {
         db.createObjectStore(tableName, { keyPath: 'id' });
       }
     }
-  };
+  }
 
   // 数据库连接成功
   onConnectSuccess: Function;
@@ -38,7 +38,7 @@ class IndexedDb {
 
   getObjectStore () {
     return this.db.transaction(tableName, 'readwrite').objectStore(tableName)
-  };
+  }
 
   // 读取数据
   get (successFn?: Function, errorFn?: Function) {
@@ -52,7 +52,7 @@ class IndexedDb {
     request.onerror = (event) => {
       errorFn && errorFn(event)
     };
-  };
+  }
 
   // 添加数据
   add (data: object, successFn?: Function, errorFn?: Function) {
@@ -64,14 +64,14 @@ class IndexedDb {
     request.onerror = function (event) {
       errorFn && errorFn(event)
     }
-  };
+  }
 
   // 删除数据
   delete () {
     const request = this.getObjectStore().delete(1);
     request.onsuccess = function (event) {
     };
-  };
+  }
 
   // 更新数据
   put (data: object, successFn?: Function, errorFn?: Function) {
@@ -84,7 +84,7 @@ class IndexedDb {
     request.onerror = function (event) {
       errorFn && errorFn()
     }
-  };
+  }
 }
 
 export default IndexedDb

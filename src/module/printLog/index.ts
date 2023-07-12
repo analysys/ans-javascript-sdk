@@ -4,17 +4,18 @@ import getType from '../../utils/type'
 import { msgetype } from '../../types'
 import { readOnlyAttrs } from '../../constant/eventAttrs'
 
+function keyErr (type: string) {
+	return `{FN}:Property value invalid of key[{KEY}], support type: ${type}
+	current value: {VALUE}
+	current type: {VALUETYPE}`
+}
+
 const errorMessage = {
 	'common': '',
-	'60001': '{FN}:Property key invalid, support type: String \n' +
-		'current key:{KEY}\n' +
-		'current keyType:{KEYTYPE}',
-	'60002': '{FN}:Property value invalid of key[{KEY}], support type: Number \n' +
-		'current value: {VALUE}\n' +
-		'current type: {VALUETYPE}',
-	'60003': '{FN}:Property value invalid of key[{KEY}], support type: Boolean \n' +
-		'current value:{VALUE}\n' +
-		'current type: {VALUETYPE}',
+	'60001': keyErr('String'),
+	'60002': keyErr('Number'),
+	'60003': keyErr('Boolean'),
+	'60004': keyErr('Function'),
 	'60005': '{FN}:The length of the property[{KEY}] value (string[{VALUE}]) needs to be 1-255 !',
 	'60006': 'Please set appkey first.',
 	'60007': 'Please set uploadURL first.',

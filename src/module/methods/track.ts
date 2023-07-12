@@ -1,5 +1,6 @@
 
 
+import { globalWindow } from '../../constant/index'
 import sendData from '../sendData'
 import fillData from '../fillData'
 import { getSuperProperty } from '../../store/core'
@@ -7,6 +8,9 @@ import { attrCheck } from '../../utils/verify'
 import { errorLog } from '../printLog'
 import { isFunction } from '../../utils/type'
 import { assign } from '../../utils/object'
+import { config } from '../../store/config'
+import { eventAttribute } from '../../store/eventAttribute'
+import { getNow } from '../../store/time'
 
 function track (eventName : string, eventAttrs, fn?: Function) {
 
@@ -21,11 +25,12 @@ function track (eventName : string, eventAttrs, fn?: Function) {
 
   // 获取上报数据模块
   const res = fillData('track')
-  
-  let trackAttrs = {}
+  let trackAttrs = eventAttrs && !isFunction(eventAttrs) ? attrCheck(eventAttrs, eventName) : {}
 
-  if (eventAttrs && !isFunction(eventAttrs)) {
-    trackAttrs = attrCheck(eventAttrs, eventName)
+  // 增加使用时长属性
+  if (eventAttribute.timeEvent[eventName]) {
+    trackAttrs['$duration'] = getNow() - eventAttribute.timeEvent[eventName]
+    delete eventAttribute[eventName]
   }
 
   res.xwhat = eventName
@@ -38,8 +43,25 @@ function track (eventName : string, eventAttrs, fn?: Function) {
     callback = eventAttrs
   }
 
-  sendData(res, callback, true)
+  // 执行beforeTrack钩子，返回false则停止上报
+  const beforeTrack = config.beforeTrack
 
+  if (beforeTrack) {
+
+    // 设置属性
+    const setAttrs = (attrs: object) => {
+      let obj = attrCheck(attrs, eventName)
+      res.xcontext = assign({}, res.xcontext, obj)
+      return res.xcontext
+    }
+
+    const obj = {...res, xcontext: {...res.xcontext}}
+    if (beforeTrack.call(globalWindow.AnalysysAgent, obj, setAttrs) === false) {
+      return res
+    }
+  }
+
+  sendData(res, callback, true)
   return res
 }
 

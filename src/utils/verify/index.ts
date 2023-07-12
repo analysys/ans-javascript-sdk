@@ -102,6 +102,24 @@ export function attrCheck (value: any, eventName?: string): object {
 }
 
 /**
+ * 初始化布尔类型参数校验
+ * @param value 
+ * @param key 
+ * @returns 
+ */
+export function booleanCheck(value, key) {
+  const res = isBoolean(value)
+  if (!res) {
+    errorLog({
+      key: key,
+      code: 60003,
+      value: value
+    }, true)
+  }
+  return res
+}
+
+/**
  * 验证是否全埋点统计黑名单
  * @param autoClickBlackList 全埋点统计黑名单
  * @param el 
