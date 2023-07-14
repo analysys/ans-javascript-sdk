@@ -58,6 +58,7 @@ function track (eventName, obj, callback) {
      * 自定义属性优先于自动采集属性
      */
   var trackLog = Util.objMerge(trackObj, xcontext)
+
   // 去除空数据后上传数据
   upLog(trackLog, callback)
 }

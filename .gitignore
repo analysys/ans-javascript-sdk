@@ -5,5 +5,4 @@ node_modules/
 yarn.lock
 bac
 demo/react/
-demo/vue-h5/
-demo/vue-pc/
+demo/vue/

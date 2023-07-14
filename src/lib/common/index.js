@@ -152,9 +152,9 @@ Util.prototype.objMerge = function (parentObj, part) {
     if (objValue && objValueType === 'Object' && partValueType === 'Object') {
       obj[partKey] = this.objMerge(objValue, partValue)
     }
-    else if (objValueType === 'Array' && partValueType === 'Array') {
-      obj[partKey] = this.arrayMergeUnique(objValue, partValue)
-    }
+    // else if (objValueType === 'Array' && partValueType === 'Array') {
+    //   obj[partKey] = this.arrayMergeUnique(objValue, partValue)
+    // }
     else if (partValueType === 'Function' && objValueType === 'Function') {
       obj[partKey] = this.compose(objValue, partValue)
     } else {
