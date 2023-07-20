@@ -3,9 +3,10 @@ import fillData from '../fillData'
 import { lengthCheck } from '../../utils/verify/index'
 import { config } from '../../store/config'
 import { profileSetOnce } from './profile'
-import { setCoreParam } from '../../store/core'
+import { setCoreParam, getId } from '../../store/core'
 import { successLog, errorLog } from '../printLog'
 import { commonAttrs } from '../../constant/eventAttrs'
+import { isFunction } from '../../utils/type'
 
 function alias (aliasId: string, fn?: Function) {
 
@@ -17,6 +18,14 @@ function alias (aliasId: string, fn?: Function) {
       fn: 'alias'
     })
     return false
+  }
+
+  if (aliasId === getId()) {
+    successLog({
+      code: 20014
+    })
+    fn && isFunction(fn) && fn()
+    return
   }
 
   // 设置登录后id

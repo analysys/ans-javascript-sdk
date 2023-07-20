@@ -4,6 +4,7 @@ import { globalWindow } from '../../constant/index'
 import { loadJs } from "../../utils/browser"
 import { getTagName, getEleIndex, eleForEach } from "../../utils/browser/elements"
 import track from './track'
+import { printLog } from '../printLog'
 
 let visualMap = null
 const href = globalWindow.location.href
@@ -90,6 +91,8 @@ export function getVisualList () {
       timeout: config.getDataTimeout
     }, function(res) {
       const list = res.data.data
+      printLog('Get Visual Event List from app')
+      printLog(JSON.stringify(list, null, 2))
       if (list && list.length) {
         visualMap = {}
         list.forEach(o => {

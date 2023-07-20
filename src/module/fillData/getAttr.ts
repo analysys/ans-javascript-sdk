@@ -94,7 +94,7 @@ export default {
     return core.ARKFRISTPROFILE
   },
   $first_visit_language () {
-    return ''
+    return (navigator.language || navigator.browserLanguage).toLowerCase()
   },
   $original_id () {
     return core.ARK_TRACKID || core.ARK_ID

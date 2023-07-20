@@ -16,8 +16,6 @@ let scrollTime = null
 // 是否采集页面属性
 function triggerPageView () {
 
-  triggerPageClose()
-
   if (config.auto) {
     ready(pageView)()
   } else {
@@ -48,6 +46,7 @@ function autoTrigger () {
     pathChange(function () {
       const path = eventAttribute.pageview.path
       if (path !== document.location.href) {
+        triggerPageClose()
         triggerPageView()
       }
     })

@@ -74,3 +74,7 @@ export function errorLog(opt: msgetype, isInit?: boolean) {
 		console.warn(showMsg)
 	}
 }
+
+export function printLog(msg:string) {
+	console.log(msg)
+}

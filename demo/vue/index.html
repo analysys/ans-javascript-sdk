@@ -21,7 +21,7 @@
               age: 18,
               phone: 18888888888
             })
-          }, 2000)
+          }, 1000)
         })
       }
 
@@ -64,18 +64,18 @@
         },
 
         // sdk初始化完成之前钩子，支持执行异步逻辑，执行完通过next()完成执行，也可以返回一个Promise任务
-        beforeInit (config, next) {
-          // const userInfo = await getUserInfo()
-          // this.alias(userInfo.name)
+        async beforeInit (config, next) {
+          const userInfo = await getUserInfo()
+          this.alias(userInfo.name)
 
           // return getUserInfo().then((userInfo) => {
           //   this.alias(userInfo.name)
           // })
 
-          getUserInfo().then((userInfo) => {
-            this.alias(userInfo.name)
-            next()
-          })
+          // getUserInfo().then((userInfo) => {
+          //   this.alias(userInfo.name)
+          //   next()
+          // })
         }
       })
       
