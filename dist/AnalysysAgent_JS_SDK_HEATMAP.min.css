@@ -1,3 +1,14 @@
+.ark-heatmap-location {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000; }
+
+.ark-headmap-body-location-none .ark-heatmap-location {
+  display: none; }
+
 .ark-heat-click-element {
   position: absolute;
   left: 0;
@@ -59,15 +70,33 @@
 .ark-headmap-body-element-none .ark-heat-click-element {
   display: none; }
 
-.ark-heatmap-location {
-  position: absolute !important;
-  top: 0;
+.ark-page-line {
+  z-index: 5002;
+  position: absolute;
+  width: 100%;
+  height: 1px;
   left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10000; }
+  border-bottom: dashed 1px #262d39; }
+  .ark-page-line.ark-mouse-lines {
+    border-bottom-style: solid; }
+  .ark-page-line .ark-page-line-value {
+    background-color: #262d39;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 0 4px 0 0;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    color: #fff; }
+  .ark-page-line .ark-page-mouse-line-value {
+    left: 50%;
+    border-radius: 4px 4px 0 0;
+    padding: 8px 0;
+    width: 190px;
+    text-align: center;
+    margin-left: -95px; }
 
-.ark-headmap-body-location-none .ark-heatmap-location {
+.ark-headmap-body-line-none .ark-page-line {
   display: none; }
 
 .ark-heatmap-head {
@@ -424,32 +453,3 @@
     -webkit-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
     transform: rotate(360deg); } }
-
-.ark-page-line {
-  z-index: 5002;
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  left: 0;
-  border-bottom: dashed 1px #262d39; }
-  .ark-page-line.ark-mouse-lines {
-    border-bottom-style: solid; }
-  .ark-page-line .ark-page-line-value {
-    background-color: #262d39;
-    font-size: 14px;
-    padding: 8px 16px;
-    border-radius: 0 4px 0 0;
-    position: absolute;
-    left: 0;
-    bottom: -1px;
-    color: #fff; }
-  .ark-page-line .ark-page-mouse-line-value {
-    left: 50%;
-    border-radius: 4px 4px 0 0;
-    padding: 8px 0;
-    width: 190px;
-    text-align: center;
-    margin-left: -95px; }
-
-.ark-headmap-body-line-none .ark-page-line {
-  display: none; }
