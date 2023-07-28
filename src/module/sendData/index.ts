@@ -162,20 +162,6 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
     return
   }
 
-  if (!config.appkey) {
-    errorLog({
-      code: 60006
-    })
-    return
-  }
-
-  if (!config.uploadURL) {
-    errorLog({
-      code: 60007
-    })
-    return
-  }
-
   // 设置回调函数
   if (fn && isFunction(fn)) {
     eventAttribute.eventCallback[data.xwhen] = fn

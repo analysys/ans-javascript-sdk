@@ -10,7 +10,7 @@ function keyErr (type: string) {
 	current type: {VALUETYPE}`
 }
 
-const errorMessage = {
+export const errorMessage = {
 	'common': '',
 	'60001': keyErr('String'),
 	'60002': keyErr('Number'),

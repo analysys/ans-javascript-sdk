@@ -91,9 +91,9 @@ export function getVisualList () {
       timeout: config.getDataTimeout
     }, function(res) {
       const list = res.data.data
-      printLog('Get Visual Event List from app')
-      printLog(JSON.stringify(list, null, 2))
       if (list && list.length) {
+        printLog('Get Visual Event List from app')
+        printLog(JSON.stringify(list, null, 2))
         visualMap = {}
         list.forEach(o => {
           let path = ''

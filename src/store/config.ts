@@ -1,14 +1,15 @@
 
 import { initConfig } from '../types'
 import { optionsDefault } from '../constant'
-import { isBoolean, isNumber, isString, isArray, isFunction, isObject } from '../utils/type'
-import { lengthCheck, booleanCheck } from '../utils/verify'
-import { errorLog, successLog } from '../module/printLog'
+import { isString, isArray, isFunction } from '../utils/type'
+import { booleanCheck, functionCheck, numberCheck, stringCheck, objectCheck } from '../utils/verify'
+import { successLog } from '../module/printLog'
 import { coreInit } from './core'
 import { implementAallbackArr, isReady, implementBeforeInit } from '../module/ready'
 import { getServerTime } from './time'
 import autoTrigger from '../module/autoTrigger'
 import { setPageProperty } from './pageProperty'
+import { loadVisual } from '../module/methods/visual'
 
 function nameListCheck (value: any) {
   if (isString(value)) {
@@ -28,16 +29,16 @@ function nameListCheck (value: any) {
 
 const configRule = {
   appkey: {
-    ck: [isString]
+    ck: [stringCheck]
   },
   uploadURL: {
-    ck: [isString]
+    ck: [stringCheck]
   },
   debugMode: {
-    ck: [isNumber]
+    ck: [numberCheck]
   },
   name: {
-    ck: [isString]
+    ck: [stringCheck]
   },
   auto: {
     ck: [booleanCheck]
@@ -46,7 +47,7 @@ const configRule = {
     ck: [booleanCheck]
   },
   encryptType: {
-    ck: [isNumber]
+    ck: [numberCheck]
   },
   hash: {
     ck: [booleanCheck]
@@ -55,7 +56,7 @@ const configRule = {
     ck: [booleanCheck]
   },
   maxDiffTimeInterval: {
-    ck: [isNumber, function (value: any) {
+    ck: [numberCheck, function (value: any) {
       if (value <= 0) {
         return false
       }
@@ -72,10 +73,10 @@ const configRule = {
     ck: [booleanCheck]
   },
   sendDataTimeout: {
-    ck: [isNumber]
+    ck: [numberCheck]
   },
   sendType: {
-    ck: [isString]
+    ck: [stringCheck]
   },
   autoClickBlackList: {
     ck: [nameListCheck]
@@ -84,39 +85,39 @@ const configRule = {
     ck: [booleanCheck]
   },
   SDKFileDirectory: {
-    ck: [isString]
+    ck: [stringCheck]
   },
   visitorConfigURL: {
-    ck: [isString]
+    ck: [stringCheck]
   },
   crossSubdomain: {
     ck: [booleanCheck]
   },
   pageProperty: {
-    ck: [isObject]
+    ck: [objectCheck]
   },
   pageViewBlackList: {
     ck: [nameListCheck]
   },
   userClickProperty: {
-    ck: [isObject]
+    ck: [objectCheck]
   },
 
   // track上报之前执行该函数，返回false则停止上报
   beforeTrack: {
-    ck: [isFunction]
+    ck: [functionCheck]
   },
   // pageView上报之前执行该函数，返回false则停止上报
   beforePageView: {
-    ck: [isFunction]
+    ck: [functionCheck]
   },
   // PageClose上报之前执行该函数，返回false则停止上报
   beforePageClose: {
-    ck: [isFunction]
+    ck: [functionCheck]
   },
   // 通知sdk客户端程序已经准备好了
   beforeInit: {
-    ck: [isFunction]
+    ck: [functionCheck]
   }
 }
 
@@ -152,6 +153,9 @@ export function setConfig (options: initConfig, fn?) {
       }
     }
   })
+
+  // 动态加载可视化交互文件
+  loadVisual()
 
   function procedure() {
     if (isReady()) {

@@ -22,6 +22,7 @@ import {
   pageProperty,
   nativeCallback
 } from './module/methods/index'
+import { errorMessage } from './module/printLog'
 
 webViewHybridInit()
 
@@ -57,6 +58,9 @@ class ArkJsSdk {
 
   // 初始化传入配置
   init (config: initConfig) {
+    if (!config.appkey) throw errorMessage['60006']
+    if (!config.uploadURL) throw errorMessage['60007']
+    
     setConfig(config, (o) => {
       
       if (this.config.name) {

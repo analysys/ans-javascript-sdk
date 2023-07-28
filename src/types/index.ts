@@ -42,7 +42,7 @@ export interface initConfig {
   beforePageClose?: ((res:buriedPointData, setAttrs: Function) => boolean); //pageClose上报之前钩子，若返回false，则终止pageView上报
   beforeTrack?: ((res:buriedPointData, setAttrs: Function) => boolean); //track之前的钩子，参数为当前上报的数据对象，若返回false，就会终止track上报
 
-  beforeInit?: ((res:initConfig, next: Function) => Promise<any>); //通知sdk客户端程序已经准备就绪了，你可以开始工作了
+  beforeInit?: ((config:initConfig, next: Function) => Promise<any>); //通知sdk客户端程序已经准备就绪了，你可以开始工作了
 }
 
 

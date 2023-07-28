@@ -6,17 +6,27 @@ import iframeMessage from './controller/iframMessage'
 
 storeInit()
 
-document.addEventListener('readystatechange', function() {
-  if (document.readyState === 'complete') {
-    // 添加热图视图
-    createView()
-    // 添加视图控制器
-    viewController()
+function init () {
 
-    if (window.top !== window.self) {
-      
-      iframeMessage()
+  // 添加热图视图
+  createView()
 
-    }
+  // 添加视图控制器
+  viewController()
+
+  if (window.top !== window.self) {
+    iframeMessage()
   }
-})
+}
+
+if (document.readyState === 'complete') {
+  init()
+} else {
+  document.addEventListener('readystatechange', function() {
+    if (document.readyState === 'complete') {
+      init()
+    }
+  })
+}
+
+

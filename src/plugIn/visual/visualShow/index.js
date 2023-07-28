@@ -197,7 +197,6 @@ getMsg((msg)=> {
   processMsg(msg)
 })
 
-
 // window.AnalysysModule = Util.objMerge(window.AnalysysModule || {}, {
 //   visual: {
 //     init: initVisual,

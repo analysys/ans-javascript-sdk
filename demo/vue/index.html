@@ -9,10 +9,10 @@
     <script>
       var vConsole = new window.VConsole();
     </script> -->
-    <script src="/sdk/5.0.2/AnalysysAgent_JS_SDK.min.js"></script>
+    <script src="/sdk/5.0.3/AnalysysAgent_JS_SDK.min.js"></script>
     <!-- <script src="./public/sdk/4.5.0/AnalysysAgent_JS_SDK.min.js"></script> -->
     <script>
-
+      // 模拟获取用户信息
       function getUserInfo () {
         return new Promise((resolve) => {
           setTimeout(() => {
@@ -31,19 +31,19 @@
         debugMode: 2,
         auto: true,
         // hash: true,
-        // SDKFileDirectory: '/sdk/5.0.0',
+        SDKFileDirectory: '/sdk/5.0.3',
         allowTimeCheck: true,
         autoPageViewDuration: true,
-        // autoTrack: true,
-        // visitorConfigURL: 'https://yaodandan-up.analysysdata.com',
+        autoTrack: true,
+        visitorConfigURL: 'https://uba-up.analysysdata.com',
         // autoClickBlackList: ['http://127.0.0.1:5173/#/'],
         // pageViewBlackList: ['http://127.0.0.1:5173/#/'],
-        // autoHeatmap: true,
+        autoHeatmap: true,
         sendType: 'post',
         // crossSubdomain: true,
-        // pageProperty: {
-        //   'add': 12333
-        // },
+        pageProperty: {
+          'add': 12333
+        },
         // userClickProperty: {
         //   'isClickEle': true
         // }
@@ -65,6 +65,7 @@
 
         // sdk初始化完成之前钩子，支持执行异步逻辑，执行完通过next()完成执行，也可以返回一个Promise任务
         async beforeInit (config, next) {
+
           const userInfo = await getUserInfo()
           this.alias(userInfo.name)
 

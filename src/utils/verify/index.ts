@@ -101,6 +101,16 @@ export function attrCheck (value: any, eventName?: string): object {
   return arrs
 }
 
+
+
+function errLog (key, value, code) {
+  errorLog({
+    key: key,
+    code: code,
+    value: value
+  }, true)
+}
+
 /**
  * 初始化布尔类型参数校验
  * @param value 
@@ -110,14 +120,44 @@ export function attrCheck (value: any, eventName?: string): object {
 export function booleanCheck(value, key) {
   const res = isBoolean(value)
   if (!res) {
-    errorLog({
-      key: key,
-      code: 60003,
-      value: value
-    }, true)
+    errLog(key, value, 60003)
   }
   return res
 }
+
+export function functionCheck(value, key) {
+  const res = isFunction(value)
+  if (!res) {
+    errLog(key, value, 60004)
+  }
+  return res
+}
+
+export function numberCheck(value, key) {
+  const res = isNumber(value)
+  if (!res) {
+    errLog(key, value, 60002)
+  }
+  return res
+}
+
+export function stringCheck(value, key) {
+  const res = isString(value)
+  if (!res) {
+    errLog(key, value, 60001)
+  }
+  return res
+}
+
+export function objectCheck(value, key) {
+  const res = isObject(value)
+  if (!res) {
+    errLog(key, value, 600016)
+  }
+  return res
+}
+
+
 
 /**
  * 验证是否全埋点统计黑名单

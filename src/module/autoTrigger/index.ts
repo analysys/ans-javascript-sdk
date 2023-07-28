@@ -7,7 +7,7 @@ import { eventAttribute } from '../../store/eventAttribute'
 import { getDeviceType, loadJs } from "../../utils/browser"
 import { globalWindow } from '../../constant/index'
 import { triggerPageClose, setPageHideTime } from '../methods/pageClose'
-import { getVisualList, loadVisual, visualClick } from '../methods/visual'
+import { getVisualList, visualClick } from '../methods/visual'
 import { setHybirdWebUrl } from '../sendData/hybrid'
 import { isHybrid } from '../../store/hybrid'
 
@@ -97,8 +97,7 @@ function autoTrigger () {
     }
   }
 
-  // 动态加载可视化交互文件
-  loadVisual()
+  
 
   // 记录页面隐藏时间
   setPageHideTime()
