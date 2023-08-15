@@ -31,9 +31,10 @@ function track (eventName, obj, callback) {
   /**
      * 用户自定义属性优先于超级属性
      */
+  
   var xcontext = Util.objMerge({
     xcontext: arkSuper
-  }, userProp)
+  }, userProp, {arrMerge: false})
   if (baseConfig.base.isHybrid === true) {
     var trackHybridTemp = temp('$trackbase')
     var trackHybridObj = fillField(trackHybridTemp)
@@ -57,7 +58,7 @@ function track (eventName, obj, callback) {
   /**
      * 自定义属性优先于自动采集属性
      */
-  var trackLog = Util.objMerge(trackObj, xcontext)
+  var trackLog = Util.objMerge(trackObj, xcontext, {arrMerge: false})
 
   // 去除空数据后上传数据
   upLog(trackLog, callback)

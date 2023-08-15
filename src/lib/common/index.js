@@ -136,7 +136,7 @@ Util.prototype.toObj = function (param1, param2) {
   }
   return obj
 }
-Util.prototype.objMerge = function (parentObj, part) {
+Util.prototype.objMerge = function (parentObj, part, opt = {arrMerge: true}) {
   if (this.paramType(parentObj) !== 'Object' || this.paramType(part) !== 'Object') {
     return parentObj
   }
@@ -150,11 +150,12 @@ Util.prototype.objMerge = function (parentObj, part) {
     var partValueType = this.paramType(partValue)
     var objValueType = this.paramType(objValue)
     if (objValue && objValueType === 'Object' && partValueType === 'Object') {
-      obj[partKey] = this.objMerge(objValue, partValue)
+      obj[partKey] = this.objMerge(objValue, partValue, opt)
     }
-    // else if (objValueType === 'Array' && partValueType === 'Array') {
-    //   obj[partKey] = this.arrayMergeUnique(objValue, partValue)
-    // }
+    else if (objValueType === 'Array' && partValueType === 'Array' && opt.arrMerge) {
+
+      obj[partKey] = this.arrayMergeUnique(objValue, partValue)
+    }
     else if (partValueType === 'Function' && objValueType === 'Function') {
       obj[partKey] = this.compose(objValue, partValue)
     } else {

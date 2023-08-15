@@ -28,7 +28,9 @@ function registerSuperProperty (key, value, callback) {
   checkPrivate(obj, '$registerSuperProperty')
   // obj = Util.delEmpty(obj)
   var arkSuper = Storage.getLocal('ARKSUPER') || {}
-  var saveArkSuper = Util.objMerge(arkSuper, obj)
+  var saveArkSuper = Util.objMerge(arkSuper, obj, {
+    arrMerge: false
+  })
   Storage.setLocal('ARKSUPER', saveArkSuper)
   baseConfig.status.successCode = '20002'
   baseConfig.status.value = JSON.stringify(obj)

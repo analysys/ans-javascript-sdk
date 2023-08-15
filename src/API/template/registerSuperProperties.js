@@ -29,7 +29,9 @@ function registerSuperProperties (key, value, callback) {
 
   var arkSuper = Storage.getLocal('ARKSUPER') || {}
   // obj = Util.delEmpty(obj)
-  var saveArkSuper = Util.objMerge(arkSuper, obj)
+  var saveArkSuper = Util.objMerge(arkSuper, obj, {
+    arrMerge: false
+  })
   Storage.setLocal('ARKSUPER', saveArkSuper)
 
   baseConfig.status.successCode = '20002'

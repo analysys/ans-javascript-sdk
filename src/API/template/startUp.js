@@ -40,7 +40,7 @@ function startUp () {
            */
       startUpLog = Util.objMerge(startUpLog, {
         xcontext: arkSuper
-      })
+      }, {arrMerge: false})
       log.push(Util.delEmpty(startUpLog))
     }
   }

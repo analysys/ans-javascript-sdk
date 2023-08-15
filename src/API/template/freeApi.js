@@ -28,7 +28,7 @@ function freeApi (apiName, property) {
   if (Util.paramType(property) === 'Object') {
     arkSuper = Util.objMerge(arkSuper, property)
   }
-  freeApiLog = Util.objMerge(freeApiLog, { xcontext: arkSuper })
+  freeApiLog = Util.objMerge(freeApiLog, { xcontext: arkSuper }, {arrMerge: false})
 
   upLog(Util.delEmpty(freeApiLog))
 }

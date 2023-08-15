@@ -108,7 +108,7 @@ function pageViewLog (p, o, c) {
      */
   var xcontext = Util.objMerge({
     xcontext: arkSuper
-  }, userProp)
+  }, userProp, {arrMerge: false})
   /**
      * 与$pagename属性合并
      */
