@@ -7,7 +7,8 @@ import { isSpider } from '../../utils/path'
 import { pathParams } from '../../store/pathParams'
 import { clientTimeZone } from '../../utils/date'
 import { isString, isNumber } from "../../utils/type"
-import { valToString, valToNumber } from "../../utils/type/transform"
+import { getUrlDomain } from '../../utils/path'
+import { valToString } from "../../utils/type/transform"
 import { dateFormat } from "../../utils/date"
 import { userClickAttrs, webClickAttrs } from "../../store/clickElement"
 import { eventAttribute } from "../../store/eventAttribute"
@@ -108,19 +109,24 @@ export default {
   $referrer (): string {
     return eventAttribute.pageview.prevPath
   },
+  $referrer_domain (): string {
+    return getUrlDomain(eventAttribute.pageview.prevPath)
+  },
   $title (): string {
     return document.title
   },
   $url(): string {
     return eventAttribute.pageview.path
   },
+
+  // 页面URL-去参的页面URL
   $url_path(): string {
-    return ''
+    return getUrlDomain(eventAttribute.pageview.path)
   },
 
   // 页面URL-去参的页面URL
   $url_domain(): string {
-    return ''
+    return getUrlDomain(eventAttribute.pageview.path)
   },
 
   $utm_campaign_id (): string {

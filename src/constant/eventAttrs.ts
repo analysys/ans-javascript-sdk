@@ -65,6 +65,7 @@ export const events = {
   $pageview: [
     ...utmAttrs,
     ...commonAttrs,
+    '$url_domain',
     '$referrer',
     '$referrer_domain',
     '$startup_time' // 此行下面5个只在 pageView 中有

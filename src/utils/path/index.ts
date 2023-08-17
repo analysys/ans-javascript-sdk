@@ -1,27 +1,13 @@
 
-import { pathParams } from "../../store/pathParams"
 import { isSpider } from "./isSpider"
 
-/**
- * 获取当前页面实例
- * @returns 
- */
- export function getCurrentPage() {
-  return {}
-}
-
-/**
- * 获取当前url路径
- * @param isQuery 是否获取参数
- * @returns 
- */
-export function getPath(isQuery?: boolean): string {
+export function getUrlDomain (url) {
+  if (url) {
+    return url.split('?')[0]
+  }
   return ''
 }
 
-export function getReferer() {
-  return ''
-}
 
 export { isSpider }
 
