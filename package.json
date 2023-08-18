@@ -20,8 +20,7 @@
 		]
 	},
 	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/analysys/ans-javascript-sdk.git"
+		"type": "git"
 	},
 	"author": {
 		"name": "huangriya",
@@ -77,10 +76,7 @@
 		"vue-cli": "^2.9.6",
 		"zlibjs": "^0.3.1"
 	},
-	"bugs": {
-		"url": "https://github.com/analysys/ans-wechat-sdk/issues"
-	},
-	"homepage": "https://github.com/analysys/ans-wechat-sdk#readme",
+	"homepage": "",
 	"keywords": [
 		"analysys",
 		"analysysagent",
