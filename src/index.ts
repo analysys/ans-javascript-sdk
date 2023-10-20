@@ -3,7 +3,7 @@
  */
 import { initConfig } from './types'
 import { setConfig, config } from './store/config'
-import { globalWindow, optionsDefault } from './constant/index'
+import { globalWindow } from './constant/index'
 import ready from './module/ready'
 import { webViewHybridInit } from './store/hybrid'
 import {
@@ -27,9 +27,7 @@ import { errorMessage } from './module/printLog'
 webViewHybridInit()
 
 class ArkJsSdk {
-  constructor () {
-    
-  }
+  constructor () {}
   isInit = false;
   config: initConfig = config;
   pageView = ready(pageView);

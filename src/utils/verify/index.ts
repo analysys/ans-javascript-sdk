@@ -200,7 +200,6 @@ function checkElementConfig (trackList, el) {
     const tagName = el.tagName.toLowerCase()
     const className = '.' + el.className.split(' ').join('.')
     const id = el.id ? '#' + el.id : ''
-
     if (tagName === trackList.toLowerCase() || className === trackList || id === trackList || tagName + className === trackList || tagName + id === trackList || id + className === trackList || tagName + id + className === trackList) {
       return true
     }
@@ -226,7 +225,6 @@ function checkElementConfig (trackList, el) {
   const trackList = config.trackList
   let tagName = el.tagName.toLowerCase()
   const clickableElementList = ['a', 'button', 'input', 'select', 'textarea', 'svg'] // option无法触发点击事件
-
   function getElementAttrClick () {
    return el.getAttribute('data-ark-click') !== null
   }

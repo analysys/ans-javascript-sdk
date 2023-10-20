@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../src/module/printLog/index.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,QAAQ,EAAE,MAAM,aAAa,CAAA;AAStC,eAAO,MAAM,YAAY;;;;;;;;;;;;;;;;;;CAqBxB,CAAA;AAuBD,wBAAgB,UAAU,CAAC,GAAG,EAAE,QAAQ,QAMvC;AAGD,wBAAgB,QAAQ,CAAC,GAAG,EAAE,QAAQ,EAAE,MAAM,CAAC,EAAE,OAAO,QAUvD;AAED,wBAAgB,QAAQ,CAAC,GAAG,EAAC,MAAM,QAElC"}

@@ -25,7 +25,7 @@ function track (eventName : string, eventAttrs, fn?: Function) {
 
   // 获取上报数据模块
   const res = fillData('track')
-  let trackAttrs = eventAttrs && !isFunction(eventAttrs) ? attrCheck(eventAttrs, eventName) : {}
+  const trackAttrs = eventAttrs && !isFunction(eventAttrs) ? attrCheck(eventAttrs, eventName) : {}
 
   // 增加使用时长属性
   if (eventAttribute.timeEvent[eventName]) {
@@ -50,7 +50,7 @@ function track (eventName : string, eventAttrs, fn?: Function) {
 
     // 设置属性
     const setAttrs = (attrs: object) => {
-      let obj = attrCheck(attrs, eventName)
+      const obj = attrCheck(attrs, eventName)
       res.xcontext = assign({}, res.xcontext, obj)
       return res.xcontext
     }

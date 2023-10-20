@@ -1,7 +1,7 @@
 <template>
   <div class="layout-head">
     <a href="/" class="logo">
-      <img src="https://www.analysysdata.com/images/logo-white.svg" />
+      <!-- <img src="https://www.analysysdata.com/images/logo-white.svg" /> -->
     </a>
     <ul class="head-nav">
       <li><router-link to="/">首页</router-link></li>

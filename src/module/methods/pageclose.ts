@@ -20,11 +20,9 @@ function pageClose () {
   }
 
   function getHideTime () {
-    if (!eventAttribute.pageClose.hideStartTime) {
-      return eventAttribute.pageClose.hideTime
-    } else {
-     return eventAttribute.pageClose.hideTime + (res.xwhen - eventAttribute.pageClose.hideStartTime)
-    }
+    const pageCloseAttr = eventAttribute.pageClose
+    const hideTime = pageCloseAttr.hideTime
+    return !pageCloseAttr.hideStartTime ? hideTime : (hideTime + (res.xwhen - pageCloseAttr.hideStartTime))
   }
 
   const attrs = {
@@ -54,7 +52,7 @@ function pageClose () {
 
     // 设置属性
     const setAttrs = (attrs: object) => {
-      let obj = attrCheck(attrs, 'page_close')
+      const obj = attrCheck(attrs, 'page_close')
       res.xcontext = assign({}, res.xcontext, obj)
       return res.xcontext
     }
@@ -81,7 +79,7 @@ export function triggerPageClose () {
 }
 
 // 设置页面隐藏时间
-export function setPageHideTime (hideFn?, showFn?) {
+export function setPageHideTime () {
   if ('onvisibilitychange' in document && config.autoPageViewDuration) {
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) {

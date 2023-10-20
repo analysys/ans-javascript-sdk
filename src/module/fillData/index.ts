@@ -16,7 +16,7 @@ export default function (eventName: string) : buriedPointData {
   const event = events[eventName]
 
   // 设置事件属性
-  function setEventAttr(attrName) {
+  function setEventAttr(attrName: string) {
     const getAttrFn = getAttr[attrName]
     if (getAttrFn) {
       const value = getAttrFn()

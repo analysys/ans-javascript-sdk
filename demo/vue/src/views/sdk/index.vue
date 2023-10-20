@@ -22,6 +22,10 @@
           <n-button type="primary" block @click="track()">上报自定义事件</n-button>
         </n-card>
 
+        <n-card title="手动上报pagview">
+          <n-button type="primary" block @click="pageView()">上报pagview</n-button>
+        </n-card>
+
         <n-card title="通用属性">
           <n-button type="primary" block @click="registerSuperProperty">设置单个通用属性</n-button>
           <div style="padding-top:10px">
@@ -96,10 +100,15 @@
 
   // 自定义事件上报
   const track = function () {
-    const res = window.AnalysysAgent.track('resource_expose', {
+    window.AnalysysAgent.registerSuperProperty('bbb', '123')
+    const res = window.AnalysysAgent.track('buy', {
       has_picture: true
     })
     console.log(res)
+  }
+
+  const pageView = function () {
+    window.AnalysysAgent.pageView('测试')
   }
 
   // 设置单个通用属性

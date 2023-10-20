@@ -66,6 +66,9 @@ const configRule = {
   autoTrack: {
     ck: [booleanCheck]
   },
+  trackList: {
+    ck: [nameListCheck]
+  },
   autoCompleteURL: {
     ck: [booleanCheck]
   },

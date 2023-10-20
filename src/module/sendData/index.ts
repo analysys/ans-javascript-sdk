@@ -56,9 +56,14 @@ function postData () : any {
     return
   }
 
+  
   // if (globalWindow.AnalysysModule && isFunction(globalWindow.AnalysysModule.uploadData)) {
   //   option = globalWindow.AnalysysModule.uploadData(option);
   // }
+
+  if (globalWindow.AnalysysModal && typeof (globalWindow.AnalysysModal) === 'function') {
+    globalWindow.AnalysysModal(option.data)
+  }
   
   ajax({
     url: option.url,

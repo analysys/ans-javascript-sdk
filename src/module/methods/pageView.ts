@@ -49,7 +49,7 @@ function pageView (pageName?: string, properties?: object, fn?: Function) {
 
     // 设置属性
     const setAttrs = (attrs: object) => {
-      let obj = attrCheck(attrs, '$pageview')
+      const obj = attrCheck(attrs, '$pageview')
       res.xcontext = assign({}, res.xcontext, obj)
       return res.xcontext
     }
