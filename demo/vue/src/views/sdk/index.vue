@@ -100,7 +100,7 @@
 
   // 自定义事件上报
   const track = function () {
-    window.AnalysysAgent.registerSuperProperty('bbb', '123')
+    // window.AnalysysAgent.registerSuperProperty('bbb', '123')
     const res = window.AnalysysAgent.track('buy', {
       has_picture: true
     })

@@ -5,8 +5,9 @@ import { initConfig } from './types'
 import { setConfig, config } from './store/config'
 import { globalWindow } from './constant/index'
 import ready from './module/ready'
-import { webViewHybridInit } from './store/hybrid'
+import { webViewHybridInit, isHybrid } from './store/hybrid'
 import {
+  startUp,
   pageView,
   profileSetOnce, profileSet, profileAppend, profileIncrement, profileDelete, profileUnset,
   reset,
@@ -20,7 +21,8 @@ import {
   identify,
   getDistinctId,
   pageProperty,
-  nativeCallback
+  nativeCallback,
+  on
 } from './module/methods/index'
 import { errorMessage } from './module/printLog'
 
@@ -28,8 +30,10 @@ webViewHybridInit()
 
 class ArkJsSdk {
   constructor () {}
-  isInit = false;
+  isInit: boolean = false;
+  isHybrid: boolean = isHybrid;
   config: initConfig = config;
+  appStart = ready(startUp);
   pageView = ready(pageView);
   registerSuperProperty = ready(registerSuperProperty, true);
   registerSuperProperties = ready(registerSuperProperties, true);
@@ -53,6 +57,7 @@ class ArkJsSdk {
   pageProperty = ready(pageProperty);
   nativeCallback = nativeCallback;
 
+  on = on;
 
   // 初始化传入配置
   init (config: initConfig) {

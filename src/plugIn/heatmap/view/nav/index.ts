@@ -208,21 +208,24 @@ export function renderCondition () {
 }
 
 export function renderElementList (elementList) {
-  let trs = ''
-  if (elementList && elementList.length) {
-    elementList.forEach(o => {
-      trs += `
-          <tr>
-            <td><div class="ark-element-content">${o.content || '-'}</div></td>
-            <td>${o.type}</td>
-            <td>${o.uv}</td>
-            <td>${o.clickNum}</td>
-            <td>${(o.clickNumPercent * 100).toFixed(2)}%</td>
-          </tr>
-      `
-    })
+  const arkElementList = document.getElementById('arkElementList')
+  if (arkElementList) {
+    let trs = ''
+    if (elementList && elementList.length) {
+      elementList.forEach(o => {
+        trs += `
+            <tr>
+              <td><div class="ark-element-content">${o.content || '-'}</div></td>
+              <td>${o.type}</td>
+              <td>${o.uv}</td>
+              <td>${o.clickNum}</td>
+              <td>${(o.clickNumPercent * 100).toFixed(2)}%</td>
+            </tr>
+        `
+      })
+    }
+    arkElementList.innerHTML = trs
   }
-  document.getElementById('arkElementList').innerHTML = trs
 }
 
 // 滑块

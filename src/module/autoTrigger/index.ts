@@ -6,14 +6,14 @@ import { pathChange } from '../../utils/path'
 import { eventAttribute } from '../../store/eventAttribute'
 import { getDeviceType, loadJs } from "../../utils/browser"
 import { globalWindow } from '../../constant/index'
-import { triggerPageClose, setPageHideTime } from '../methods/pageClose'
+import { triggerPageClose, setPageHideTime } from '../methods/pageclose'
 import { getVisualList, visualClick } from '../methods/visual'
 import { setHybirdWebUrl } from '../sendData/hybrid'
 import { isHybrid } from '../../store/hybrid'
 
 let scrollTime = null
 
-// 是否采集页面属性
+// 是否自动采集pv
 function triggerPageView () {
 
   if (config.auto) {
@@ -34,8 +34,7 @@ function triggerPageView () {
  * sdk自动触发器
  */
 function autoTrigger () {
-
-  if (!isHybrid) {
+  if (!isHybrid && config.autoStartUp) {
     startUp()
   }
 
@@ -80,9 +79,8 @@ function autoTrigger () {
   if (config.autoHeatmap) {
     if (href.indexOf('arkheatmap=true') === -1) {
       if (href.indexOf('visual=true') === -1) { // 不是是在热图模式和可视化模式下上报热图数据
-        const eventName = deviceType === 'desktop' ? 'click' : 'touchstart'
-        document.addEventListener(eventName, webClick)
-
+        document.addEventListener('click', webClick)
+        
         // 滚动行为
         document.addEventListener('scroll', function() {
           clearTimeout(scrollTime)

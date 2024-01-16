@@ -50,7 +50,7 @@ export const implementBeforeInit= (fn: () => any) => {
   }
   const beforeInit = config.beforeInit
   if (beforeInit) {
-    const f:any = beforeInit.call(globalWindow.AnalysysAgent, config, next)
+    const f:any = beforeInit.call(globalWindow.AnalysysAgent, {...config}, next)
     if (f instanceof Promise || (f && isFunction(f.then))) {
       f.then(() => {
         next()

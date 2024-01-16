@@ -1,7 +1,7 @@
 /*
 md5.js
 */
-function MD5 (str: string, bit: number): string {
+function MD5 (str: string, bit?: number): string {
   const sMessage = str;
   function RotateLeft (lValue, iShiftBits) { return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits)); }
   function AddUnsigned (lX, lY) {

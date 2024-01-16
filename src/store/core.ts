@@ -6,6 +6,7 @@ import MD5 from '../utils/md5'
 import { initStartUpTime, clearStartUpTime } from './startUpTime'
 import { assign } from '../utils/object'
 import { config } from './config'
+import { setPathParams } from './pathParams'
 
 export interface coreInterface {
 
@@ -63,26 +64,10 @@ export let core : coreInterface
  * 初始化
  */
 export function coreInit (fn?: Function) {
-  initStartUpTime()
-  // let storageCore = getStorage()
-
-  // function setDefCore () {
-  //   clearStartUpTime()
-  //   core = coreDefault()
-  //   setStorage()
-  // }
   
-  // if (!storageCore) {
-  //   setDefCore()
-  // } else {
-  //   const debug = storageCore.ARKDEBUG
-  //   // 检测缓存appkey debug uploadurl是否和sdk初始化一致，不一致则重新生成匿名用户
-  //   if (config.appkey !== storageCore.ARKAPPID || (debug === 1 && debug !== config.debugMode) || storageCore.ARKUPLOADURL !== config.uploadURL) {
-  //     setDefCore()
-  //   } else {
-  //     core = storageCore
-  //   }
-  // }
+  setPathParams()
+
+  initStartUpTime()
 
   function setDefCore () {
     clearStartUpTime()
@@ -215,7 +200,7 @@ export function getSuperProperty(superPropertyName?: string) {
   if (superPropertyName) {
     return core.ARKSUPER[superPropertyName]
   }
-  return core.ARKSUPER
+  return { ...core.ARKSUPER }
 }
 
 /**

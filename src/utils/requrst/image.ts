@@ -1,5 +1,4 @@
 
-import { jsonToString } from '../type/transform'
 import { requestOptions } from '../../types/index'
 import { encode } from '../../utils/base64'
 import md5 from '../../utils/md5'
@@ -69,7 +68,11 @@ function setValidKey (optionData, url) {
   }
   let validurl = url + '&' + param.join('&')
 
-  validurl = validurl.replace(config.uploadURL, '')
+
+
+  const uploadURL = config.uploadURL[config.uploadURL.length - 1] !== '/' ? config.uploadURL : config.uploadURL.substring(0, config.uploadURL.length - 1)
+
+  validurl = validurl.replace(uploadURL, '')
   
   const validValue = md5(validurl, 32).split('')
   const validkey = validValue[2] + '' + validValue[0] + '' + validValue[4]

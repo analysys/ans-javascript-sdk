@@ -17,7 +17,10 @@ export function optionsDefault() : initConfig {
     debugMode: 0,
     visitorConfigURL: '',
     name: '',
+
+    autoStartUp: true,
     auto: true,
+    
 
     SDKFileDirectory: '',
 
@@ -41,3 +44,5 @@ export function optionsDefault() : initConfig {
     crossSubdomain: false
   }
 }
+
+const lifeCycleList = []

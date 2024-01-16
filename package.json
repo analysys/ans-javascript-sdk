@@ -1,6 +1,6 @@
 {
 	"name": "asd-javascript-sdk",
-	"version": "5.0.4",
+	"version": "5.0.4.1",
 	"description": "official analysysAgent javascript sdk",
 	"main": "./dist/AnalysysAgent_JS_SDK.min.js",
 	"module": "./dist/AnalysysAgent_JS_SDK.es6.min.js",
@@ -13,7 +13,8 @@
 		"dev": "cross-env NODE_ENV=development rollup --config rollup.config.js --watch",
 		"test": "cross-env rollup --config rollup.config.js",
 		"encryption": "rollup --config ./build/encryption/rollup.config.encryption.js --watch",
-		"lint": "eslint --cache --max-warnings 0  \"src/**/*.{vue,ts,tsx,js}\" --fix"
+		"lint": "eslint --cache --max-warnings 0  \"src/**/*.{vue,ts,tsx,js}\" --fix",
+		"prepublishOnly": "npm run build"
 	},
 	"jest": {
 		"setupFiles": [
@@ -32,7 +33,8 @@
 	"dependencies": {
 		"base64-js": "^1.3.0",
 		"event-agent": "^1.0.1",
-		"heatmap.js": "^2.0.5"
+		"heatmap.js": "^2.0.5",
+		"lib-agile": "^1.0.0-beta.30"
 	},
 	"devDependencies": {
 		"@tarojs/cli": "^1.3.18",
@@ -61,6 +63,7 @@
 		"rollup": "^1.27.3",
 		"rollup-plugin-babel": "^3.0.4",
 		"rollup-plugin-commonjs": "^8.4.1",
+		"rollup-plugin-copy": "^3.4.0",
 		"rollup-plugin-es3": "^1.1.0",
 		"rollup-plugin-eslint": "^4.0.0",
 		"rollup-plugin-json": "^2.3.0",
@@ -73,7 +76,6 @@
 		"rollup-plugin-uglify": "^6.0.3",
 		"rollup-plugin-uglify-es": "0.0.1",
 		"rollup-watch": "^4.3.1",
-		"rollup-plugin-copy": "^3.4.0",
 		"vue-cli": "^2.9.6",
 		"zlibjs": "^0.3.1"
 	},

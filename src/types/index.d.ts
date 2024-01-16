@@ -7,6 +7,8 @@ export interface initConfig {
   debugMode?: 0 | 1 | 2;
   name?: string; //设置 JS SDK 全局对象别名
 
+  autoStartUp?: boolean;//是否自动采集startUp
+
   auto?: boolean; //是否自动采集pageview
   pageProperty?: object; //设置自动采集时页面自定义属性
   pageViewBlackList?: any; //设置自动采集页面统计黑名单
@@ -36,6 +38,14 @@ export interface initConfig {
   autoWebstay?: boolean; //在开启热图功能(autoHeatmap设置为true)后，设置是否追踪页面滚动行为，即在产品当中可分析页面浏览深度
   webstayDuration?: number; //设置追踪页面滚动行为时，最大停留时长
   heatMapBlackList?: string; //设置热图统计黑名单
+
+  exposure?: {
+    valid_time: number;
+    element_list: () => void | Array<any>;
+    exposure_click: boolean;
+    property: object | (() => void);
+    multiple: boolean | number
+  };
 
   beforePageView?: ((res:buriedPointData, setAttrs: Function) => boolean);  //pageView上报之前钩子，若返回false，则终止pageView上报
   beforePageClose?: ((res:buriedPointData, setAttrs: Function) => boolean); //pageClose上报之前钩子，若返回false，则终止pageView上报

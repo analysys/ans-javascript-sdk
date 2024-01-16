@@ -5,12 +5,14 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>js sdk集成演示</title>
-    <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+    <!-- <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
     <script>
       var vConsole = new window.VConsole();
-    </script>
-    <script src="/sdk/5.0.4/AnalysysAgent_JS_SDK.min.js"></script>
+    </script> -->
+    <script src="/sdk/5.0.4.1/AnalysysAgent_JS_SDK.min.js"></script>
+    <!-- <script src="/sdk/5.0.4/AnalysysAgent_ExposurePoint.min.js"></script> -->
     <!-- <script src="./public/sdk/4.5.0/AnalysysAgent_JS_SDK.min.js"></script> -->
+    <div data-ark-exposure>data-ark-exposuredata</div>
     <script>
       // 模拟获取用户信息
       // function getUserInfo () {
@@ -25,17 +27,26 @@
       //   })
       // }
 
+      
+
       window.AnalysysAgent.init({
         appkey: "ecommercedemo", //APPKEY
         uploadURL: 'https://event-ubademo-portal.jiguang.cn',
         debugMode: 2,
-        // auto: true,
+        auto: false,
+        autoStartUp: false,
+
         // hash: true,
-        // SDKFileDirectory: '/sdk/5.0.3',
+        // SDKFileDirectory: '/sdk/5.0.4',
         // allowTimeCheck: true,
         // autoPageViewDuration: true,
-        autoTrack: true,
-        trackList: ['span', 'div.n-thing-header__title'],
+        // autoTrack: true,
+        // trackList: ['span', 'div.n-thing-header__title'],
+        exposure: {
+          exposure_click: true,
+          element_list:[],
+          valid_time: 300
+        },
         // visitorConfigURL: 'https://uba-up.analysysdata.com',
         // autoClickBlackList: ['http://127.0.0.1:5173/#/'],
         // pageViewBlackList: ['http://127.0.0.1:5173/#/'],
@@ -67,21 +78,31 @@
         // sdk初始化完成之前钩子，支持执行异步逻辑，执行完通过next()完成执行，也可以返回一个Promise任务
         // async beforeInit (config, next) {
 
-        //   const userInfo = await getUserInfo()
-        //   this.alias(userInfo.name)
+          // const userInfo = await getUserInfo()
+          // this.alias(userInfo.name)
 
-        //   // return getUserInfo().then((userInfo) => {
-        //   //   this.alias(userInfo.name)
-        //   // })
+          // return getUserInfo().then((userInfo) => {
+          //   this.alias(userInfo.name)
+          // })
 
-        //   // getUserInfo().then((userInfo) => {
-        //   //   this.alias(userInfo.name)
-        //   //   next()
-        //   // })
+          // getUserInfo().then((userInfo) => {
+          //   this.alias(userInfo.name)
+          //   next()
+          // })
         // }
+      })
+      // window.AnalysysAgent.appStart()
+      window.AnalysysAgent.on('afterSend', (v) => {
+        v.xcontext.aa = 123
+      })
+      window.AnalysysAgent.on('successSend', (v) => {
+        console.log('上报完成以后')
+        console.log(v)
       })
       
     </script>
+
+    <!-- <script src="/sdk/5.0.4/AnalysysAgent_ExposurePoint.min.js"></script> -->
     
     <!-- <script>
 

@@ -18,7 +18,7 @@ export function lengthCheck(value: string, max  = 255, min  = 1): boolean {
     return false
   }
   const len = value.length
-  return len < max && len >= min
+  return len <= max && len >= min
 }
 
 /**

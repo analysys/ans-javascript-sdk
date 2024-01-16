@@ -125,4 +125,13 @@ export default [{
     freeze: false
   }],
   plugins: getPlugins()
+}, {
+  input: './src/plugIn/exposure/index.ts',
+  output: [{
+    file: './dist/AnalysysAgent_ExposurePoint.min.js',
+    format: 'iife',
+    name: 'ExposurePoint',
+    freeze: false
+  }],
+  plugins: getPlugins()
 }]

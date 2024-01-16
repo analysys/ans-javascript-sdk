@@ -44,6 +44,7 @@ export function emptyHeatmap () {
 
 // 渲染热图
 export function renderHeatmap (data) {
+  setHeatMapSize()
   heatmapDisplay()
   if (!heatmap) {
     heatmap = h337.create({
@@ -114,7 +115,6 @@ export function resetRenderHeatMap () {
   renderTime = setTimeout(function() {
     if (heatMapData) {
       emptyHeatmap()
-      setHeatMapSize()
       renderHeatmap(heatMapData)
     }
   }, 200)

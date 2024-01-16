@@ -25,7 +25,15 @@ export const commonAttrs: string[] = [
   '$user_agent',
   '$title',
   '$url',
-  '$is_first_day'
+  '$is_first_day',
+
+  // utm相关属性
+  '$utm_campaign_id',
+  '$utm_campaign',
+  '$utm_medium',
+  '$utm_source',
+  '$utm_content',
+  '$utm_term'
 ]
 
 // element相关属性
@@ -41,20 +49,11 @@ export const elementAttrs: string[] = [
   '$url_path'
 ]
 
-// utm相关属性
-export const utmAttrs: string[] = [
-  '$utm_campaign_id',
-  '$utm_campaign',
-  '$utm_medium',
-  '$utm_source',
-  '$utm_content',
-  '$utm_term'
-]
+
 
 // 预制事件列表与事件属性
 export const events = {
   $startup: [
-    ...utmAttrs,
     ...commonAttrs,
     '$is_first_time' //首次访问，只在startUp
   ],
@@ -63,7 +62,6 @@ export const events = {
     '$duration' //使用时长
   ],
   $pageview: [
-    ...utmAttrs,
     ...commonAttrs,
     '$url_domain',
     '$referrer',
@@ -106,6 +104,7 @@ export const events = {
     '$original_id'
   ],
   $getPresetProperties: [
+    ...publicAttrs,
     ...commonAttrs,
     firstVisitTime
   ],

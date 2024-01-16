@@ -3,6 +3,8 @@ import { buriedPointData } from '../../types'
 import { config } from '../../store/config'
 import getAttr from './getAttr'
 import { events, publicAttrs } from '../../constant/eventAttrs'
+import { attrCheck } from '../../utils/verify'
+import { assign } from '../../utils/object'
 
 export default function (eventName: string) : buriedPointData {
   const obj = {
@@ -39,4 +41,11 @@ export default function (eventName: string) : buriedPointData {
   }
 
   return obj
+}
+
+
+export const setContext = (res:buriedPointData, attrs: {[key:string]: any}) => {
+  const obj = attrCheck(attrs, res.xwhat)
+  res.xcontext = assign({}, res.xcontext, obj)
+  return res.xcontext
 }

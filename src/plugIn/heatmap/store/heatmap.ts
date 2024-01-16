@@ -38,11 +38,11 @@ export function getHeatmapData (fn?) {
     return
   }
 
-  let url = '/ark/sdk/heatmap/click/analysis'
+  let url = 'ark/sdk/heatmap/click/analysis'
 
   if (heatConfig.heatMapType === 'element') {
     emptyElement()
-    url = '/ark/sdk/heatmap/element/analysis'
+    url = 'ark/sdk/heatmap/element/analysis'
   } else {
     emptyHeatmap()
   }
@@ -74,7 +74,7 @@ export function getHeatmapData (fn?) {
       }
       loading(false)
     },
-    error () {
+    error (e) {
       loading(false)
       nodata(true)
     }
@@ -98,7 +98,7 @@ export function getLinesData (fn?) {
   })
   
   ajax({
-    url: globalWindow.AnalysysAgent.config.uploadURL + '/ark/sdk/heatmap/scrollreach/analysis',
+    url: globalWindow.AnalysysAgent.config.uploadURL + 'ark/sdk/heatmap/scrollreach/analysis',
     method: 'post',
     data: queryParameters(),
     header: {

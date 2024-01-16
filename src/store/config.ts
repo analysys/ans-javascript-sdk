@@ -10,6 +10,7 @@ import { getServerTime } from './time'
 import autoTrigger from '../module/autoTrigger'
 import { setPageProperty } from './pageProperty'
 import { loadVisual } from '../module/methods/visual'
+import { emit } from '../module/methods'
 
 function nameListCheck (value: any) {
   if (isString(value)) {
@@ -40,6 +41,13 @@ const configRule = {
   name: {
     ck: [stringCheck]
   },
+
+  // 是否自动上报startup事件
+  autoStartUp: {
+    ck: [booleanCheck]
+  },
+
+  // 是否自动上报页面浏览
   auto: {
     ck: [booleanCheck]
   },
@@ -63,6 +71,8 @@ const configRule = {
       return true
     }]
   },
+
+  // 是否自动上报全埋点事件
   autoTrack: {
     ck: [booleanCheck]
   },
@@ -106,6 +116,10 @@ const configRule = {
     ck: [objectCheck]
   },
 
+  exposure: {
+    ck: [objectCheck]
+  },
+
   // track上报之前执行该函数，返回false则停止上报
   beforeTrack: {
     ck: [functionCheck]
@@ -121,7 +135,7 @@ const configRule = {
   // 通知sdk客户端程序已经准备好了
   beforeInit: {
     ck: [functionCheck]
-  }
+  },
 }
 
 export const config : initConfig = optionsDefault()
@@ -144,7 +158,7 @@ export function setConfig (options: initConfig, fn?) {
         }
       }
       if (isOk) {
-        if (o === 'SDKFileDirectory' || o === 'visitorConfigURL') {
+        if (o === 'uploadURL' || o === 'SDKFileDirectory' || o === 'visitorConfigURL') {
           if (value && value[value.length - 1] !== '/') {
             value += '/'
           }
@@ -172,6 +186,9 @@ export function setConfig (options: initConfig, fn?) {
 
       // 自动触发生命周期相关钩子
       autoTrigger()
+
+      // 之心生命周期事件监听
+      emit('afterInit', {...config})
 
       fn && fn(config)
     }

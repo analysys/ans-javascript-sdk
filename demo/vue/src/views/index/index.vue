@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="bdd">
     <n-carousel show-arrow>
       <img
         class="carousel-img"
@@ -29,7 +29,7 @@
         <div class="green" id="gridGreen">更好</div>
       </n-gi>
       <n-gi>
-        <div class="light-green">更准</div>
+        <div class="light-green" >更准</div>
       </n-gi>
       <n-gi>
         <div class="green" id="gridGreen2">更高</div>
@@ -77,7 +77,7 @@
           让他带你去被工厂敲击
         </n-thing>
         <template #suffix>
-          <n-button type="primary">查看详情</n-button>
+          <n-button type="primary" data-ark-exposure>查看详情</n-button>
         </template>
       </n-list-item>
  

@@ -25,8 +25,10 @@ function pageClose () {
     return !pageCloseAttr.hideStartTime ? hideTime : (hideTime + (res.xwhen - pageCloseAttr.hideStartTime))
   }
 
+  // 获取访问时长，排除小于0情况
+  const pagestaytime = res.xwhen - eventAttribute.pageview.xwhen - getHideTime()
   const attrs = {
-    pagestaytime: res.xwhen - eventAttribute.pageview.xwhen - getHideTime()
+    pagestaytime: pagestaytime > 0 ? pagestaytime : res.xwhen - eventAttribute.pageview.xwhen
   }
 
   // 填充当前pv上报的title
@@ -61,9 +63,7 @@ function pageClose () {
       return res
     }
   }
-
   sendData(res)
-  
 }
 
 export default pageClose
@@ -78,7 +78,11 @@ export function triggerPageClose () {
   eventAttribute.pageview.path = document.location.href
 }
 
+
 // 设置页面隐藏时间
+if (document.hidden) {
+  eventAttribute.pageClose.hideStartTime = +new Date()
+}
 export function setPageHideTime () {
   if ('onvisibilitychange' in document && config.autoPageViewDuration) {
     document.addEventListener('visibilitychange', function () {

@@ -37,6 +37,14 @@ export interface initConfig {
   webstayDuration?: number; //设置追踪页面滚动行为时，最大停留时长
   heatMapBlackList?: string; //设置热图统计黑名单
 
+  exposure: {
+    valid_time: number;
+    element_list: () => void | Array<any>;
+    exposure_click: boolean;
+    property: object | (() => void);
+    multiple: boolean | number
+  };
+
   beforePageView?: ((res:buriedPointData, setAttrs: Function) => boolean);  //pageView上报之前钩子，若返回false，则终止pageView上报
   beforePageClose?: ((res:buriedPointData, setAttrs: Function) => boolean); //pageClose上报之前钩子，若返回false，则终止pageView上报
   beforeTrack?: ((res:buriedPointData, setAttrs: Function) => boolean); //track之前的钩子，参数为当前上报的数据对象，若返回false，就会终止track上报

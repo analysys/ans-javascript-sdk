@@ -11,6 +11,7 @@ import { isFunction } from '../../utils/type'
 import beacon from '../../utils/requrst/beacon'
 import { isHybrid } from '../../store/hybrid'
 import hybridSendDate from './hybrid'
+import { emit } from '../methods'
 
 // 一次最多上报20条
 const MAXLINENUM = 20
@@ -38,7 +39,7 @@ function postData () : any {
   doingList = todoList.splice(0, MAXLINENUM)
 
   const option = {
-    url: config.uploadURL + '/up' + '?appid=' + config.appkey,
+    url: config.uploadURL + 'up' + '?appid=' + config.appkey,
     data: doingList,
     encryptType: config.encryptType
   }
@@ -75,6 +76,9 @@ function postData () : any {
      // 成功后回调函数
     doingList.forEach(o => {
       implementEventCallback(o)
+
+      // 数据上报成功之后执行
+      emit('successSend', o)
     })
 
     // 上报成功后删除队列与相应的缓存数据
@@ -110,7 +114,7 @@ function postData () : any {
 
 function imgGetData (data: buriedPointData) {
   const option = {
-    url: config.uploadURL + '/up' + '?appid=' + config.appkey,
+    url: config.uploadURL + 'up' + '?appid=' + config.appkey,
     data: JSON.stringify([data])
   }
   successLog({
@@ -125,6 +129,9 @@ function imgGetData (data: buriedPointData) {
 
     // 成功后回调函数
     implementEventCallback(data)
+
+    // 数据上报成功之后执行
+    emit('successSend', data)
     
   }, () => {
     errorLog({
@@ -151,7 +158,7 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
   if (isHybrid && ['$web_click', '$webstay', '$user_click'].indexOf(xwhat) === -1) {
 
     // hybrid模式下删除这些属性，由原生上报
-    const arr = ['$is_first_day', '$session_id', '$is_time_calibrated', '$startup_time', '$lib', '$lib_version', '$platform']
+    const arr = ['$is_first_day', '$session_id', '$is_time_calibrated', '$startup_time', '$lib', '$lib_version', '$platform', '$debug', '$is_login']
     arr.forEach(o => {
       delete data.xcontext[o]
     })
@@ -172,10 +179,13 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
     eventAttribute.eventCallback[data.xwhen] = fn
   }
 
+  // 上报之前执行
+  emit('afterSend', {...data, xcontext: {...data.xcontext}})
+
   // 页面卸载时采用beacon上报
   if (eventAttribute.isUnload && navigator && navigator.sendBeacon) {
     const option = {
-      url: config.uploadURL + '/up' + '?appid=' + config.appkey,
+      url: config.uploadURL + 'up' + '?appid=' + config.appkey,
       data: [data]
     }
     beacon(option)
