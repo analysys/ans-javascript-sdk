@@ -288,78 +288,6 @@
       .ark-heatmap-head-handle #arkHeatmapSwitch, .ark-heatmap-head-handle #arkHotEleList, .ark-heatmap-head-handle #arkHeatDisplayConfig, .ark-heatmap-head-handle #arkConditionList {
         display: none !important; } }
 
-.ark-heatmap-location {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10000; }
-
-.ark-headmap-body-location-none .ark-heatmap-location {
-  display: none; }
-
-.ark-heat-click-element {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #ff0000;
-  color: #fff;
-  text-align: center;
-  font-size: 12px;
-  z-index: 10000;
-  line-height: 22px; }
-  .ark-heat-click-element .ark-heat-click-element-text {
-    display: block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    margin-top: -11px;
-    text-align: center; }
-  .ark-heat-click-element:hover .ark-heat-click-element-tips {
-    display: block; }
-  .ark-heat-click-element .ark-heat-click-element-tips {
-    position: absolute;
-    background-color: #252d39;
-    font-size: 12px;
-    display: none;
-    top: 100%;
-    top: calc(100% + 5px);
-    font-size: 14px;
-    padding: 10px 0;
-    border-radius: 4px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    white-space: nowrap; }
-    .ark-heat-click-element .ark-heat-click-element-tips::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-color: transparent;
-      border-style: solid;
-      top: 5px;
-      left: 50%;
-      margin-top: -10px;
-      border-width: 0 7px 5px;
-      border-bottom-color: #252d39;
-      margin-left: -7px; }
-    .ark-heat-click-element .ark-heat-click-element-tips .ark-click-num, .ark-heat-click-element .ark-heat-click-element-tips .ark-click-percent {
-      display: inline-block;
-      text-align: right;
-      padding: 0 10px; }
-      .ark-heat-click-element .ark-heat-click-element-tips .ark-click-num label, .ark-heat-click-element .ark-heat-click-element-tips .ark-click-percent label {
-        display: block;
-        color: #9cacbf; }
-
-.ark-headmap-body-element-none .ark-heat-click-element {
-  display: none; }
-
 .ark-headmap-loading, .ark-headmap-nodata {
   position: fixed;
   top: 0;
@@ -424,6 +352,78 @@
     -webkit-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
     transform: rotate(360deg); } }
+
+.ark-heat-click-element {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #ff0000;
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  z-index: 10000;
+  line-height: 22px; }
+  .ark-heat-click-element .ark-heat-click-element-text {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    margin-top: -11px;
+    text-align: center; }
+  .ark-heat-click-element:hover .ark-heat-click-element-tips {
+    display: block; }
+  .ark-heat-click-element .ark-heat-click-element-tips {
+    position: absolute;
+    background-color: #252d39;
+    font-size: 12px;
+    display: none;
+    top: 100%;
+    top: calc(100% + 5px);
+    font-size: 14px;
+    padding: 10px 0;
+    border-radius: 4px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    white-space: nowrap; }
+    .ark-heat-click-element .ark-heat-click-element-tips::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-color: transparent;
+      border-style: solid;
+      top: 5px;
+      left: 50%;
+      margin-top: -10px;
+      border-width: 0 7px 5px;
+      border-bottom-color: #252d39;
+      margin-left: -7px; }
+    .ark-heat-click-element .ark-heat-click-element-tips .ark-click-num, .ark-heat-click-element .ark-heat-click-element-tips .ark-click-percent {
+      display: inline-block;
+      text-align: right;
+      padding: 0 10px; }
+      .ark-heat-click-element .ark-heat-click-element-tips .ark-click-num label, .ark-heat-click-element .ark-heat-click-element-tips .ark-click-percent label {
+        display: block;
+        color: #9cacbf; }
+
+.ark-headmap-body-element-none .ark-heat-click-element {
+  display: none; }
+
+.ark-heatmap-location {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000; }
+
+.ark-headmap-body-location-none .ark-heatmap-location {
+  display: none; }
 
 .ark-page-line {
   z-index: 5002;
