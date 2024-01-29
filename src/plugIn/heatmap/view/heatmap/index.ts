@@ -1,9 +1,10 @@
 import './index.scss'
-import { createElement, getEleOffset, getPathEle } from '../../utils/index'
+import { createElement, getEleOffset } from '../../utils/index'
 import { heatConfig, displayConfig } from '../../store/index'
 import { heatMapData } from '../../store/heatmap'
 import h337 from '../../utils/heatmap.js'
 import { resetGradient } from '../../utils/colorRange.js'
+import { useElementXpath } from 'lib-agile'
 
 const html = ``
 
@@ -29,6 +30,10 @@ export function setHeatMapSize () {
   if (canvas) {
     canvas.width = width
     canvas.height = height
+  }
+
+  if (heatmap) {
+    heatmap.setDimensions(width, height)
   }
 }
 
@@ -68,11 +73,9 @@ export function renderHeatmap (data) {
   const pageWidth = document.documentElement.scrollWidth
 
   for (let i = 0; i < data.length; i++) {
-
     const o = data[i]
+    const el = useElementXpath(o.$element_path)[0]
 
-    const el = getPathEle(o.$element_path)
-    
     if (!el) {
       continue
     }

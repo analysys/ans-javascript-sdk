@@ -23,7 +23,6 @@ export default function () {
   // 监听ifram发送过来的消息
   window.addEventListener('message', function(event) {
     const data = event.data
-    console.log(data)
     const msgTypeMap = {
       'ark/heatmap': 'location',
       'ark/depth': 'lines',

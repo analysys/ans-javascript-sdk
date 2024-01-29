@@ -1,11 +1,5 @@
-import { getElementAttr, isArray, isFunction, isElement, isHtmlCollection, isString } from 'lib-agile'
+import { getElementAttr, isArray, isFunction, isElement, isHtmlCollection } from 'lib-agile'
 
-export function stringSlice (str) {
-  if (isString(str) && str.length > 255) {
-    return str.slice(0, 254) + '$'
-  }
-  return str
-}
 
 // 获取配置曝光元素有效列表
 export function getConfigEles (elements) {
@@ -66,17 +60,4 @@ export function isConfigExposureEle (elements, ele) {
 export function isExposureEle (ele) {
   if ((getElementAttr(ele, 'data-ark-exposure') !== null)) return true
   return false
-}
-
-
-export function getElementContent (ele) {
-  let eleContent = ''
-  if (ele.tagName.toLowerCase() === 'input') {
-    eleContent = ele.value || ''
-  } else if (ele.tagName.toLowerCase() === 'img') {
-    eleContent = getElementAttr(ele, 'alt') || getElementAttr(ele, 'title') || ''
-  } else {
-    eleContent = ele.textContent
-  }
-  return stringSlice(eleContent)
 }

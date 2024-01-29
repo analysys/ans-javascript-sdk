@@ -31,7 +31,6 @@ export function getUrlArkcontentText () {
   if (contentText) {
     try {
       arkcontentText = JSON.parse(contentText)
-      console.log(arkcontentText)
     } catch (e) {
       
     }

@@ -1,6 +1,8 @@
 
 import { config } from "../../store/config"
 import { isString, isArray } from "../type"
+import { stringSlice } from '../index'
+import { getElementAttr } from 'lib-agile'
 
 
 /**
@@ -73,32 +75,17 @@ export function getElementTargetUrl (el: Element) {
 }
 
 // 获取元素内容
-export function getElementContent (el: Element) {
+export function getElementContent (ele) {
   let eleContent = ''
-  if (el.tagName.toLowerCase() === 'input' && ['button', 'submit'].indexOf(el.type) > -1) {
-    eleContent = el.value || ''
-  } else if (el.tagName.toLowerCase() === 'img') {
-    eleContent = el.getAttribute('alt') || el.getAttribute('title') || ''
-  } else if (el.tagName.toLowerCase() === 'a') {
-    eleContent = el.getAttribute('title') || ''
-  }
-  
-  if (!eleContent) {
-    const children = el.childNodes
-    for (let i = 0; i < children.length; i++) {
-      if (children[i].nodeType === 3) {
-        eleContent += children[i].nodeValue
-      }
-    }
-  }
-
-  if (eleContent && isString(eleContent)) {
-    eleContent = eleContent.replace(/[\r\n]/g, ' ').replace(/[ ]+/g, ' ')
+  const tagName = ele.tagName.toLowerCase()
+  if (tagName === 'input'  && ['button', 'submit'].indexOf(ele.type) > -1) {
+    eleContent = ele.value || ''
+  } else if (tagName === 'img') {
+    eleContent = getElementAttr(ele, 'alt') || getElementAttr(ele, 'title') || ''
   } else {
-    eleContent = ''
+    eleContent = ele.textContent
   }
-
-  return eleContent.trim()
+  return stringSlice(eleContent)
 }
 
 // 获取元素路径

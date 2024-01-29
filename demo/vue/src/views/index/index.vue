@@ -1,5 +1,5 @@
 <template>
-  <div id="bdd">
+  <div>
     <n-carousel show-arrow>
       <img
         class="carousel-img"

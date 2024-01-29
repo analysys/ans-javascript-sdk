@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from "./router"
 
 // import AnalysysAgent from "asd-javascript-sdk";
-import ('../public/sdk/5.0.4.1/AnalysysAgent_ExposurePoint.min.js')
+// import ('../public/sdk/5.0.4.1/AnalysysAgent_ExposurePoint.min.js')
 
 createApp(App).use(router).mount('#app')
 

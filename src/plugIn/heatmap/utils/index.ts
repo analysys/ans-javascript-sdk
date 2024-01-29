@@ -9,7 +9,7 @@ export function createElement (tag: string, attrs: {
   id?: string
   content?: string
   style?: object
-} = {}, el?: Element) {
+} = {}, el?: HTMLElement) {
   const node = document.createElement(tag)
   if (attrs.id) {
     node.id = attrs.id

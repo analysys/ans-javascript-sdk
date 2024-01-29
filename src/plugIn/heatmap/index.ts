@@ -3,7 +3,6 @@ import viewController from './controller'
 import { storeInit } from './store'
 import iframeMessage from './controller/iframMessage'
 
-
 storeInit()
 
 function init () {
@@ -28,5 +27,3 @@ if (document.readyState === 'complete') {
     }
   })
 }
-
-

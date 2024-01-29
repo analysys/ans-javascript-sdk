@@ -2,8 +2,9 @@
  * 全埋点相关属性存储
  */
 
-import { getElementClassName, getElementTargetUrl, getElementContent, getElementPath, getElementOffset, getElementScroll } from '../utils/browser/element'
+import { getElementTargetUrl, getElementContent, getElementPath, getElementOffset, getElementScroll } from '../utils/browser/element'
 import { elementClickableCheck } from '../utils/verify/index'
+import { getElementAttr, getElementXpath } from 'lib-agile'
 
  interface clickElementValue {
   element_id?: string;
@@ -27,14 +28,16 @@ import { elementClickableCheck } from '../utils/verify/index'
   element_clickable?: number;
  } = {}
 
- export function setUserClickAttrs (el: Element) {
-  userClickAttrs.element_id = el.getAttribute('id') || ''
+ export function setUserClickAttrs (el: HTMLElement) {
+  userClickAttrs.element_id = el.id
   userClickAttrs.element_content = getElementContent(el)
   userClickAttrs.element_type = el.tagName.toLowerCase()
-  userClickAttrs.element_name = el.getAttribute('name') || ''
-  userClickAttrs.element_class_name = getElementClassName(el)
+  userClickAttrs.element_name = getElementAttr(el, 'name')
+  userClickAttrs.element_class_name = getElementAttr(el, 'class')
   userClickAttrs.element_target_url = getElementTargetUrl(el)
-  userClickAttrs.element_path = getElementPath(el)
+  userClickAttrs.element_path = getElementXpath(el, {
+    endTag: ['button']
+  })
  }
 
  export function setWebClickAttrs(e) {

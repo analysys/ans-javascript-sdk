@@ -667,6 +667,9 @@
         } else {
           return null
         }
+      },
+      setDimensions: function (width, height) {
+        this._renderer.setDimensions(width, height) 
       }
     }
 

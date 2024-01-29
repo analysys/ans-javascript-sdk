@@ -1,7 +1,8 @@
-import { createElement, getEleOffset, parserDom, getPathEle, eleCss } from '../../utils/index'
+import { createElement, eleCss } from '../../utils/index'
 import './index.scss'
 import { heatConfig } from '../../store/index'
 import { renderElementList } from '../nav'
+import { useElementXpath } from 'lib-agile'
 
 const htmlTpl = function(clickNum, clickNumPercent) {
   const percent = (clickNumPercent * 100).toFixed(2)
@@ -32,7 +33,7 @@ export function renderElement (data) {
 
   for (let i = 0; i < list.length; i++) {
     const item = list[i]
-    let ele = getPathEle(item.path)
+    let ele = useElementXpath(item.path)[0]
 
     let targetEle = null
     

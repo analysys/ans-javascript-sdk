@@ -6,7 +6,7 @@ import { assign } from '../../utils/object'
 
 function webClick(event) {
 
-  const el = event.target || event.srcElement
+  const el : HTMLElement = event.target || event.srcElement
 
   // 设置点击相关预制属性
   setUserClickAttrs(el)
