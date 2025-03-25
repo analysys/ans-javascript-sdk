@@ -73,20 +73,16 @@ export default {
 
    // 是否安装后首次访问
   $is_first_time () {
-    return !core.FRISTDAY
+    return !core.ARKFRISTPROFILE
   },
 
   // 是否安装后首日访问
   $is_first_day () {
-    if (!core.FRISTDAY) {
+    if (!core.ARKFRISTPROFILE) {
       return true
     }
-    if (isString(core.FRISTDAY)) {
-      return dateFormat(new Date(getNow()), 'yyyyMMdd') === core.FRISTDAY
-    }
-
-    if (isNumber(core.FRISTDAY)) {
-      return dateFormat(new Date(getNow()), 'yyyyMMdd') === dateFormat(new Date(core.FRISTDAY), 'yyyyMMdd')
+    if (isString(core.ARKFRISTPROFILE)) {
+      return dateFormat(new Date(getNow()), 'yyyy-MM-dd') === core.ARKFRISTPROFILE.split(' ')[0]
     }
 
     return false

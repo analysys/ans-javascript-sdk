@@ -4,7 +4,7 @@ import { isNumber, assign, getElementContent, getElementAttr, getElementXpath } 
 import { isConfigExposureEle, isExposureEle, getConfigEles } from './utils'
 import MD5 from '../../utils/md5'
 
-const AnalysysAgent = globalWindow.AnalysysAgent
+
 
 const exposureConfig = {
   valid_time: 300, //停留有效时间
@@ -72,6 +72,8 @@ function addIo (eles, isVerify = false) {
 
 function send (ele) {
 
+  const AnalysysAgent = globalWindow.AnalysysAgent
+
   // 获取元素上曝光属性
   let exposureAttr : any = getElementAttr(ele, 'data-ark-exposure')
   
@@ -117,6 +119,8 @@ function send (ele) {
 
 function init () {
 
+  const AnalysysAgent = globalWindow.AnalysysAgent
+
   assign(exposureConfig, AnalysysAgent.config.exposure)
 
   addIo(getConfigEles(exposureConfig.element_list))
@@ -140,8 +144,12 @@ function init () {
   }
 }
 
+function load () {
+  const ans = globalWindow.AnalysysAgent
+  ans && ans.isInit ? init() : setTimeout(load, 300)
+}
+
 const href = globalWindow.location.href
-if (AnalysysAgent && href.indexOf('visual=true') < 0 && href.indexOf('arkheatmap=true') < 0) {
-  // sdk初始化未完成
-  !AnalysysAgent.isInit ? AnalysysAgent.on('afterInit', init) : init()
+if (href.indexOf('visual=true') < 0 && href.indexOf('arkheatmap=true') < 0) {
+  load()
 }

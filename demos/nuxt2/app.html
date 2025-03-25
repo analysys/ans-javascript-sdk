@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html {{ HTML_ATTRS }}>
+  <head {{ HEAD_ATTRS }}>
+    {{ HEAD }}
+  </head>
+  <body {{ BODY_ATTRS }}>
+    {{ APP }}
+    <script src="http://localhost:5173/sdk/5.0.7/AnalysysAgent_JS_SDK.min.js"></script>
+    <script>
+      window.AnalysysAgent.init({
+        appkey: "ecommercedemo", //APPKEY
+        uploadURL: 'https://event-ubademo-portal.jiguang.cn',
+        debugMode: 2,
+      })
+    </script>
+  </body>
+</html>

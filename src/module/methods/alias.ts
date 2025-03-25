@@ -6,7 +6,7 @@ import { profileSetOnce } from './profile'
 import { setCoreParam, getId } from '../../store/core'
 import { successLog, errorLog } from '../printLog'
 import { commonAttrs } from '../../constant/eventAttrs'
-import { isFunction } from '../../utils/type'
+import ready from '../ready'
 
 function alias (aliasId: string, fn?: Function) {
 
@@ -54,4 +54,4 @@ function alias (aliasId: string, fn?: Function) {
   }
 }
 
-export default alias
+export default ready(alias)

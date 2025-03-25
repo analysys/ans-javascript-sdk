@@ -8,8 +8,8 @@ import { coreInit } from './core'
 import { implementAallbackArr, isReady, implementBeforeInit } from '../module/ready'
 import { getServerTime } from './time'
 import autoTrigger from '../module/autoTrigger'
-import { setPageProperty } from './pageProperty'
 import { loadVisual } from '../module/methods/visual'
+import { pageProperty } from '../module/methods'
 import { emit } from '../module/methods'
 
 function nameListCheck (value: any) {
@@ -120,6 +120,10 @@ const configRule = {
     ck: [objectCheck]
   },
 
+  isHybrid: {
+    ck: [booleanCheck]
+  },
+
   // track上报之前执行该函数，返回false则停止上报
   beforeTrack: {
     ck: [functionCheck]
@@ -164,7 +168,7 @@ export function setConfig (options: initConfig, fn?) {
           }
         }
         if (o === 'pageProperty' && value) {
-          setPageProperty(value)
+          pageProperty(value)
         }
         config[o] = value
       }
@@ -187,7 +191,7 @@ export function setConfig (options: initConfig, fn?) {
       // 自动触发生命周期相关钩子
       autoTrigger()
 
-      // 之心生命周期事件监听
+      // 生命周期事件监听
       emit('afterInit', {...config})
 
       fn && fn(config)
@@ -197,7 +201,6 @@ export function setConfig (options: initConfig, fn?) {
   // 客户端程序是否准备就绪
   implementBeforeInit(procedure)
 
-  // 日期校准成功
   getServerTime(procedure)
   
   // 核心内容准备就绪

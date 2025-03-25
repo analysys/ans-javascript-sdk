@@ -17,10 +17,7 @@ export function getUrlParams(url: string) {
 
 
 export function getUrlDomain (url) {
-  if (url) {
-    return url.split('?')[0]
-  }
-  return ''
+  return url ? url.split('?')[0] : ''
 }
 
 export { isSpider }
@@ -34,17 +31,13 @@ export function pathChange (fn: Function) {
   window.history.pushState = function () {
     const arg = arguments
     pushState.apply(window.history, arg)
-    setTimeout(() => {
-      fn && fn(arg)
-    })
+    fn && fn(arg)
   }
 
   window.history.replaceState = function (e) {
     const arg = arguments
     replaceState.apply(window.history, arg)
-    setTimeout(() => {
-      fn && fn(arg)
-    })
+    fn && fn(arg)
   }
 
   const state = pushState ? 'popstate' : 'hashchange'

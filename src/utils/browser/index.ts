@@ -121,7 +121,7 @@ export function loadJs (fillPath: string, fn?) {
   createScript.async = true
   createScript.src = fillPath
   createScript.onload = fn
-  const body = document.getElementsByTagName('body')[0] || document.getElementsByTagName('head')[0]
+  const body = document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]
   if (body) {
     body.appendChild(createScript)
   }

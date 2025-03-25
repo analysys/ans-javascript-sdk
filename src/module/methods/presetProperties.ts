@@ -1,17 +1,13 @@
-
-
-
-
 import fillData from '../fillData'
 import { successLog } from '../printLog'
-
+import ready from '../ready'
 
  /**
  * 获取预置属性
  * @returns object
  */
 
-export function getPresetProperties(fn) : object {
+function getPresetProperties(fn) : object {
 
   
   // 获取上报数据模块
@@ -25,3 +21,5 @@ export function getPresetProperties(fn) : object {
   fn && fn(res.xcontext)
   return res.xcontext;
 }
+
+export default ready(getPresetProperties)

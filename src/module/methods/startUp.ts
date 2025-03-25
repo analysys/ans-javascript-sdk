@@ -7,13 +7,12 @@ import { eventAttribute } from '../../store/eventAttribute'
 import { dateFormat } from '../../utils/date'
 import { startUpTime, setStartUpTime } from '../../store/startUpTime'
 import { assign } from '../../utils/object'
+import ready from '../ready'
 
 function startUp(...args: any[]) {
 
   // 获取上报数据模型
   const res = fillData('$startup')
-
- 
 
   // 设置首次启动时间
   if (!core.ARKFRISTPROFILE) {
@@ -39,4 +38,4 @@ function startUp(...args: any[]) {
   }
 }
 
-export default startUp
+export default ready(startUp)

@@ -38,7 +38,8 @@ function pageClose () {
   }
 
   // 合并通用属性 // 绑定页面属性
-  res.xcontext = assign({}, res.xcontext, getSuperProperty(), getPageProperty(), attrs)
+  // globalWindow.AnalysysModule?.pageClose?.pageEndProperty 兼容PageViewStayTime设置的页面属性
+  res.xcontext = assign({}, res.xcontext, getSuperProperty(), getPageProperty(), attrs, globalWindow.AnalysysModule?.pageClose?.pageEndProperty)
   
   // 删除页面属性
   delPageProperty()

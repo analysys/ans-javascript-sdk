@@ -5,6 +5,8 @@ import { config } from '../../store/config'
 import { successLog } from '../printLog'
 import { resetCore } from '../../store/core'
 import { dateFormat } from '../../utils/date'
+import ready from '../ready'
+
 function reset (fn?) {
 
   resetCore()
@@ -23,4 +25,4 @@ function reset (fn?) {
   fn && fn()
 }
 
-export default reset
+export default ready(reset)

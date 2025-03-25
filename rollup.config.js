@@ -71,7 +71,7 @@ function getPlugins () {
     copy({
       targets: [{
         src: './dist/*',
-        dest: [`./demos/vue/public/sdk/${process.env.LibVERSION}`, `./demos/react/public/sdk/${process.env.LibVERSION}`, `./demos/jquery/sdk/${process.env.LibVERSION}`]
+        dest: [`./demos/vue/public/sdk`, `./demos/react/public/sdk`, `./demos/jquery/sdk`]
       }]
     })
   ]
@@ -131,6 +131,15 @@ export default [{
     file: './dist/AnalysysAgent_ExposurePoint.min.js',
     format: 'iife',
     name: 'ExposurePoint',
+    freeze: false
+  }],
+  plugins: getPlugins()
+}, {
+  input: './src/plugIn/xmHybrid/index.ts',
+  output: [{
+    file: './dist/AnalysysAgent_xmHybrid.min.js',
+    format: 'iife',
+    name: 'XmHybrid',
     freeze: false
   }],
   plugins: getPlugins()

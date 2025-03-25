@@ -87,12 +87,12 @@ export function getElementTargetUrl (el: Element) {
 export function getElementContent (ele) {
   let eleContent = ''
   const tagName = ele.tagName.toLowerCase()
-  if (tagName === 'input'  && ['button', 'submit'].indexOf(ele.type) > -1) {
+  if (tagName === 'input' && ['button', 'submit'].indexOf(ele.type) > -1) {
     eleContent = ele.value || ''
   } else if (tagName === 'img') {
     eleContent = getElementAttr(ele, 'alt') || getElementAttr(ele, 'title') || ''
   } else {
-    eleContent = ele.textContent
+    eleContent = ele.textContent || ele.title
   }
   return stringSlice(eleContent.trim())
 }

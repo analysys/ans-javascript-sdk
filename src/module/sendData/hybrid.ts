@@ -36,14 +36,15 @@ function callNative (functionName: string, functionParams?: Array<any>, isCallba
     globalWindow.webkit.messageHandlers.AnalysysAgent.postMessage
   ) {
     globalWindow.webkit.messageHandlers.AnalysysAgent.postMessage(obj)
-  }
-  
-  // 安卓
-  if (
+  } else if ( // 安卓
     globalWindow.AnalysysAgentHybrid &&
     globalWindow.AnalysysAgentHybrid.analysysHybridCallNative
   ) {
     globalWindow.AnalysysAgentHybrid.analysysHybridCallNative(JSON.stringify(obj))
+  } else {
+    if (globalWindow.AnalysysModule && globalWindow.AnalysysModule.hybridSendData) {
+      globalWindow.AnalysysModule.hybridSendData(obj)
+    }
   }
 }
 

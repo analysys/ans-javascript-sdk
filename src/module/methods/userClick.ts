@@ -7,6 +7,7 @@ import { setUserClickAttrs } from '../../store/clickElement'
 import { config } from '../../store/config'
 import { autoClickBlackListCheck, elementClickableCheck } from '../../utils/verify/index'
 import { assign } from '../../utils/object'
+import ready from '../ready'
 
 function userClick(event) {
 
@@ -17,8 +18,7 @@ function userClick(event) {
   const el = event.target || event.srcElement
   
   // 不做上报的页面路径
-  const autoClickBlackList = config.autoClickBlackList
-  if (autoClickBlackListCheck(autoClickBlackList, el)) {
+  if (autoClickBlackListCheck(config.autoClickBlackList, el)) {
     return
   }
 
@@ -67,4 +67,4 @@ function userClick(event) {
   
 }
 
-export default userClick
+export default ready(userClick)

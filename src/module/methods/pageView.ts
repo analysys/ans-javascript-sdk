@@ -7,16 +7,11 @@ import { lengthCheck, attrCheck } from '../../utils/verify/index'
 import { getSuperProperty } from '../../store/core'
 import { eventAttribute } from '../../store/eventAttribute'
 import { config } from "../../store/config"
-import { autoClickBlackListCheck } from '../../utils/verify/index'
 import { assign } from '../../utils/object'
 import { getPageProperty } from '../../store/pageProperty'
+import ready from '../ready'
 
 function pageView (pageName?: string, properties?: object, fn?: Function) {
-
-  // 排除黑名单
-  if (autoClickBlackListCheck(config.pageViewBlackList)) {
-    return
-  }
 
   const eventName = '$pageview'
   let userObj = {}, customProperties = {}
@@ -63,7 +58,8 @@ function pageView (pageName?: string, properties?: object, fn?: Function) {
   eventAttribute.pageview['$title'] = res.xcontext['$title']
   
   sendData(res, fn)
+  
   return res
 }
 
-export default pageView
+export default ready(pageView)

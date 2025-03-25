@@ -47,6 +47,8 @@ export interface initConfig {
     multiple: boolean | number
   };
 
+  isHybrid: Boolean;
+
   beforePageView?: ((res:buriedPointData, setAttrs: Function) => boolean);  //pageView上报之前钩子，若返回false，则终止pageView上报
   beforePageClose?: ((res:buriedPointData, setAttrs: Function) => boolean); //pageClose上报之前钩子，若返回false，则终止pageView上报
   beforeTrack?: ((res:buriedPointData, setAttrs: Function) => boolean); //track之前的钩子，参数为当前上报的数据对象，若返回false，就会终止track上报

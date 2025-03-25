@@ -9,9 +9,8 @@ import { errorLog, successLog } from '../printLog/index'
 import { globalWindow } from '../../constant/index'
 import { isFunction } from '../../utils/type'
 import beacon from '../../utils/requrst/beacon'
-import { isHybrid } from '../../store/hybrid'
+import { isHybrid, hybrid } from '../../store/hybrid'
 import hybridSendDate from './hybrid'
-import { emit } from '../methods'
 
 // 一次最多上报20条
 const MAXLINENUM = 20
@@ -57,8 +56,12 @@ function postData () : any {
     return
   }
 
-  if (globalWindow.AnalysysModal && isFunction(globalWindow.AnalysysModule)) {
+  if (globalWindow.AnalysysModal && isFunction(globalWindow.AnalysysModal)) {
     globalWindow.AnalysysModal(option.data)
+  }
+ 
+  if (option.encryptType && globalWindow.AnalysysModule && isFunction(globalWindow.AnalysysModule.uploadData)) {
+    globalWindow.AnalysysModule.uploadData(option)
   }
   
   ajax({
@@ -71,9 +74,6 @@ function postData () : any {
      // 成功后回调函数
     doingList.forEach(o => {
       implementEventCallback(o)
-
-      // 数据上报成功之后执行
-      emit('successSend', o)
     })
 
     // 上报成功后删除队列与相应的缓存数据
@@ -124,9 +124,6 @@ function imgGetData (data: buriedPointData) {
 
     // 成功后回调函数
     implementEventCallback(data)
-
-    // 数据上报成功之后执行
-    emit('successSend', data)
     
   }, () => {
     errorLog({
@@ -150,7 +147,13 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
   const xwhat = data.xwhat
 
   // Hybrid模式下由原生端上报
-  if (isHybrid) {
+  if (isHybrid || config.isHybrid) {
+
+    // 鸿蒙hybrid
+    if (hybrid.type === 'HarmonyOS') {
+      globalWindow.AnalysysAgentHybrid?.sendData(JSON.stringify(data))
+      return
+    }
 
     // 部分预制事件走原生自定义上报
     if (['$web_click', '$webstay', '$user_click'].indexOf(xwhat) > -1) {
@@ -174,7 +177,6 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
     if (xwhat === '$alias') {
       functionParams = [data.xwho, data.xcontext.$original_id]
     }
-
     hybridSendDate(isTrack ? 'track' : xwhat, functionParams)
     return
   }
@@ -184,8 +186,6 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
     eventAttribute.eventCallback[data.xwhen] = fn
   }
 
-  // 上报之前执行
-  emit('afterSend', {...data, xcontext: {...data.xcontext}})
 
   // 页面卸载时采用beacon上报
   if (eventAttribute.isUnload && navigator && navigator.sendBeacon) {

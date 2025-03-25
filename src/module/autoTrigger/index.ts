@@ -1,6 +1,5 @@
 
 import { startUp, pageView, userClick, webClick, webstay } from '../methods'
-import ready from '../ready'
 import { config } from '../../store/config'
 import { pathChange } from '../../utils/path'
 import { eventAttribute } from '../../store/eventAttribute'
@@ -10,14 +9,15 @@ import { triggerPageClose, setPageHideTime } from '../methods/pageclose'
 import { getVisualList, visualClick } from '../methods/visual'
 import { setHybirdWebUrl } from '../sendData/hybrid'
 import { isHybrid } from '../../store/hybrid'
+import { autoClickBlackListCheck } from '../../utils/verify/index'
 
 let scrollTime = null
 
 // 是否自动采集pv
 function triggerPageView () {
 
-  if (config.auto) {
-    ready(pageView)()
+  if (config.auto && !autoClickBlackListCheck(config.pageViewBlackList)) {
+    pageView()
   } else {
     eventAttribute.webstay.xwhen = 0
     eventAttribute.pageview.xwhen = +new Date()
@@ -44,7 +44,7 @@ function autoTrigger () {
   if (config.hash) {
     pathChange(function () {
       const path = eventAttribute.pageview.path
-      if (path !== document.location.href) {
+      if (path !== document.location.href ) {
         triggerPageClose()
         setTimeout(triggerPageView, 100)
       }

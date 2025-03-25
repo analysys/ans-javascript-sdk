@@ -59,7 +59,9 @@ function getEncryptData(data, lib, appid, libVersion, encryptType) {
     });
   }
   encryptData = encryptData.ciphertext.toString().toUpperCase()
+  
   const pakoZip = pako.gzip(encryptData)
+
   return base64js.fromByteArray(pakoZip)
 }
 

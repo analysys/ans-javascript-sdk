@@ -40,9 +40,8 @@ export function optionsDefault() : initConfig {
     autoPageViewDuration: false,
     sendDataTimeout: 10000,
     getDataTimeout: 10000,
-    sendType: 'img',
-    crossSubdomain: false
+    sendType: 'post',
+    crossSubdomain: false,
+    isHybrid: false
   }
 }
-
-const lifeCycleList = []

@@ -1,0 +1,16 @@
+[
+  {
+    "name": "about",
+    "path": "/about",
+    "component": "/Users/hry/code/eguan/sdk/ans-javascript-sdk/demo/nuxt2/pages/about.vue",
+    "chunkName": "pages/about",
+    "_name": "_49c05476"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/hry/code/eguan/sdk/ans-javascript-sdk/demo/nuxt2/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_69782f3b"
+  }
+]

@@ -17,6 +17,7 @@ export function visualClick (e) {
     return false
   }
   
+  
   const pathList = []
   eleForEach(e.target || e.srcElement, (el) => {
     pathList.push(el)

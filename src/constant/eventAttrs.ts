@@ -2,7 +2,7 @@
 const firstVisitTime = '$first_visit_time'
 
 // 只读属性，无法被更改
-export const readOnlyAttrs = ['$lib', '$lib_version', '$platform', firstVisitTime, '$debug', '$is_login']
+export const readOnlyAttrs = ['$lib', '$lib_version', firstVisitTime, '$debug', '$is_login']
 
 // 公共预制属性，任何事件上报都会带上这些属性
 export const publicAttrs: string[] = [

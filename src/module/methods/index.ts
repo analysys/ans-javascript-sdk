@@ -1,21 +1,36 @@
+import registerSuperProperty from './superProperty/registerSuperProperty'
+import registerSuperProperties from './superProperty/registerSuperProperties'
+import getSuperProperty from './superProperty/getSuperProperty'
+import getSuperProperties from './superProperty/getSuperProperties'
+import unRegisterSuperProperty from './superProperty/unRegisterSuperProperty'
+import clearSuperProperties from './superProperty/clearSuperProperties'
 
-import { registerSuperProperty, registerSuperProperties, getSuperProperty, getSuperProperties, unRegisterSuperProperty, clearSuperProperties} from './superProperty'
 import pageView from './pageView'
 import pageClose from './pageclose'
 import startUp from './startUp'
-import end from './end'
 import alias from './alias'
 import userClick from './userClick'
 import webClick from './webClick'
 import webstay from './webstay'
-import { profileSetOnce, profileSet, profileAppend, profileIncrement, profileDelete, profileUnset } from './profile'
+
+import profileSetOnce from './profile/profileSetOnce'
+import profileSet from './profile/profileSet'
+import profileAppend from './profile/profileAppend'
+import profileIncrement from './profile/profileIncrement'
+import profileDelete from './profile/profileDelete'
+import profileUnset from './profile/profileUnset'
+
 import reset from './reset'
-import { getPresetProperties } from './presetProperties'
+import getPresetProperties from './presetProperties'
 import track from './track'
 import timeEvent from './timeEvent'
-import { identify, getDistinctId} from './identify'
-import { pageProperty } from './pageProperty'
+
+import getDistinctId from './distinctId/getDistinctId'
+import identify from './distinctId/identify'
+
+import pageProperty from './pageProperty'
 import nativeCallback from './nativeCallback'
+
 export * from './hooks'
 
 export {
@@ -28,7 +43,6 @@ export {
   clearSuperProperties,
   pageView,
   pageClose,
-  end,
   track,
   timeEvent,
   alias,

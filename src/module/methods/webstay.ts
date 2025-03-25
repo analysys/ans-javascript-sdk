@@ -3,6 +3,7 @@ import sendData from '../sendData'
 import fillData from '../fillData'
 import { eventAttribute } from "../../store/eventAttribute"
 import { assign } from '../../utils/object'
+import ready from '../ready'
 
 function webClick() {
 
@@ -16,4 +17,4 @@ function webClick() {
   sendData(res)
 }
 
-export default webClick
+export default ready(webClick)

@@ -11,6 +11,7 @@ import { assign } from '../../utils/object'
 import { config } from '../../store/config'
 import { eventAttribute } from '../../store/eventAttribute'
 import { getNow } from '../../store/time'
+import ready from '../ready'
 
 function track (eventName : string, eventAttrs, fn?: Function) {
 
@@ -65,4 +66,4 @@ function track (eventName : string, eventAttrs, fn?: Function) {
   return res
 }
 
-export default track
+export default ready(track)
