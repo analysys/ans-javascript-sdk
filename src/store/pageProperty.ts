@@ -21,7 +21,7 @@ export function setPageProperty (properties: object) {
  * @returns 
  */
 export function getPageProperty () {
-  return pageProperty
+  return { ...pageProperty }
 }
 
 

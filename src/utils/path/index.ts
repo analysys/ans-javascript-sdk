@@ -82,3 +82,11 @@ export const getDomainFromUrl = function (domianStatus) {
 
   return urlDomain.reverse().join('.')
 }
+
+export const getHref = () => {
+  const href = document.location.href
+  if (href.length > 20000) {
+    return href.slice(0, 20000)
+  }
+  return href
+}

@@ -1,6 +1,6 @@
 {
 	"name": "asd-javascript-sdk",
-	"version": "5.0.10",
+	"version": "5.0.12",
 	"description": "official analysysAgent javascript sdk",
 	"main": "./dist/AnalysysAgent_JS_SDK.min.js",
 	"module": "./dist/AnalysysAgent_JS_SDK.es6.min.js",
@@ -13,8 +13,7 @@
 		"dev": "cross-env NODE_ENV=development rollup --config rollup.config.js --watch",
 		"test": "cross-env rollup --config rollup.config.js",
 		"encryption": "rollup --config ./build/encryption/rollup.config.encryption.js --watch",
-		"lint": "eslint --cache --max-warnings 0  \"src/**/*.{vue,ts,tsx,js}\" --fix",
-		"prepublishOnly": "npm run build"
+		"lint": "eslint --cache --max-warnings 0  \"src/**/*.{vue,ts,tsx,js}\" --fix"
 	},
 	"jest": {
 		"setupFiles": [

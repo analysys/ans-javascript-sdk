@@ -10,6 +10,7 @@ import { getVisualList, visualClick } from '../methods/visual'
 import { setHybirdWebUrl } from '../sendData/hybrid'
 import { isHybrid } from '../../store/hybrid'
 import { autoClickBlackListCheck } from '../../utils/verify/index'
+import { getHref } from '../../utils'
 
 let scrollTime = null
 
@@ -44,14 +45,13 @@ function autoTrigger () {
   if (config.hash) {
     pathChange(function () {
       const path = eventAttribute.pageview.path
-      if (path !== document.location.href ) {
+      if (path !== getHref() ) {
         triggerPageClose()
         setTimeout(triggerPageView, 100)
       }
     })
   }
   
-
   // 退出页面监听
   const closeEventName = 'onpageshow' in globalWindow ? 'pagehide' : 'beforeunload'
   globalWindow.addEventListener(closeEventName, () => {

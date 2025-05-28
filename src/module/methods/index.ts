@@ -31,6 +31,8 @@ import identify from './distinctId/identify'
 import pageProperty from './pageProperty'
 import nativeCallback from './nativeCallback'
 
+import updateCache from './updateCache'
+
 export * from './hooks'
 
 export {
@@ -55,5 +57,6 @@ export {
   identify,
   getDistinctId,
   pageProperty,
-  nativeCallback
+  nativeCallback,
+  updateCache
 }

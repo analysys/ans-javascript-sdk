@@ -6,7 +6,7 @@ import { getNow, timeDiff } from '../../store/time'
 import { isSpider } from '../../utils/path'
 import { pathParams } from '../../store/pathParams'
 import { clientTimeZone } from '../../utils/date'
-import { isString, isNumber } from "../../utils/type"
+import { isString } from "../../utils/type"
 import { getUrlDomain } from '../../utils/path'
 import { valToString } from "../../utils/type/transform"
 import { dateFormat } from "../../utils/date"

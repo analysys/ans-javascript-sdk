@@ -8,6 +8,7 @@ import { eventAttribute } from '../../store/eventAttribute'
 import { config } from '../../store/config'
 import { assign } from '../../utils/object'
 import { attrCheck } from '../../utils/verify/index'
+import { getHref } from '../../utils'
 
 function pageClose () {
 
@@ -76,7 +77,7 @@ export function triggerPageClose () {
     pageClose()
   }
   eventAttribute.pageview.prevPath = eventAttribute.pageview.path
-  eventAttribute.pageview.path = document.location.href
+  eventAttribute.pageview.path = getHref()
 }
 
 

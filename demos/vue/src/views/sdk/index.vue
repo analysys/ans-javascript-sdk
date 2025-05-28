@@ -45,6 +45,10 @@
             <n-input v-model:value="state.superPropertiesKey" placeholder="属性key"/>
             <n-button type="primary" block @click="getSuperProperty">获取单个通用属性</n-button>
           </div>
+
+          <div style="padding-top:10px">
+            <n-button type="primary" block @click="updateCache">同步缓存</n-button>
+          </div>
         </n-card>
 
         <n-card title="卡片">
@@ -141,6 +145,7 @@
     window.AnalysysAgent.unRegisterSuperProperty('testSuper', (res) => {
       console.log(res)
     })
+
   }
 
   // 设置所有通用属性
@@ -161,6 +166,15 @@
     window.AnalysysAgent.getSuperProperty(state.superPropertiesKey, (res) => {
       console.log(res)
     })
+  }
+
+  const updateCache = function () {
+    window.AnalysysAgent.updateCache()
+  }
+
+
+  window.AnalysysModule.pageClose.pageEndProperty = {
+    abcde: '12345'
   }
   
 

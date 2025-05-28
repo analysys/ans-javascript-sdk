@@ -69,24 +69,11 @@ export function coreInit (fn?: Function) {
 
   initStartUpTime()
 
-  function setDefCore () {
-    clearStartUpTime()
-    core = coreDefault()
-    setStorage()
-  }
+  
   getStorage((data) => {
-    if (data) {
-      // 检测缓存appkey debug uploadurl是否和sdk初始化一致，不一致则重新生成匿名用户
-      const debug = data.ARKDEBUG
-      // data.ARKUPLOADURL !== config.uploadURL
-      if (config.appkey !== data.ARKAPPID || (debug === 1 && debug !== config.debugMode)) {
-        setDefCore()
-      } else {
-        core = data
-      }
-    } else {
-      setDefCore()
-    }
+    
+    setCore(data)
+
     fn && fn()
 
     // 5.0.0版本后，清空所有不需要的cookie，只根据场景保留一个
@@ -107,6 +94,27 @@ export function resetCore () {
   core.ARKFRISTPROFILE = ''
   setSessionId()
   clearStartUpTime()
+}
+
+// 初始化缓存数据
+export function setCore(data) {
+  function setDefCore () {
+    clearStartUpTime()
+    core = coreDefault()
+    setStorage()
+  }
+  if (data) {
+    // 检测缓存appkey debug uploadurl是否和sdk初始化一致，不一致则重新生成匿名用户
+    const debug = data.ARKDEBUG
+    // data.ARKUPLOADURL !== config.uploadURL
+    if (config.appkey !== data.ARKAPPID || (debug === 1 && debug !== config.debugMode)) {
+      setDefCore()
+    } else {
+      core = data
+    }
+  } else {
+    setDefCore()
+  }
 }
 
 /**

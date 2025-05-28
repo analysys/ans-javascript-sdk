@@ -4,13 +4,15 @@ import { globalWindow } from '../../constant/index'
 const isIos = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
 
 function hybridSendData(data) {
+  
+  // pageclose作为自定义事件上报
   if (data.functionName === 'pageClose') {
-    // data.functionName = 'page_close'
-    return
+    data.functionName = 'track'
+    data.functionParams = ['page_close', data.functionParams[0]]
   }
 
   // ios下startUp事件走自定义事件类型上报
-  if (isIos && data.functionName === 'startUp') {
+  if (data.functionName === 'startUp') {
     // data.functionName = 'track'
     // data.functionParams = ['$startup', data.functionParams[0]]
     return

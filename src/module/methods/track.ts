@@ -35,6 +35,7 @@ function track (eventName : string, eventAttrs, fn?: Function) {
   }
 
   res.xwhat = eventName
+  
   // 合并通用属性
   res.xcontext = assign({}, res.xcontext, getSuperProperty(), trackAttrs)
 

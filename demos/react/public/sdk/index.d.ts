@@ -47,7 +47,7 @@ export interface initConfig {
     multiple: boolean | number
   };
 
-  isHybrid: Boolean;
+  isHybrid?: Boolean;
 
   beforePageView?: ((res:buriedPointData, setAttrs: Function) => boolean);  //pageView上报之前钩子，若返回false，则终止pageView上报
   beforePageClose?: ((res:buriedPointData, setAttrs: Function) => boolean); //pageClose上报之前钩子，若返回false，则终止pageView上报
@@ -128,6 +128,7 @@ declare class arkSdk {
   profileUnset(attrName: string): void;
   getPresetProperties(callback?: (attrs: presetAttrs) => void): presetAttrs;
   reset(callback?: () => void): void;
+  updateCache(callback?: () => void): void;
 }
 
 export const AnalysysAgent: arkSdk

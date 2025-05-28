@@ -1,4 +1,4 @@
-
+import { getHref } from '../utils'
 
 export const eventAttribute = {
   startup: {
@@ -11,7 +11,7 @@ export const eventAttribute = {
       
     },
     prevPath: document.referrer,
-    path: document.location.href
+    path: getHref()
   },
   
   webstay: {

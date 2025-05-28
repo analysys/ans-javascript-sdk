@@ -21,7 +21,8 @@ import {
   getDistinctId,
   pageProperty,
   nativeCallback,
-  on
+  on,
+  updateCache
 } from './module/methods/index'
 import { errorMessage } from './module/printLog'
 import './plugIn/index'
@@ -59,6 +60,9 @@ class ArkJsSdk {
 
   on = on;
 
+  // 同步缓存
+  updateCache = updateCache;
+
   // 初始化传入配置
   init (config: initConfig) {
     if (this.isInit) return
@@ -80,5 +84,5 @@ globalWindow.AnalysysAgent = ArkSdk
 export default ArkSdk
 
 export {
-  startUp as appStart, pageView, reset, track, pageProperty, alias, registerSuperProperty, registerSuperProperties, getSuperProperty, profileSetOnce, profileSet, profileAppend, profileIncrement, profileDelete, profileUnset, identify, getDistinctId, timeEvent
+  startUp as appStart, pageView, reset, track, pageProperty, alias, registerSuperProperty, registerSuperProperties, getSuperProperty, profileSetOnce, profileSet, profileAppend, profileIncrement, profileDelete, profileUnset, identify, getDistinctId, timeEvent, updateCache
 }
