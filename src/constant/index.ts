@@ -42,6 +42,7 @@ export function optionsDefault() : initConfig {
     getDataTimeout: 10000,
     sendType: 'post',
     crossSubdomain: false,
-    isHybrid: false
+    isHybrid: false,
+    notHybrid: false
   }
 }

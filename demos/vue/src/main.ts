@@ -15,10 +15,12 @@ createApp(App).use(router).mount('#app')
 
 AnalysysAgent.init({
   appkey: '5d4cdff6e4a55cff', //"47fce41a0472c616", //APPKEY
-  uploadURL: 'https://uba-up.analysysdata.com', //'https://event-ubademo-portal.jiguang.cn',
+  uploadURL: 'https://uba-up.analysysdata.com', //'https://uba-up.analysysdata.com', //'https://event-ubademo-portal.jiguang.cn',
   debugMode: 2, // 0 1 2
-  isHybrid: true,
-  autoPageViewDuration: true,
+  sendType: 'img',
+  // isHybrid: true,
+  // auto: false,
+  // autoPageViewDuration: true
   // // 页面浏览上报之前钩子，返回false则终止上报，可以通过setAttrs设置属性
   // beforePageView (res, setAttrs) {
   //   setAttrs({

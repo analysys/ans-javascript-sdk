@@ -1,6 +1,5 @@
 import { globalWindow } from '../../constant/index'
 
-
 const isIos = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
 
 function hybridSendData(data) {
@@ -18,19 +17,19 @@ function hybridSendData(data) {
     return
   }
 
-  // ios
+  var msg = JSON.stringify(data)
+  console.log('Send message to app: \ndata:' + msg)
   if (isIos && globalWindow.WebViewJavascriptBridge && globalWindow.WebViewJavascriptBridge.callService) {
     globalWindow.WebViewJavascriptBridge.callService(function(){}, function(){}, 'AnalysysAgentPlugin', data.functionName, { 'props': data.functionParams });
   } else {
     var iframe = document.createElement('iframe')
-    iframe.setAttribute('src', 'xib://app/analysysagent:' + JSON.stringify(data))
+    iframe.setAttribute('src', 'xib://app/analysysagent:' + msg)
     iframe.setAttribute('id', 'AnalysysAgentIframe')
     iframe.setAttribute('style', 'display:none;')
     document?.body?.appendChild(iframe)
     iframe?.parentNode?.removeChild(iframe)
   }
 }
-
 
 globalWindow.AnalysysModule ? globalWindow.AnalysysModule.hybridSendData = hybridSendData : globalWindow.AnalysysModule = { hybridSendData }
 

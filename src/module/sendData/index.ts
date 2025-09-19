@@ -147,7 +147,7 @@ function sendData (data: buriedPointData, fn?: Function, isTrack?: boolean) : an
   const xwhat = data.xwhat
 
   // Hybrid模式下由原生端上报
-  if (isHybrid || config.isHybrid) {
+  if ((isHybrid || config.isHybrid) && !config.notHybrid) {
 
     // 鸿蒙hybrid
     if (hybrid.type === 'HarmonyOS') {

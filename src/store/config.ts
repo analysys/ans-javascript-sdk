@@ -124,6 +124,10 @@ const configRule = {
     ck: [booleanCheck]
   },
 
+  notHybrid: {
+    ck: [booleanCheck]
+  },
+
   // track上报之前执行该函数，返回false则停止上报
   beforeTrack: {
     ck: [functionCheck]

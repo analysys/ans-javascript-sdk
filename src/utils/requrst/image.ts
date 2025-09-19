@@ -8,7 +8,7 @@ export default function (options: requestOptions, successFn?: Function, errorFn?
 
   let img = new Image(1, 1), sendTime = null
 
-  img.crossOrigin = 'anonymous'
+  // img.crossOrigin = 'anonymous'
 
   // 清空
   function empty () {

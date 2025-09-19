@@ -35,6 +35,9 @@ function triggerPageView () {
  * sdk自动触发器
  */
 function autoTrigger () {
+
+  const deviceType = getDeviceType()
+
   if (!isHybrid && config.autoStartUp) {
     startUp()
   }
@@ -54,13 +57,24 @@ function autoTrigger () {
   
   // 退出页面监听
   const closeEventName = 'onpageshow' in globalWindow ? 'pagehide' : 'beforeunload'
-  globalWindow.addEventListener(closeEventName, () => {
-    // 设置页面卸载状态
-    eventAttribute.isUnload = true
-    triggerPageClose()
-  })
-
-  const deviceType = getDeviceType()
+  
+  if (deviceType === 'desktop') {
+    globalWindow.addEventListener(closeEventName, () => {
+      // 设置页面卸载状态
+      eventAttribute.isUnload = true
+      triggerPageClose()
+    })
+  } else {// 移动端通过visibilitychange触发pageclose事件
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        // 设置页面卸载状态
+        eventAttribute.isUnload = true
+        triggerPageClose()
+      } else {
+        triggerPageView()
+      }
+    })
+  }
 
   // 全埋点
   if (config.autoTrack || config.visitorConfigURL) {

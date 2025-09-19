@@ -115,7 +115,7 @@
       money: 9.9,
       a: '',
       b: null,
-      c: undefined
+      c: undefined,
     })
     console.log(res)
   }

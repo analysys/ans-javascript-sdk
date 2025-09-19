@@ -9,6 +9,7 @@ import { config } from '../../store/config'
 import { assign } from '../../utils/object'
 import { attrCheck } from '../../utils/verify/index'
 import { getHref } from '../../utils'
+import { getDeviceType } from "../../utils/browser"
 
 function pageClose () {
 
@@ -86,7 +87,7 @@ if (document.hidden) {
   eventAttribute.pageClose.hideStartTime = +new Date()
 }
 export function setPageHideTime () {
-  if ('onvisibilitychange' in document && config.autoPageViewDuration) {
+  if ('onvisibilitychange' in document && config.autoPageViewDuration && getDeviceType() === 'desktop') {
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) {
         eventAttribute.pageClose.hideStartTime = +new Date()
