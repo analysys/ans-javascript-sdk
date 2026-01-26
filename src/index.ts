@@ -3,7 +3,7 @@
  */
 import { initConfig } from './types'
 import { setConfig, config } from './store/config'
-import { globalWindow } from './constant/index'
+import { globalWindow, $lib_version } from './constant/index'
 import { webViewHybridInit, isHybrid } from './store/hybrid'
 import {
   startUp,
@@ -57,7 +57,7 @@ class ArkJsSdk {
   getDistinctId = getDistinctId;
   pageProperty = pageProperty;
   nativeCallback = nativeCallback;
-
+  version = $lib_version;
   on = on;
 
   // 同步缓存

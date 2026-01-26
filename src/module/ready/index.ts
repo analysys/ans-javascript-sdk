@@ -3,6 +3,8 @@ import { isInitConfig, config } from '../../store/config'
 import { globalWindow } from '../../constant/index'
 import { isFunction } from '../../utils/type'
 import { getNow } from '../../store/time'
+import { startUp } from '../methods'
+import { isHybrid } from '../../store/hybrid'
 
 /**
  * 准备就绪后开始上报数据
@@ -17,7 +19,11 @@ interface callbackArrType {
 // 缓存sdk异步加载完成前的函数调用
 let cacheFn = globalWindow.AnalysysAgent && globalWindow.AnalysysAgent.param ? globalWindow.AnalysysAgent.param : []
 
+// 缓存sdk初始化完成前的函数调用
 export let callbackArr: callbackArrType[] = []
+
+// 缓存sdk初始化完成前的属性函数调用
+export let callbackAttrArr : callbackArrType[] = []
 
 // 执行缓存函数
 export function implementAallbackArr () {
@@ -30,7 +36,18 @@ export function implementAallbackArr () {
     cacheFn = null
   }
 
-  // 执行sdk没有初始化完成之前缓存函数
+  // 执行sdk没有初始化完成之前缓存属性设置函数
+  if (callbackAttrArr && callbackAttrArr.length) {
+    callbackAttrArr.forEach(o => {
+      o.fn.apply(o.fn, o.arg)
+    })
+    callbackAttrArr = []
+  }
+
+  if (!isHybrid && config.autoStartUp) {
+      startUp()
+    }
+
   if (callbackArr && callbackArr.length) {
     callbackArr.forEach(o => {
       o.fn.apply(o.fn, o.arg)
@@ -67,7 +84,14 @@ export const isReady = () => {
   return isGetServerTime && isInitConfig && beforeInitReady
 }
 
-function ready (callback, isTop?: boolean) {
+/**
+ * sdk准备就绪后执行函数
+ * @param callback 回调函数
+ * @param isTop 是否优先执行
+ * @param isAttribute 是否是属性设置类的函数
+ * @returns 
+ */
+function ready (callback, isTop?: boolean, isAttribute?: boolean) {
   return function(...args: any[]) {
     
     // 没有获取到ServerTime 和 初始化之前先把触发事件存起来，等初始化和ServerTime完成后再调用
@@ -77,7 +101,11 @@ function ready (callback, isTop?: boolean) {
         arg: args,
         xwhen: getNow()
       }
-      isTop ? callbackArr.unshift(obj) : callbackArr.push(obj)
+      if (isAttribute) {
+        callbackAttrArr.push(obj)
+      } else {
+        isTop ? callbackArr.unshift(obj) : callbackArr.push(obj)
+      }
     } else {
       return callback.apply(callback, args)
     }

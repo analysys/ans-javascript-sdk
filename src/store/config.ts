@@ -179,6 +179,7 @@ export function setConfig (options: initConfig, fn?) {
     }
   })
 
+
   // 动态加载可视化交互文件
   loadVisual()
 

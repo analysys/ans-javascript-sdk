@@ -1,5 +1,5 @@
 
-import { startUp, pageView, userClick, webClick, webstay } from '../methods'
+import { pageView, userClick, webClick, webstay } from '../methods'
 import { config } from '../../store/config'
 import { pathChange } from '../../utils/path'
 import { eventAttribute } from '../../store/eventAttribute'
@@ -8,8 +8,7 @@ import { globalWindow } from '../../constant/index'
 import { triggerPageClose, setPageHideTime } from '../methods/pageclose'
 import { getVisualList, visualClick } from '../methods/visual'
 import { setHybirdWebUrl } from '../sendData/hybrid'
-import { isHybrid } from '../../store/hybrid'
-import { autoClickBlackListCheck } from '../../utils/verify/index'
+import { pageViewBlackListCheck } from '../../utils/verify/index'
 import { getHref } from '../../utils'
 
 let scrollTime = null
@@ -17,7 +16,7 @@ let scrollTime = null
 // 是否自动采集pv
 function triggerPageView () {
 
-  if (config.auto && !autoClickBlackListCheck(config.pageViewBlackList)) {
+  if (config.auto && !pageViewBlackListCheck(config.pageViewBlackList)) {
     pageView()
   } else {
     eventAttribute.webstay.xwhen = 0
@@ -37,10 +36,6 @@ function triggerPageView () {
 function autoTrigger () {
 
   const deviceType = getDeviceType()
-
-  if (!isHybrid && config.autoStartUp) {
-    startUp()
-  }
 
   triggerPageView()
 
@@ -72,6 +67,9 @@ function autoTrigger () {
         triggerPageClose()
       } else {
         triggerPageView()
+
+        // 设置页面卸载状态
+        eventAttribute.isUnload = false
       }
     })
   }
@@ -108,8 +106,6 @@ function autoTrigger () {
       loadJs(`${SDKFileDirectory}AnalysysAgent_JS_SDK_HEATMAP.min.js`)
     }
   }
-
-  
 
   // 记录页面隐藏时间
   setPageHideTime()

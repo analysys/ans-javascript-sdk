@@ -11,6 +11,10 @@ const cookieKey = domainUrl ? `${storageKey}.` + domainUrl : ''
 const storeDb = new IndexedDb()
 let dBhasData = false
 
+
+storeDb.onConnectError = function (err) {
+  console.error('analysysData', err)
+}
 export function getStorage (fn: Function) {
   const cookieStore = () => cookieKey ? getCookie(cookieKey) : null
   const store = getLocalStorage() || cookieStore() || null
@@ -37,7 +41,8 @@ export function setStorage () {
     // 通用属性不存储在cookie里，防止太大
     const cookieData = { ...data }
     delete cookieData.ARKSUPER
-
+    delete cookieData.POSTDATA
+    
     setCookie(cookieKey, cookieData, {
       expires: 365 * 20,
       domain: domainUrl

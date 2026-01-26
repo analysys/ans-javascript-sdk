@@ -64,18 +64,19 @@ export let core : coreInterface
  * 初始化
  */
 export function coreInit (fn?: Function) {
+
   
   setPathParams()
 
   initStartUpTime()
 
-  
   getStorage((data) => {
     
     setCore(data)
 
-    fn && fn()
 
+    fn && fn()
+    
     // 5.0.0版本后，清空所有不需要的cookie，只根据场景保留一个
     emptyHistoryCookie()
   })
@@ -243,7 +244,17 @@ export function addPostData (option : buriedPointData) {
   if (!core.POSTDATA) {
     core.POSTDATA = []
   }
-  if (core.POSTDATA.length < 200) {
+
+  const find = core.POSTDATA.find(o => o.xwhat === option.xwhat && o.xwhen === option.xwhen)
+  if (find) {
+    return
+  }
+
+  if (core.POSTDATA.length < 300) {
+    core.POSTDATA.push(option)
+    setStorage()
+  } else {
+    core.POSTDATA.shift()
     core.POSTDATA.push(option)
     setStorage()
   }
@@ -253,15 +264,16 @@ export function addPostData (option : buriedPointData) {
 export function delPostData (arrData: Array<buriedPointData>) {
   const arrDataMap = {}
   arrData.forEach(o => {
-    arrDataMap[o.xwhen] = 1
+    arrDataMap[o.xwhat + o.xwhen] = 1
   })
 
   for (let i = core.POSTDATA.length - 1; i >= 0; i--) {
     const item = core.POSTDATA[i]
-    if (arrDataMap[item.xwhen]) {
+    if (arrDataMap[item.xwhat + item.xwhen]) {
       core.POSTDATA.splice(i, 1)
     }
   }
+
   setStorage()
 }
 

@@ -27,6 +27,7 @@ export default function (name: string, value?: string, options?) {
       }
       return s
     }
+    options.path = options.path || '/'
     return (document.cookie = [
       encode(name), '=', encode(value),
       options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE

@@ -29,4 +29,4 @@ function registerSuperProperty (name: string, value: string | number | boolean |
   }
 }
 
-export default ready(registerSuperProperty, true)
+export default ready(registerSuperProperty, true, true)

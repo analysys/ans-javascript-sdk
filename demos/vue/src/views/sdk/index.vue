@@ -110,14 +110,19 @@
 
   // 自定义事件上报
   const track = function () {
-    // window.AnalysysAgent.registerSuperProperty('bbb', '123')
-    const res = window.AnalysysAgent.track('buy', {
-      money: 9.9,
-      a: '',
-      b: null,
-      c: undefined,
-    })
-    console.log(res)
+    for (let i = 0; i < 10; i++) {
+      window.AnalysysAgent.track('buy', {
+        a: i,
+        b: i + 1
+      })
+    }
+
+    // window.AnalysysAgent.track('buy', {
+    //   money: 9.9118,
+    //   a: '',
+    //   b: null,
+    //   c: undefined,
+    // })
   }
 
   const pageView = function () {

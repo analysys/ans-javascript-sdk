@@ -24,15 +24,20 @@ let doingList: Array<buriedPointData> = []
 // 当前重试次数
 let retryCount = 0
 
+// 请求中标志
+let reqLoading = false
+
 // 发送请求
 function postData () : any {
 
   // 待上报数据
   const todoList: Array<buriedPointData> = getPostData()
 
-  if (doingList.length || !todoList.length) {
+  if (reqLoading || doingList.length || !todoList.length) {
     return
   }
+
+  reqLoading = true
 
   // 取出最多 MAXLINENUM 条数据进入上报队列
   doingList = todoList.splice(0, MAXLINENUM)
@@ -78,7 +83,9 @@ function postData () : any {
 
     // 上报成功后删除队列与相应的缓存数据
     delPostData(doingList)
+
     doingList = []
+    reqLoading = false
 
     // 继续上报剩下的数据，如果有的话
     postData()
@@ -86,18 +93,25 @@ function postData () : any {
     successLog({
       code: 20001
     })
-
+    
     retryCount = 0
+
   }, function() {
 
-    doingList = []
+    
     errorLog({
       code: 60008
     })
+
+    doingList = []
+
     // 失败后重试上报，最多重试RETRNUM次
     if (retryCount < RETRNUM) {
+      reqLoading = false
       postData()
       retryCount++
+    } else {
+      reqLoading = false
     }
   })
 }

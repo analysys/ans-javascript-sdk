@@ -12,4 +12,4 @@ function registerSuperProperties (superProperty: object, fn?) {
   fn && fn(getSuperProperty())
 }
 
-export default ready(registerSuperProperties, true)
+export default ready(registerSuperProperties, true, true)

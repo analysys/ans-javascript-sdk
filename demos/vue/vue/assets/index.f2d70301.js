@@ -1,0 +1,1 @@
+import{_ as t,o as n,c as o,a as e}from"./index.6e3b24ac.js";const c={},s=e("div",null,[e("input",{type:"button",value:"123"})],-1),a=[s];function _(r,d){return n(),o("div",null,a)}const l=t(c,[["render",_]]);export{l as default};

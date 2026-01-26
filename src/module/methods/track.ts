@@ -24,8 +24,6 @@ function track (eventName : string, eventAttrs, fn?: Function) {
     return 
   }
 
-  // 获取上报数据模块
-  const res = fillData('track')
   const trackAttrs = eventAttrs && !isFunction(eventAttrs) ? attrCheck(eventAttrs, eventName) : {}
 
   // 增加使用时长属性
@@ -33,6 +31,9 @@ function track (eventName : string, eventAttrs, fn?: Function) {
     trackAttrs['$duration'] = getNow() - eventAttribute.timeEvent[eventName]
     delete eventAttribute[eventName]
   }
+
+  // 获取上报数据模块
+  const res = fillData('track')
 
   res.xwhat = eventName
   

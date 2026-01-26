@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw, createWebHashHistory } from "vue-router";
 import Index from './views/index/index.vue'
 
 const routes: RouteRecordRaw[] = [{
@@ -25,6 +25,8 @@ const routes: RouteRecordRaw[] = [{
   history: createWebHistory(),
   routes
 });
+
+
 
 router.afterEach((to, from) => {
   document.title = to.meta.title

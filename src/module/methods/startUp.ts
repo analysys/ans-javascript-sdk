@@ -38,4 +38,4 @@ function startUp(...args: any[]) {
   }
 }
 
-export default ready(startUp)
+export default ready(startUp, true)

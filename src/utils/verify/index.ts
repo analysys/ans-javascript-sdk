@@ -191,6 +191,17 @@ export function autoClickBlackListCheck (autoClickBlackList: any, el?: EventTarg
   return false
 }
 
+export function pageViewBlackListCheck (pageViewBlackList: any): boolean {
+  if (isString(pageViewBlackList)) {
+    return pageViewBlackList === window.location.href
+  } else if (isFunction(pageViewBlackList)) {
+    return pageViewBlackList()
+  } else if (isArray(pageViewBlackList)) {
+    for (let i = 0; i < pageViewBlackList.length; i++) {
+      return pageViewBlackListCheck(pageViewBlackList[i])
+    }
+  }
+}
 
 function checkElementConfig (trackList, el) {
   if (!trackList || (isArray(trackList) && trackList.length === 0) || (isString(trackList) && trackList === '')) {

@@ -38,7 +38,6 @@ export const getCookie = function(key = storageKey) {
   }
   return null
 }
-
 export const setCookie = function(key = storageKey, data, option?) {
   cookie(key, data !== null ? encode(JSON.stringify(data)) : null, option)
 }

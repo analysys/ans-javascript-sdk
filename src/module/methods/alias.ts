@@ -54,4 +54,4 @@ function alias (aliasId: string, fn?: Function) {
   }
 }
 
-export default ready(alias)
+export default ready(alias, true, true)
