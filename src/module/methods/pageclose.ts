@@ -21,16 +21,12 @@ function pageClose () {
     return
   }
 
-  function getHideTime () {
-    const pageCloseAttr = eventAttribute.pageClose
-    const hideTime = pageCloseAttr.hideTime
-    return !pageCloseAttr.hideStartTime ? hideTime : (hideTime + (res.xwhen - pageCloseAttr.hideStartTime))
-  }
+  // 过滤异常数据，用户不太可能在一个页面上持续活跃超过60分钟
+  const MAX_STAY_TIME = 60 * 60 * 1000; 
 
   // 获取访问时长，排除小于0情况
-  const pagestaytime = res.xwhen - eventAttribute.pageview.xwhen - getHideTime()
   const attrs = {
-    pagestaytime: pagestaytime > 0 ? pagestaytime : res.xwhen - eventAttribute.pageview.xwhen
+    pagestaytime: Math.max(300, Math.min(res.xwhen - eventAttribute.pageview.xwhen, MAX_STAY_TIME))
   }
 
   // 填充当前pv上报的title
@@ -79,22 +75,4 @@ export function triggerPageClose () {
   }
   eventAttribute.pageview.prevPath = eventAttribute.pageview.path
   eventAttribute.pageview.path = getHref()
-}
-
-
-// 设置页面隐藏时间
-if (document.hidden) {
-  eventAttribute.pageClose.hideStartTime = +new Date()
-}
-export function setPageHideTime () {
-  if ('onvisibilitychange' in document && config.autoPageViewDuration && getDeviceType() === 'desktop') {
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) {
-        eventAttribute.pageClose.hideStartTime = +new Date()
-      } else {
-        eventAttribute.pageClose.hideTime = eventAttribute.pageClose.hideTime + (+new Date() - eventAttribute.pageClose.hideStartTime)
-        eventAttribute.pageClose.hideStartTime = 0
-      }
-    })
-  }
 }

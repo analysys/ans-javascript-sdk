@@ -10,6 +10,7 @@ import { config } from "../../store/config"
 import { assign } from '../../utils/object'
 import { getPageProperty } from '../../store/pageProperty'
 import ready from '../ready'
+import { emit } from './hooks'
 
 function pageView (pageName?: string, properties?: object, fn?: Function) {
 
@@ -58,6 +59,8 @@ function pageView (pageName?: string, properties?: object, fn?: Function) {
   eventAttribute.pageview['$title'] = res.xcontext['$title']
   
   sendData(res, fn)
+
+  emit('pageview', res)
   
   return res
 }

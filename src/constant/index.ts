@@ -1,4 +1,5 @@
 import { initConfig } from '../types'
+import cn from '../language/cn'
 
 export const $lib = '$LIB'
 export const $lib_version = '$LibVERSION'
@@ -43,6 +44,7 @@ export function optionsDefault() : initConfig {
     sendType: 'post',
     crossSubdomain: false,
     isHybrid: false,
-    notHybrid: false
+    notHybrid: false,
+    language: cn,
   }
 }

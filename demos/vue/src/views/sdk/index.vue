@@ -110,19 +110,23 @@
 
   // 自定义事件上报
   const track = function () {
-    for (let i = 0; i < 10; i++) {
-      window.AnalysysAgent.track('buy', {
-        a: i,
-        b: i + 1
-      })
-    }
+    // for (let i = 0; i < 10; i++) {
+    //   window.AnalysysAgent.track('buy', {
+    //     a: i,
+    //     b: i + 1
+    //   })
+    // }
 
-    // window.AnalysysAgent.track('buy', {
-    //   money: 9.9118,
-    //   a: '',
-    //   b: null,
-    //   c: undefined,
-    // })
+   const res = window.AnalysysAgent.track('buy', {
+      money: 9.9118,
+      a: '',
+      b: null,
+      c: undefined,
+    }, (res) => {
+      console.log('dsf', res)
+    })
+
+    console.log('123', res)
   }
 
   const pageView = function () {
@@ -150,7 +154,6 @@
     window.AnalysysAgent.unRegisterSuperProperty('testSuper', (res) => {
       console.log(res)
     })
-
   }
 
   // 设置所有通用属性

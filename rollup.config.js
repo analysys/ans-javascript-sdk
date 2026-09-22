@@ -71,7 +71,7 @@ function getPlugins () {
     copy({
       targets: [{
         src: './dist/*',
-        dest: [`./demos/vue/public/sdk`, `./demos/react/public/sdk`, `./demos/jquery/sdk`]
+        dest: [`./demos/vue/public/sdk`, `./demos/react/public/sdk`, `./demos/jquery/sdk`, `./demos/vue2/public/sdk`]
       }]
     })
   ]
@@ -135,11 +135,28 @@ export default [{
   }],
   plugins: getPlugins()
 }, {
-  input: './src/plugIn/xmHybrid/index.ts',
+  input: './src/language/cn.js',
   output: [{
-    file: './dist/AnalysysAgent_xmHybrid.min.js',
-    format: 'iife',
-    name: 'XmHybrid',
+    file: './dist/language/cn.js',
+    format: 'umd',
+    name: 'LanguageCN',
+    freeze: false
+  }, {
+    file: './dist/language/cn.es6.js',
+    format: 'esm',
+    freeze: false
+  }],
+  plugins: getPlugins()
+}, {
+  input: './src/language/en.js',
+  output: [{
+    file: './dist/language/en.js',
+    format: 'umd',
+    name: 'LanguageEN',
+    freeze: false
+  }, {
+    file: './dist/language/en.es6.js',
+    format: 'esm',
     freeze: false
   }],
   plugins: getPlugins()

@@ -1,38 +1,39 @@
 import './index.scss'
 import { createElement } from '../../utils/index'
 import { heatConfig, displayConfig } from '../../store/index'
-import { setHeatMapConfig, heatmap } from '../heatmap/index'
+import { setHeatMapConfig } from '../heatmap/index'
 import { arkcontentText } from '../../store/arkContent'
+import { globalWindow } from '../../../../constant/index'
 
 const html = `
   <div class="ark-heatmap-head-menu">
     <div class="ark-heatmap-head-menu-item" id="arkNavLocation" event-agent="click" heat-type="location" controller-name="heatmapTab">
       <i class="ark-icon ark-icon-point"></i>
-      <span>点击位置热图</span>
+      <span>${globalWindow.AnalysysAgent.i18n('clickPosition')}</span>
     </div>
     <div class="ark-heatmap-head-menu-item" id="arkNavElement" event-agent="click" heat-type="element" controller-name="heatmapTab">
       <i class="ark-icon ark-icon-ele"></i>
-      <span>点击元素热图</span>
+      <span>${globalWindow.AnalysysAgent.i18n('clickElement')}</span>
     </div>
     <div class="ark-heatmap-head-menu-item" id="arkNavLines" event-agent="click" heat-type="lines" controller-name="heatmapTab">
       <i class="ark-icon ark-icon-dep"></i>
-      <span>浏览深度线</span>
+      <span>${globalWindow.AnalysysAgent.i18n('BrowseDepthLine')}</span>
     </div>
   </div>
 
   <div class="ark-heatmap-head-handle">
     <div class="ark-heatmap-head-handle-item" id="arkHotEleList">
-      <div class="ark-handle-hover"><i class="ark-icon ark-icon-element"></i>热门元素列表</div>
+      <div class="ark-handle-hover"><i class="ark-icon ark-icon-element"></i>${globalWindow.AnalysysAgent.i18n('hotElementList')}</div>
       <div class="ark-pop-box ark-element-list">
-        <div class="ark-element-list-hd">热门点击元素</div>
+        <div class="ark-element-list-hd">${globalWindow.AnalysysAgent.i18n('hotClickElement')}</div>
         <table class="ark-element-list-bd">
           <thead>
             <tr>
-              <td width="120">元素内容</td>
-              <td>元素类型</td>
-              <td>用户数</td>
-              <td>点击次数</td>
-              <td>点击次数占比</td>
+              <td width="120">${globalWindow.AnalysysAgent.i18n('elementContent')}</td>
+              <td>${globalWindow.AnalysysAgent.i18n('elementType')}</td>
+              <td>${globalWindow.AnalysysAgent.i18n('userCount')}</td>
+              <td>${globalWindow.AnalysysAgent.i18n('clickTimes')}</td>
+              <td>${globalWindow.AnalysysAgent.i18n('clickTimesPercent')}</td>
             </tr>
           </thead>
           <tbody id="arkElementList">
@@ -42,28 +43,28 @@ const html = `
       </div>
     </div>
     <div class="ark-heatmap-head-handle-item" id="arkConditionList">
-      <div class="ark-handle-hover"><i class="ark-icon ark-icon-content"></i>过滤条件</div>
+      <div class="ark-handle-hover"><i class="ark-icon ark-icon-content"></i>${globalWindow.AnalysysAgent.i18n('filterConditions')}</div>
       <div class="ark-pop-box ark-filter-condition">
-        <div class="ark-filter-condition-title">分析用户群</div>
+        <div class="ark-filter-condition-title">${globalWindow.AnalysysAgent.i18n('analysisUserGroup')}</div>
         <div class="ark-filter-condition-crowd">
           <i class="ark-icon ark-icon-crowd"></i> <span></span>
         </div>
-        <div class="ark-filter-condition-title">过滤条件</div>
+        <div class="ark-filter-condition-title">${globalWindow.AnalysysAgent.i18n('filterConditions')}</div>
         <div class="ark-filter-condition-attrs">
         </div>
       </div>
     </div>
     <div class="ark-heatmap-head-handle-item" id="arkHeatDisplayConfig">
-      <div class="ark-handle-hover"><i class="ark-icon ark-icon-set"></i>显示设置</div>
+      <div class="ark-handle-hover"><i class="ark-icon ark-icon-set"></i>${globalWindow.AnalysysAgent.i18n('displaySetting')}</div>
       <div class="ark-pop-box ark-display-set">
         <div class="ark-display-set-item" >
-          <div class="ark-display-set-item-name" style="top:3px">显示浏览深度线</div>
+          <div class="ark-display-set-item-name" style="top:3px">${globalWindow.AnalysysAgent.i18n('showBrowseDepthLine')}</div>
           <div class="ark-display-set-item-content">
             <span class="ark-heatmap-switch" id="arkDisplayDepth" event-agent="click" controller-name="displayDepth"></span>
           </div>
         </div>
         <div class="ark-display-set-item" id="arkSetColorRange" style="padding-top:20px;">
-          <div class="ark-display-set-item-name">调整颜色范围</div>
+          <div class="ark-display-set-item-name">${globalWindow.AnalysysAgent.i18n('adjustColorRange')}</div>
           <div class="ark-display-set-item-content" style="padding-top:3px">
             <div class="ark-color-slider-box" id="arkColors">
               <div class="ark-slider-trigger ark-left-trigger"></div>
@@ -75,7 +76,7 @@ const html = `
           </div>
         </div>
         <div class="ark-display-set-item" id="arkSetOpacity" style="padding-top:20px">
-          <div class="ark-display-set-item-name">调整背景透明度</div>
+          <div class="ark-display-set-item-name">${globalWindow.AnalysysAgent.i18n('adjustBackgroundTransparent')}</div>
           <div class="ark-display-set-item-content" style="padding-top:3px">
             <div class="ark-slider-box" id="arkOpacitySlider">
               <div class="ark-slider-rate"></div>
@@ -86,24 +87,24 @@ const html = `
       </div>
     </div>
     <div class="ark-heatmap-head-handle-item" id="arkHeatmapSwitch">
-      <span class="ark-heatmap-switch" event-agent="click" controller-name="heatmapSwitch"></span>热图显示
+      <span class="ark-heatmap-switch" event-agent="click" controller-name="heatmapSwitch"></span>${globalWindow.AnalysysAgent.i18n('heatMapShow')}
     </div>
     <div class="ark-heatmap-head-handle-item">
       <div class="ark-icon-box" event-agent="click" controller-name="refresh">
         <i class="ark-icon ark-icon-refresh"></i>
-        <div class="ark-pop-tips">刷新</div>
+        <div class="ark-pop-tips">${globalWindow.AnalysysAgent.i18n('refresh')}</div>
       </div>
     </div>
     <div class="ark-heatmap-head-handle-item">
       <div class="ark-icon-box">
         <i class="ark-icon ark-icon-help"></i>
-        <div class="ark-pop-tips">帮助</div>
+        <div class="ark-pop-tips">${globalWindow.AnalysysAgent.i18n('help')}</div>
       </div>
     </div>
     <div class="ark-heatmap-head-handle-item">
       <div class="ark-icon-box" event-agent="click" controller-name="navOpen">
         <i class="ark-icon ark-icon-down"></i>
-        <div class="ark-pop-tips">收起</div>
+        <div class="ark-pop-tips">${globalWindow.AnalysysAgent.i18n('collapse')}</div>
       </div>
     </div>
   </div>

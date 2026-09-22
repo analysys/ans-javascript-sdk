@@ -22,10 +22,12 @@ import {
   pageProperty,
   nativeCallback,
   on,
+  off,
   updateCache
 } from './module/methods/index'
 import { errorMessage } from './module/printLog'
 import './plugIn/index'
+
 
 webViewHybridInit()
 
@@ -59,9 +61,15 @@ class ArkJsSdk {
   nativeCallback = nativeCallback;
   version = $lib_version;
   on = on;
+  off = off;
 
   // 同步缓存
   updateCache = updateCache;
+
+  // 国际化方法
+  i18n(key: string): string {
+    return this.config.language[key] || key;
+  }
 
   // 初始化传入配置
   init (config: initConfig) {

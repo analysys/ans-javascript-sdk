@@ -90,7 +90,18 @@
 </template>
 
 <script setup lang="ts">
+ import { onMounted, onUnmounted } from 'vue';
   import { NButton, NCarousel, NGrid, NGi, NList, NTag, NListItem, NSpace, NThing, NRow, NCol  } from 'naive-ui'
+
+  onMounted(() => {
+    window.AnalysysAgent.on('pageview', (res) => {
+      console.log('pageview 事件被触发了', res)
+    })
+  });
+
+  onUnmounted(() => {
+    window.AnalysysAgent.off('pageview')
+  });
 </script>
 
 <style scoped>

@@ -1,6 +1,7 @@
 import { isNumber } from "../../../../utils/type"
 import { createElement } from '../../utils/index'
 import { displayConfig, heatConfig } from '../../store/index'
+import { globalWindow } from '../../../../constant/index'
 import './index.scss'
 
 const lineTpl = function (value) {
@@ -53,7 +54,7 @@ let linesData = null
       content: mouseLineTpl
     })
   }
-  document.getElementById('arkMouseLineValue').innerHTML = value + '% 的人浏览到了这里'
+  document.getElementById('arkMouseLineValue').innerHTML = value + '% ' + globalWindow.AnalysysAgent.i18n('browsedHere')
   mouseLineEle.style.top = y + 5 + 'px'
 }
 

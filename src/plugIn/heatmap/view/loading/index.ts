@@ -5,7 +5,7 @@ import { heatConfig } from '../../store/index'
 const html = `
 <div class="ark-loading-box">
     <div class="ark-loading-img"></div>
-    <div class="ark-loading-text">生成热图中…</div>
+    <div class="ark-loading-text">loading…</div>
 </div>
 `
 

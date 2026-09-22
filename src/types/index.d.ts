@@ -6,6 +6,7 @@ export interface initConfig {
   uploadURL: string;
   debugMode?: 0 | 1 | 2;
   name?: string; //设置 JS SDK 全局对象别名
+  language?: object; //设置语言，默认为中文，只支持外部传入语言对象
 
   autoStartUp?: boolean;//是否自动采集startUp
 
@@ -110,7 +111,7 @@ declare class arkSdk {
   config: initConfig;
   init(config: initConfig): void;
   pageView(pageTitle: string, pageProperties: object): buriedPointData;
-  track(eventName: string, eventAttrs: eventAttrs): buriedPointData;
+  track(eventName: string, eventAttrs: eventAttrs, callback?: (attrs: buriedPointData) => void): buriedPointData;
   timeEvent(eventName: string): void;
   alias(aliasId: string, callback?: () => void): void;
   identify(distinctId: distinctId, callback?: () => void): void;
@@ -131,6 +132,7 @@ declare class arkSdk {
   getPresetProperties(callback?: (attrs: presetAttrs) => void): presetAttrs;
   reset(callback?: () => void): void;
   updateCache(callback?: () => void): void;
+  $i18n(key: string): string;
 }
 
 export const AnalysysAgent: arkSdk

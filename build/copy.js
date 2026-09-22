@@ -129,9 +129,87 @@ function copy(options = {}) {
           } = copyTarget;
 
           if (transformed) {
-            await fs.outputFile(dest, contents, restPluginOptions);
+            try {
+              // 先删除目标文件，避免权限问题
+              if (await fs.pathExists(dest)) {
+                try {
+                  await fs.remove(dest);
+                } catch (removeError) {
+                  console.warn(`Failed to remove file ${dest}: ${removeError.message}`);
+                }
+              }
+              // 使用 fs.outputFile 写入文件，它会自动创建目录
+              await fs.outputFile(dest, contents, { ...restPluginOptions, overwrite: true });
+            } catch (error) {
+              console.warn(`Failed to write file ${dest}: ${error.message}`);
+            }
           } else {
-            await fs.copy(src, dest, restPluginOptions);
+            try {
+              // 检查 src 是否为目录
+              const srcStats = await fs.stat(src);
+              if (srcStats.isDirectory()) {
+                // 对于目录，先确保目标目录存在
+                await fs.ensureDir(dest);
+                // 递归复制目录内容
+                const files = await fs.readdir(src);
+                for (const file of files) {
+                  const srcPath = path.join(src, file);
+                  const destPath = path.join(dest, file);
+                  try {
+                    const fileStats = await fs.stat(srcPath);
+                    if (fileStats.isFile()) {
+                      // 复制文件
+                      if (await fs.pathExists(destPath)) {
+                        try {
+                          await fs.remove(destPath);
+                        } catch (removeError) {
+                          console.warn(`Failed to remove file ${destPath}: ${removeError.message}`);
+                        }
+                      }
+                      // 直接使用 fs.writeFile 写入文件内容，避免 chmod 权限问题
+                      const fileContent = await fs.readFile(srcPath);
+                      await fs.writeFile(destPath, fileContent);
+                    } else if (fileStats.isDirectory()) {
+                      // 递归复制子目录
+                      await fs.ensureDir(destPath);
+                      const subFiles = await fs.readdir(srcPath);
+                      for (const subFile of subFiles) {
+                        const subSrcPath = path.join(srcPath, subFile);
+                        const subDestPath = path.join(destPath, subFile);
+                        const subFileStats = await fs.stat(subSrcPath);
+                        if (subFileStats.isFile()) {
+                          if (await fs.pathExists(subDestPath)) {
+                            try {
+                              await fs.remove(subDestPath);
+                            } catch (removeError) {
+                              console.warn(`Failed to remove file ${subDestPath}: ${removeError.message}`);
+                            }
+                          }
+                          const subFileContent = await fs.readFile(subSrcPath);
+                          await fs.writeFile(subDestPath, subFileContent);
+                        }
+                      }
+                    }
+                  } catch (fileError) {
+                    console.warn(`Failed to process file ${srcPath}: ${fileError.message}`);
+                  }
+                }
+              } else {
+                // 对于文件，先删除目标文件，避免权限问题
+                if (await fs.pathExists(dest)) {
+                  try {
+                    await fs.remove(dest);
+                  } catch (removeError) {
+                    console.warn(`Failed to remove file ${dest}: ${removeError.message}`);
+                  }
+                }
+                // 直接使用 fs.writeFile 写入文件内容，避免 chmod 权限问题
+                const fileContent = await fs.readFile(src);
+                await fs.writeFile(dest, fileContent);
+              }
+            } catch (error) {
+              console.warn(`Failed to copy ${src} to ${dest}: ${error.message}`);
+            }
           }
 
           if (verbose) {

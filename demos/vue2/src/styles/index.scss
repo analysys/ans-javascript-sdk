@@ -1,0 +1,33 @@
+
+@import '../assets/fonts/iconfont.css';
+@import './scrollbar.scss';
+
+
+.header-operation {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.el-dialog__header {
+	padding: 10px 10px;
+}
+.el-dialog__body {
+	padding: 0 10px 10px 10px;
+}
+.f-fl {
+	float: left;
+}
+.d-block {
+	display: block;
+}
+
+.v-page {
+	text-align: right;
+	padding-top: 10px;
+}
+.text-overflow {
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}

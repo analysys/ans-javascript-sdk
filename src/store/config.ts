@@ -12,6 +12,7 @@ import { loadVisual } from '../module/methods/visual'
 import { pageProperty } from '../module/methods'
 import { emit } from '../module/methods'
 
+
 function nameListCheck (value: any) {
   if (isString(value)) {
     return true
@@ -40,6 +41,9 @@ const configRule = {
   },
   name: {
     ck: [stringCheck]
+  },
+  language: {
+    ck: [objectCheck]
   },
 
   // 是否自动上报startup事件

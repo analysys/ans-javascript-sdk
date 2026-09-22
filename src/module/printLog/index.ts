@@ -28,9 +28,9 @@ export const errorMessage = {
 		'current value:{VALUE}\n' +
 		'current type: {VALUETYPE}',
 	'600020': 'DebugMode only can be 0,1,2',
-	'600022': '{FN}: 属性[{KEY}]的值[{VALUE}]无效，支持类型：String/Number/Boolean/string[]，若为字符串，长度范围1-255字符',
-	'600023': '{FN}: 属性key的名称[{KEY}]无效，属性key是以字母开头的字符串，由字母、数字、下划线组成，字母不区分大小写，不支持乱码、中文、空格等，长度范围1-99字符；',
-	'600025': '{FN}: 事件名称[{VALUE}]无效，事件ID必须字母或者$开头，可包含数字字母与下划线，1-99个字符；'
+	'600022': '{FN}: The value [{VALUE}] for attribute [{KEY}] is invalid. Supported types are: String, Number, Boolean, or string[]. If the value is a string, its length must be between 1 and 255 characters.',
+	'600023': '{FN}: The name of the attribute key [{KEY}] is invalid. The attribute key is a string starting with a letter, consisting of letters, numbers, and underscores. Letters are not case sensitive and do not support garbled characters, Chinese characters, spaces, etc. The length range is 1-99 characters;',
+	'600025': '{FN}: The event name [{VALUE}] is invalid. Event IDs must start with a letter or $, and can contain letters, numbers, and underscores. The length must be between 1 and 99 characters.'
 }
 const successMessage = {
 	'common': '',
@@ -47,10 +47,10 @@ const successMessage = {
 	'20011': '{FN}:({VALUE}) delete failed',
 	'20012': 'Send Message to Server: {KEY} \n' +
 		'data:{VALUE}',
-	'20013': "收到服务器的时间: {VALUE} \n" +
-		"本地时间: {KEY} \n" +
-		"时间相差:  {FN} \n" +
-		"数据将会进行时间校准",
+	'20013': "Received server time: {VALUE} \n" +
+		"local time: {KEY} \n" +
+		"Time difference:  {FN} \n" +
+		"The data will undergo time calibration",
 	'20014': 'aliasID already bound'
 }
 

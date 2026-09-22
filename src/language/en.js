@@ -1,0 +1,26 @@
+// 帮我翻译成英文 
+export default {
+  'clickCount': 'Click Count',
+  'clickPercent': 'Click Percentage',
+  'clickPosition': 'Click Position Heatmap',
+  'clickElement': 'Click Element Heatmap',
+  'BrowseDepthLine': 'Browse Depth Line',
+  'hotElementList': 'Hot Element List',
+  'hotClickElement': 'Hot Click Element',
+  'elementContent': 'Element Content',
+  'elementType': 'Element Type',
+  'userCount': 'User Count',
+  'clickTimes': 'Click Count',
+  'clickTimesPercent': 'Click Share',
+  'filterConditions': 'Filter Conditions',
+  'analysisUserGroup': 'Analyze User Group',
+  'displaySetting': 'Display Settings',
+  'showBrowseDepthLine': 'Browse Depth Line',
+  'adjustColorRange': 'Color Range',
+  'adjustBackgroundTransparent': 'Background Opacity',
+  'heatMapShow': 'Heatmap Display',
+  'refresh': 'Refresh',
+  'help': 'Help',
+  'collapse': 'Collapse',
+  'browsedHere': 'of people browsed here'
+}

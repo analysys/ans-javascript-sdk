@@ -28,7 +28,7 @@ function track (eventName : string, eventAttrs, fn?: Function) {
 
   // 增加使用时长属性
   if (eventAttribute.timeEvent[eventName]) {
-    trackAttrs['$duration'] = getNow() - eventAttribute.timeEvent[eventName]
+    trackAttrs['$duration'] = Math.max(0, getNow() - eventAttribute.timeEvent[eventName])
     delete eventAttribute[eventName]
   }
 

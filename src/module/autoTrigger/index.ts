@@ -5,7 +5,7 @@ import { pathChange } from '../../utils/path'
 import { eventAttribute } from '../../store/eventAttribute'
 import { getDeviceType, loadJs } from "../../utils/browser"
 import { globalWindow } from '../../constant/index'
-import { triggerPageClose, setPageHideTime } from '../methods/pageclose'
+import { triggerPageClose } from '../methods/pageclose'
 import { getVisualList, visualClick } from '../methods/visual'
 import { setHybirdWebUrl } from '../sendData/hybrid'
 import { pageViewBlackListCheck } from '../../utils/verify/index'
@@ -51,28 +51,19 @@ function autoTrigger () {
   }
   
   // 退出页面监听
-  const closeEventName = 'onpageshow' in globalWindow ? 'pagehide' : 'beforeunload'
-  
-  if (deviceType === 'desktop') {
-    globalWindow.addEventListener(closeEventName, () => {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
       // 设置页面卸载状态
       eventAttribute.isUnload = true
       triggerPageClose()
-    })
-  } else {// 移动端通过visibilitychange触发pageclose事件
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') {
-        // 设置页面卸载状态
-        eventAttribute.isUnload = true
-        triggerPageClose()
-      } else {
-        triggerPageView()
+    } else {
+      // 设置页面卸载状态
+      eventAttribute.isUnload = false
 
-        // 设置页面卸载状态
-        eventAttribute.isUnload = false
-      }
-    })
-  }
+      triggerPageView()
+    }
+  })
+
 
   // 全埋点
   if (config.autoTrack || config.visitorConfigURL) {
@@ -106,9 +97,6 @@ function autoTrigger () {
       loadJs(`${SDKFileDirectory}AnalysysAgent_JS_SDK_HEATMAP.min.js`)
     }
   }
-
-  // 记录页面隐藏时间
-  setPageHideTime()
 }
 
 export default autoTrigger

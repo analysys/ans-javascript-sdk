@@ -25,8 +25,8 @@ function nodata(v, nodataText?) {
 }
 
 const nodataTextMap = {
-  0: '暂无数据<br/>小舟建议您选择其他时间范围或过滤条件重试',
-  1: '查询失败，请联系管理员'
+  0: 'No data<br/>We suggest that you choose another time range or filter criteria to retry',
+  1: 'Query failed, please contact the administrator'
 }
 
 export let heatMapData = null
